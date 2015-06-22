@@ -116,6 +116,14 @@ namespace GoogleDirections
                 Math.Acos(
                   Math.Sin(latititude2Rad) * Math.Sin(latitude1Rad) +
                   Math.Cos(latititude2Rad) * Math.Cos(latitude1Rad) * Math.Cos(logitudeDiff));
+            if (double.IsNaN(angleCalculation))
+            {
+                const double LAT_LON_ACCURACY = 0.0000001; // accuracy to consider numbers equal
+                bool latSame = LAT_LON_ACCURACY > Math.Abs(from.Latitude - to.Latitude);
+                bool lonSame = LAT_LON_ACCURACY > Math.Abs(from.Longitude - to.Longitude);
+
+                if (latSame && lonSame) angleCalculation = 0;
+            }
 
             distance = CIRCUMFERENCE * angleCalculation / (2.0 * Math.PI);
 

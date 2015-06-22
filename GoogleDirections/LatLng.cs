@@ -108,8 +108,7 @@ namespace GoogleDirections
         {
             double distance = Utils.Distance(this, obj);
 
-            const int KM_TO_METERS = 1000;
-            double distanceMeters = distance * KM_TO_METERS;
+            double distanceMeters = distance;
 
             const double ACCURACY = 1; // meters
             return ACCURACY > distanceMeters;

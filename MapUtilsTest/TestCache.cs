@@ -21,20 +21,20 @@ namespace MapUtilsTest
         /// So this is only to veryfy if cached data works fine. 
         /// Test to be used only if necessary to check cache work accuracy or if neede to fix something.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestCacheData()
         {
             InitRoute(
                 new Location("Lviv"),
                 new Location("Kyiv")
                 );
-            TestCacheInt();
+            TestCacheInternal();
 
             InitRoute(
                 new Location("Lissabon"),
                 new Location("Vladivostok")
                 );
-            TestCacheInt();
+            TestCacheInternal();
              
         }
 
@@ -46,7 +46,7 @@ namespace MapUtilsTest
         /// <summary>
         /// Internall execution of cache test once it initialized
         /// </summary>
-        private void TestCacheInt()
+        private void TestCacheInternal()
         {
             const bool OPTIMIZE_ROUTE = true;
             Route webRequestedRoute = RouteDirections.GetRoute(OPTIMIZE_ROUTE, Locations);
