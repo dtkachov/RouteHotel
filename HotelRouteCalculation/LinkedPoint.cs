@@ -43,6 +43,14 @@ namespace HotelRouteCalculation
         private LinkedPoint originalNext;
 
         /// <summary>
+        /// Returns true if the poin were not originally in list and were introduced during route optimization
+        /// </summary>
+        public bool IsIntroduced
+        {
+            get { return !Next.Equals(OriginalNext); }
+        }
+
+        /// <summary>
         /// Indicates whether point is the last in list
         /// </summary>
         public bool IsLast
@@ -105,6 +113,45 @@ namespace HotelRouteCalculation
                 originalDistance = distance;
             }
         }
+
+        #region Equals
+
+        /// <summary>
+        /// Returns true if two linked points are equal
+        /// </summary>
+        /// <param name="obj">Object to compare</param>
+        /// <returns>True if two linked points are equal</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is LinkedPoint) return Equals(obj as LinkedPoint);
+
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Returns true if two linked points are equal
+        /// </summary>
+        /// <param name="obj">Object to compare</param>
+        /// <returns>True if two linked points are equal</returns>
+        public bool Equals(LinkedPoint obj)
+        {
+            if (!Point.Equals(obj.Point)) return false;
+            if (Next != obj.Next) return false;
+            if (OriginalNext != obj.OriginalNext) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Generates Hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            return point.GetHashCode();
+        }
+
+        #endregion
 
     }
 }
