@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleDirections", "GoogleDirections\GoogleDirections.csproj", "{7C6447B2-D889-4306-AD8B-DA5542054C66}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapUtils", "MapUtils\MapUtils.csproj", "{F27E4D18-96B3-46DA-B183-4949680E417E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapUtilsTest", "MapUtilsTest\MapUtilsTest.csproj", "{23D53E38-F15A-4AD3-84A8-BBE560424839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RouteHotel", "RouteHotel\RouteHotel.csproj", "{CC318083-9752-4C58-9815-E5C3AC0D6616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{23D53E38-F15A-4AD3-84A8-BBE560424839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23D53E38-F15A-4AD3-84A8-BBE560424839}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23D53E38-F15A-4AD3-84A8-BBE560424839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC318083-9752-4C58-9815-E5C3AC0D6616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC318083-9752-4C58-9815-E5C3AC0D6616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC318083-9752-4C58-9815-E5C3AC0D6616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC318083-9752-4C58-9815-E5C3AC0D6616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,6 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -57,7 +60,13 @@
     <Compile Include="ProximityTest.cs" />
     <Compile Include="RoutePointTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\HotelRouteAPI\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="TestCache.cs" />
+    <Compile Include="TestWebAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleDirections\GoogleDirections.csproj">
@@ -72,6 +81,44 @@
       <Project>{f27e4d18-96b3-46da-b183-4949680e417e}</Project>
       <Name>MapUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RouteHotel\RouteHotel.csproj">
+      <Project>{cc318083-9752-4c58-9815-e5c3ac0d6616}</Project>
+      <Name>RouteHotel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetAnythingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetRouteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.Route.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HotelRouteAPI\RouteAPI.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\HotelRouteAPI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HotelRouteAPI\RouteAPI.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HotelRouteAPI\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HotelRouteAPI\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HotelRouteAPI\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
