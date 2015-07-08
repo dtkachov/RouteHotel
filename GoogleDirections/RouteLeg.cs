@@ -88,6 +88,11 @@ namespace GoogleDirections
             }
         }
 
+        /// <summary>
+        /// Whether this route leg has steps
+        /// </summary>
+        public bool HasSteps { get { return null != Steps && Steps.Length > 0; }  }
+
         private LatLng startLocation;
         /// <summary>
         /// Gets the start location of this leg of the route.
@@ -158,7 +163,9 @@ namespace GoogleDirections
         {
             if (null == obj) return false;
 
-            if (this.Steps.Length != obj.Steps.Length) return false;
+            if (this.HasSteps != obj.HasSteps) return false;
+            if (this.HasSteps)
+                if (this.Steps.Length != obj.Steps.Length) return false;
 
             if (this.StartAddress != obj.StartAddress) return false;
             if (this.EndAddress != obj.EndAddress) return false;
@@ -167,7 +174,7 @@ namespace GoogleDirections
             if (!this.StartLocation.Equals(obj.StartLocation)) return false;
             if (!this.EndLocation.Equals(obj.EndLocation)) return false;
 
-            if (null != this.Steps)
+            if (this.HasSteps)
             {
                 for (int i = 0; i < this.Steps.Length; ++i)
                 {

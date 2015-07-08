@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CachedRouteDirection.cs" />
+    <Compile Include="Comparers\RouteComparer.cs" />
     <Compile Include="DistanceTest.cs" />
     <Compile Include="GoogleDirectionsTest.cs" />
     <Compile Include="MapTest.cs" />

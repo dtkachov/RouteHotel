@@ -171,7 +171,9 @@ namespace GoogleDirections
         {
             if (null == obj) return false;
 
-            if (this.Points.Length != obj.Points.Length) return false;
+            if (this.HasPoints != obj.HasPoints) return false;
+            if (this.HasPoints)
+                if (this.Points.Length != obj.Points.Length) return false;
 
             if (this.Duration != obj.Duration) return false;
             if (this.Distance != obj.Distance) return false;

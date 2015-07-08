@@ -22,6 +22,8 @@ namespace MapUtilsTest
             Route route = routeWebAPI.GetRoute(); //MapUtilsTest.HoteRouteAPI.Route
 
             DumpRote(route);
+
+            //Comparers.RouteComparer.EqualRoute(route, );
         }
 
         private void DumpRote(MapUtilsTest.HotelRouteAPI.Route route)
