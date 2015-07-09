@@ -13,9 +13,16 @@ namespace MapUtilsTest.Comparers
     /// </summary>
     class RouteComparer
     {
+        
         public static bool EqualPoints(LatLng point1, GoogleDirections.LatLng point2)
         {
-            return point1.Latitude == point2.Latitude && point1.Longitude == point2.Longitude;
+            double distanceBetweenPoints = GoogleDirections.Utils.Distance(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude);
+            return distanceBetweenPoints <= GoogleDirections.Utils.ACCURACY; 
+        }
+
+        public static bool EqualPoints(GoogleDirections.LatLng point1, LatLng point2)
+        {
+            return EqualPoints(point2, point1);
         }
 
         public static bool EqualSteps(RouteStep step1, GoogleDirections.RouteStep step2)
@@ -26,8 +33,8 @@ namespace MapUtilsTest.Comparers
 
             if (step1.Duration != step2.Duration) return false;
             if (step1.Distance != step2.Distance) return false;
-            if (!step1.StartLocation.Equals(step2.StartLocation)) return false;
-            if (!step1.EndLocation.Equals(step2.EndLocation)) return false;
+            if (!EqualPoints(step1.StartLocation, step2.StartLocation)) return false;
+            if (!EqualPoints(step1.EndLocation, step2.EndLocation)) return false;
 
             if (step2.HasPoints)
             {
@@ -40,6 +47,11 @@ namespace MapUtilsTest.Comparers
             return true;
         }
 
+        public static bool EqualSteps(GoogleDirections.RouteStep step1, RouteStep step2)
+        {
+            return EqualSteps(step2, step1);
+        }
+
         public static bool EqualLegs(RouteLeg leg1, GoogleDirections.RouteLeg leg2)
         {
             if ((null != leg1.Steps) != leg2.HasSteps) return false;
@@ -50,8 +62,8 @@ namespace MapUtilsTest.Comparers
             if (leg1.EndAddress != leg2.EndAddress) return false;
             if (leg1.Duration != leg2.Duration) return false;
             if (leg1.Distance != leg2.Distance) return false;
-            if (!leg1.StartLocation.Equals(leg2.StartLocation)) return false;
-            if (!leg1.EndLocation.Equals(leg2.EndLocation)) return false;
+            if (!EqualPoints(leg1.StartLocation, leg2.StartLocation)) return false;
+            if (!EqualPoints(leg1.EndLocation, leg2.EndLocation)) return false;
 
             if (leg2.HasSteps)
             {
@@ -62,6 +74,11 @@ namespace MapUtilsTest.Comparers
             }
 
             return true;
+        }
+
+        public static bool EqualLegs(GoogleDirections.RouteLeg leg1, RouteLeg leg2)
+        {
+            return EqualLegs(leg2, leg1);
         }
 
         public static bool EqualRoute(Route route1, GoogleDirections.Route route2)
@@ -82,6 +99,11 @@ namespace MapUtilsTest.Comparers
             }
 
             return true;
+        }
+
+        public static bool EqualRoute(GoogleDirections.Route route1, Route route2)
+        {
+            return EqualRoute(route2, route1);
         }
     }
 }

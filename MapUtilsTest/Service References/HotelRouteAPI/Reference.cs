@@ -15,6 +15,186 @@ namespace MapUtilsTest.HotelRouteAPI {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RouteParams", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class RouteParams : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private bool OptimizeRouteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MapUtilsTest.HotelRouteAPI.Location[] LocationsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public bool OptimizeRoute {
+            get {
+                return this.OptimizeRouteField;
+            }
+            set {
+                if ((this.OptimizeRouteField.Equals(value) != true)) {
+                    this.OptimizeRouteField = value;
+                    this.RaisePropertyChanged("OptimizeRoute");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public MapUtilsTest.HotelRouteAPI.Location[] Locations {
+            get {
+                return this.LocationsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LocationsField, value) != true)) {
+                    this.LocationsField = value;
+                    this.RaisePropertyChanged("Locations");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Location", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class Location : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MapUtilsTest.HotelRouteAPI.LatLng LatLngField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LocationNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public MapUtilsTest.HotelRouteAPI.LatLng LatLng {
+            get {
+                return this.LatLngField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LatLngField, value) != true)) {
+                    this.LatLngField = value;
+                    this.RaisePropertyChanged("LatLng");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string LocationName {
+            get {
+                return this.LocationNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LocationNameField, value) != true)) {
+                    this.LocationNameField = value;
+                    this.RaisePropertyChanged("LocationName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LatLng", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class LatLng : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private double LatitudeField;
+        
+        private double LongitudeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public double Latitude {
+            get {
+                return this.LatitudeField;
+            }
+            set {
+                if ((this.LatitudeField.Equals(value) != true)) {
+                    this.LatitudeField = value;
+                    this.RaisePropertyChanged("Latitude");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public double Longitude {
+            get {
+                return this.LongitudeField;
+            }
+            set {
+                if ((this.LongitudeField.Equals(value) != true)) {
+                    this.LongitudeField = value;
+                    this.RaisePropertyChanged("Longitude");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Route", Namespace="http://tempuri.org/")]
     [System.SerializableAttribute()]
     public partial class Route : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -245,65 +425,6 @@ namespace MapUtilsTest.HotelRouteAPI {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LatLng", Namespace="http://tempuri.org/")]
-    [System.SerializableAttribute()]
-    public partial class LatLng : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        private double LatitudeField;
-        
-        private double LongitudeField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public double Latitude {
-            get {
-                return this.LatitudeField;
-            }
-            set {
-                if ((this.LatitudeField.Equals(value) != true)) {
-                    this.LatitudeField = value;
-                    this.RaisePropertyChanged("Latitude");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public double Longitude {
-            get {
-                return this.LongitudeField;
-            }
-            set {
-                if ((this.LongitudeField.Equals(value) != true)) {
-                    this.LongitudeField = value;
-                    this.RaisePropertyChanged("Longitude");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="RouteStep", Namespace="http://tempuri.org/")]
     [System.SerializableAttribute()]
     public partial class RouteStep : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -413,19 +534,12 @@ namespace MapUtilsTest.HotelRouteAPI {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="HotelRouteAPI.RouteAPISoap")]
     public interface RouteAPISoap {
         
-        // CODEGEN: Generating message contract since element name GetRouteResult from namespace http://tempuri.org/ is not marked nillable
+        // CODEGEN: Generating message contract since element name routeParams from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRoute", ReplyAction="*")]
         MapUtilsTest.HotelRouteAPI.GetRouteResponse GetRoute(MapUtilsTest.HotelRouteAPI.GetRouteRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRoute", ReplyAction="*")]
         System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRouteResponse> GetRouteAsync(MapUtilsTest.HotelRouteAPI.GetRouteRequest request);
-        
-        // CODEGEN: Generating message contract since element name GetAnythingResult from namespace http://tempuri.org/ is not marked nillable
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetAnything", ReplyAction="*")]
-        MapUtilsTest.HotelRouteAPI.GetAnythingResponse GetAnything(MapUtilsTest.HotelRouteAPI.GetAnythingRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetAnything", ReplyAction="*")]
-        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetAnythingResponse> GetAnythingAsync(MapUtilsTest.HotelRouteAPI.GetAnythingRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -448,10 +562,17 @@ namespace MapUtilsTest.HotelRouteAPI {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
     public partial class GetRouteRequestBody {
         
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public MapUtilsTest.HotelRouteAPI.RouteParams routeParams;
+        
         public GetRouteRequestBody() {
+        }
+        
+        public GetRouteRequestBody(MapUtilsTest.HotelRouteAPI.RouteParams routeParams) {
+            this.routeParams = routeParams;
         }
     }
     
@@ -489,67 +610,6 @@ namespace MapUtilsTest.HotelRouteAPI {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetAnythingRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetAnything", Namespace="http://tempuri.org/", Order=0)]
-        public MapUtilsTest.HotelRouteAPI.GetAnythingRequestBody Body;
-        
-        public GetAnythingRequest() {
-        }
-        
-        public GetAnythingRequest(MapUtilsTest.HotelRouteAPI.GetAnythingRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
-    public partial class GetAnythingRequestBody {
-        
-        public GetAnythingRequestBody() {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetAnythingResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetAnythingResponse", Namespace="http://tempuri.org/", Order=0)]
-        public MapUtilsTest.HotelRouteAPI.GetAnythingResponseBody Body;
-        
-        public GetAnythingResponse() {
-        }
-        
-        public GetAnythingResponse(MapUtilsTest.HotelRouteAPI.GetAnythingResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class GetAnythingResponseBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string GetAnythingResult;
-        
-        public GetAnythingResponseBody() {
-        }
-        
-        public GetAnythingResponseBody(string GetAnythingResult) {
-            this.GetAnythingResult = GetAnythingResult;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface RouteAPISoapChannel : MapUtilsTest.HotelRouteAPI.RouteAPISoap, System.ServiceModel.IClientChannel {
     }
@@ -582,9 +642,10 @@ namespace MapUtilsTest.HotelRouteAPI {
             return base.Channel.GetRoute(request);
         }
         
-        public MapUtilsTest.HotelRouteAPI.Route GetRoute() {
+        public MapUtilsTest.HotelRouteAPI.Route GetRoute(MapUtilsTest.HotelRouteAPI.RouteParams routeParams) {
             MapUtilsTest.HotelRouteAPI.GetRouteRequest inValue = new MapUtilsTest.HotelRouteAPI.GetRouteRequest();
             inValue.Body = new MapUtilsTest.HotelRouteAPI.GetRouteRequestBody();
+            inValue.Body.routeParams = routeParams;
             MapUtilsTest.HotelRouteAPI.GetRouteResponse retVal = ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetRoute(inValue);
             return retVal.Body.GetRouteResult;
         }
@@ -594,33 +655,11 @@ namespace MapUtilsTest.HotelRouteAPI {
             return base.Channel.GetRouteAsync(request);
         }
         
-        public System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRouteResponse> GetRouteAsync() {
+        public System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRouteResponse> GetRouteAsync(MapUtilsTest.HotelRouteAPI.RouteParams routeParams) {
             MapUtilsTest.HotelRouteAPI.GetRouteRequest inValue = new MapUtilsTest.HotelRouteAPI.GetRouteRequest();
             inValue.Body = new MapUtilsTest.HotelRouteAPI.GetRouteRequestBody();
+            inValue.Body.routeParams = routeParams;
             return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetRouteAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        MapUtilsTest.HotelRouteAPI.GetAnythingResponse MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetAnything(MapUtilsTest.HotelRouteAPI.GetAnythingRequest request) {
-            return base.Channel.GetAnything(request);
-        }
-        
-        public string GetAnything() {
-            MapUtilsTest.HotelRouteAPI.GetAnythingRequest inValue = new MapUtilsTest.HotelRouteAPI.GetAnythingRequest();
-            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetAnythingRequestBody();
-            MapUtilsTest.HotelRouteAPI.GetAnythingResponse retVal = ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetAnything(inValue);
-            return retVal.Body.GetAnythingResult;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetAnythingResponse> MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetAnythingAsync(MapUtilsTest.HotelRouteAPI.GetAnythingRequest request) {
-            return base.Channel.GetAnythingAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetAnythingResponse> GetAnythingAsync() {
-            MapUtilsTest.HotelRouteAPI.GetAnythingRequest inValue = new MapUtilsTest.HotelRouteAPI.GetAnythingRequest();
-            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetAnythingRequestBody();
-            return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetAnythingAsync(inValue);
         }
     }
 }

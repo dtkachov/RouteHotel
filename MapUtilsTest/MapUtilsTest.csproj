@@ -92,9 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetAnythingResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetRouteResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

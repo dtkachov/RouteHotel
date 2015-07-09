@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
 
-using GoogleDirections;
+using RouteHotel.TransportObjects;
 
 namespace RouteHotel
 {
@@ -20,21 +20,15 @@ namespace RouteHotel
 
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public RouteHotel.TransportObjects.Route GetRoute()
+        public RouteHotel.TransportObjects.Route GetRoute(RouteParams routeParams)
         {
-            const bool OPTIMIZE_ROUTE = true;
-            Location[] locations = new Location[] { new Location("Lviv"), new Location("Kyiv") };
-            GoogleDirections.Route webRequestedRoute = RouteDirections.GetRoute(OPTIMIZE_ROUTE, locations);
+            if (null == routeParams) return null; // nothing to search
+
+            GoogleDirections.Location[] locations = Location.ConvertLocations(routeParams.Locations);
+            GoogleDirections.Route webRequestedRoute = GoogleDirections.RouteDirections.GetRoute(routeParams.OptimizeRoute, locations);
 
             RouteHotel.TransportObjects.Route result = new RouteHotel.TransportObjects.Route(webRequestedRoute);
             return result;
-        }
-
-        [WebMethod]
-        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public string GetAnything()
-        {
-            return "anything...";
         }
     }
 }

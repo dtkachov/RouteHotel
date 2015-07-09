@@ -8,6 +8,7 @@ namespace GoogleDirections
     /// </summary>
     public struct LatLng
     {
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="LatLng"/> class.
         /// </summary>
@@ -52,7 +53,7 @@ namespace GoogleDirections
         /// <summary>
         /// Empty point
         /// </summary>
-        private static LatLng EMPTY = new LatLng(double.MaxValue, double.MaxValue);
+        public static LatLng EMPTY = new LatLng(double.MaxValue, double.MaxValue);
 
         /// <summary>
         /// Returns true is point is empty
@@ -110,8 +111,7 @@ namespace GoogleDirections
 
             double distanceMeters = distance;
 
-            const double ACCURACY = 1; // meters
-            return ACCURACY > distanceMeters;
+            return Utils.ACCURACY > distanceMeters;
         }
 
         /// <summary>

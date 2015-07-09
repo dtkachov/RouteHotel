@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Web;
 
-namespace GoogleDirections
+namespace RouteHotel.TransportObjects
 {
     /// <summary>
     /// Class representing a location, defined by name and/or by latitude/longitude
     /// </summary>
     public class Location
     {
+        /// <summary>
+        /// Default c.tor
+        /// </summary>
+        public Location()
+        { 
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Location"/> class.
         /// </summary>
@@ -27,12 +34,7 @@ namespace GoogleDirections
             this.latLng = latLng;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Location"/> class.
-        /// </summary>
-        /// <param name="latLng">The latitude/longitude of the location.</param>
-        /// <param name="locationName">Name of the location.</param>
-        public Location(LatLng latLng, string locationName)
+        internal Location(LatLng latLng, string locationName)
         {
             this.latLng = latLng;
             this.locationName = locationName;
@@ -40,16 +42,17 @@ namespace GoogleDirections
 
         private LatLng latLng;
         /// <summary>
-        /// Gets the latitude/longitude of the location.
+        /// Gets/sets the latitude/longitude of the location.
         /// </summary>
         public LatLng LatLng
         {
             get { return latLng; }
+            set { latLng = value; }
         }
 
         private string locationName;
         /// <summary>
-        /// Gets the name/address of the location.
+        /// Gets/sets the name/address of the location.
         /// </summary>
         /// <value>
         /// The name/address of the location.
@@ -57,6 +60,7 @@ namespace GoogleDirections
         public string LocationName
         {
             get { return locationName; }
+            set { locationName = value; }
         }
 
         /// <summary>
@@ -71,6 +75,37 @@ namespace GoogleDirections
                 return locationName;
 
             return latLng.ToString();
+        }
+
+        /// <summary>
+        /// Converts into GoogleDirections.Location
+        /// </summary>
+        /// <returns>GoogleDirections.Location object</returns>
+        public GoogleDirections.Location ConvertToLocation()
+        {
+            GoogleDirections.LatLng googleLatLng = null == LatLng
+                ? GoogleDirections.LatLng.EMPTY
+                : LatLng.ConvertToLatLng();
+            return new GoogleDirections.Location(googleLatLng, LocationName);
+        }
+
+        /// <summary>
+        /// Converts array of transport objects into location list
+        /// </summary>
+        /// <param name="locations">List of locations</param>
+        /// <returns>Google direction list of locations</returns>
+        public static GoogleDirections.Location[] ConvertLocations(Location[] locations)
+        {
+            if (null == locations) return null;
+
+            GoogleDirections.Location[] result = new GoogleDirections.Location[locations.Length];
+
+            for (int i = 0; i < locations.Length; ++i)
+            {
+                result[i] = locations[i].ConvertToLocation();
+            }
+
+            return result;
         }
     }
 }
