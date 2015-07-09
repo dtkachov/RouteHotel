@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RouteAPI.asmx" />
+    <Content Include="RoutePlanner.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,13 @@
     <Compile Include="RouteAPI.asmx.cs">
       <DependentUpon>RouteAPI.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RoutePlanner.aspx.cs">
+      <DependentUpon>RoutePlanner.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RoutePlanner.aspx.designer.cs">
+      <DependentUpon>RoutePlanner.aspx</DependentUpon>
     </Compile>
     <Compile Include="TransportObjects\LatLng.cs" />
     <Compile Include="TransportObjects\Location.cs" />

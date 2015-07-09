@@ -30,5 +30,31 @@ namespace RouteHotel
             RouteHotel.TransportObjects.Route result = new RouteHotel.TransportObjects.Route(webRequestedRoute);
             return result;
         }
+
+        [WebMethod]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public RouteParams GetTO()
+        {
+            RouteParams result = new RouteParams();
+            result.OptimizeRoute = true;
+
+            Location[] locations = null;
+            {
+                Location location1 = new Location();
+                location1.LocationName = "Lviv";
+                location1.LatLng = new LatLng(new GoogleDirections.LatLng(49.83549134162667, 24.024996757507324));
+                Location location2 = new Location();
+                location2.LocationName = "Kyiv";
+
+                List<Location> locationsList = new List<Location>();
+                locationsList.Add(location1);
+                locationsList.Add(location2);
+
+                locations = locationsList.ToArray();
+            }
+            result.Locations = locations;
+
+            return result;
+        }
     }
 }
