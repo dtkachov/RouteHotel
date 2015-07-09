@@ -13,7 +13,7 @@ namespace MapUtilsTest
         const string ROUTE_URL = "http://localhost:56766/routeapi.asmx";
 
         [TestMethod]
-        public void TestRouteSearch()
+        public void TestRouteSearchWebAPI()
         {
             TestLvivKyiv();
         }
