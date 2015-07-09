@@ -15,10 +15,18 @@ namespace MapUtilsTest
         [TestMethod]
         public void TestRouteSearchWebAPI()
         {
-            TestLvivKyiv();
+            TestBetyweenCities();
+            // TODO - add test netween three or more locaitons
         }
 
-        private void TestLvivKyiv()
+        private void TestBetyweenCities()
+        {
+            TestBetweenTwoCities("Lviv", "Kyiv");
+            TestBetweenTwoCities("Kyiv", "Lviv");
+            TestBetweenTwoCities("vladivostok", "lissabon");
+        }
+
+        private void TestBetweenTwoCities(string fromCity, string toCity)
         {
             MapUtilsTest.HotelRouteAPI.RouteParams routeParams = new MapUtilsTest.HotelRouteAPI.RouteParams();
             
@@ -27,9 +35,9 @@ namespace MapUtilsTest
                 routeParams.OptimizeRoute = true;
 
                 MapUtilsTest.HotelRouteAPI.Location location1 = new MapUtilsTest.HotelRouteAPI.Location();
-                location1.LocationName = "Kyiv";
+                location1.LocationName = fromCity;
                 MapUtilsTest.HotelRouteAPI.Location location2 = new MapUtilsTest.HotelRouteAPI.Location();
-                location2.LocationName = "Lviv";
+                location2.LocationName = toCity;
 
                 List<MapUtilsTest.HotelRouteAPI.Location> locations = new List<MapUtilsTest.HotelRouteAPI.Location>();
                 locations.Add(location1);
@@ -40,6 +48,7 @@ namespace MapUtilsTest
 
             TestRoute(routeParams);
         }
+
 
         /// <summary>
         /// The test gets route by parameters provided via web service and locally
