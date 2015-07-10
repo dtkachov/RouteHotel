@@ -38,6 +38,17 @@ namespace RouteHotel.TransportObjects
         }
 
         /// <summary>
+        /// Constructs the object based on latitude, longitude params provided.
+        /// </summary>
+        /// <param name="latitude">Latitude value</param>
+        /// <param name="longitude">Longitude value</param>
+        public LatLng(double latitude, double longitude)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+
+        /// <summary>
         /// Converts this transport object into Google direction LanLng object
         /// </summary>
         /// <returns>Google direction LanLng object</returns>

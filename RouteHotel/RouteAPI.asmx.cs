@@ -56,5 +56,12 @@ namespace RouteHotel
 
             return result;
         }
+
+        [WebMethod]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public LatLng GetUserLocationByIP()
+        {
+            return RouteHotel.Utils.IPUtils.GetUserLocationByIP();
+        }
     }
 }

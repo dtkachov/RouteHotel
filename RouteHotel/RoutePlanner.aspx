@@ -46,6 +46,8 @@
         questionMarkIcon.infoShadowAnchor = new GPoint(20, 35);
         
         document.body.onunload = GUnload;
+
+        RouteHotel.RouteAPI.GetUserLocationByIP(centerMap);
         
         GEvent.addListener(map, "click", function(overlay, latLng) {
             if (!overlay) //if overlay is not null, the user has clicked on an object on the map
@@ -110,6 +112,8 @@
                 }
                 marker.openInfoWindowHtml(html);
 
+                
+
                 //RouteHotel.RouteAPI.GetRoute(routeParams, parceRoute);
                 var params = buildParams();
                 RouteHotel.RouteAPI.GetRoute(params, parceRoute);
@@ -118,6 +122,17 @@
             map.addOverlay(marker);
         }
     }
+
+
+    function centerMap(location)
+    {
+        if (null != location)
+        {
+            var centerLatLng = new LatLng(location.Latitude, location.Longitude);
+            map.panTo(centerLatLng);
+        }
+    }
+
 
     function parceRoute(route)
     {

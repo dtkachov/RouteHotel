@@ -65,8 +65,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\icons\bullet_black.ico" />
     <Content Include="RouteAPI.asmx" />
     <Content Include="RoutePlanner.aspx" />
+    <Content Include="RoutePlanner_gm_v3.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -82,18 +84,30 @@
     <Compile Include="RoutePlanner.aspx.designer.cs">
       <DependentUpon>RoutePlanner.aspx</DependentUpon>
     </Compile>
+    <Compile Include="RoutePlanner_gm_v3.aspx.cs">
+      <DependentUpon>RoutePlanner_gm_v3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RoutePlanner_gm_v3.aspx.designer.cs">
+      <DependentUpon>RoutePlanner_gm_v3.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TransportObjects\LatLng.cs" />
     <Compile Include="TransportObjects\Location.cs" />
     <Compile Include="TransportObjects\Route.cs" />
     <Compile Include="TransportObjects\RouteLeg.cs" />
     <Compile Include="TransportObjects\RouteParams.cs" />
     <Compile Include="TransportObjects\RouteStep.cs" />
+    <Compile Include="Utils\IPRequestResponce.cs" />
+    <Compile Include="Utils\IPUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleDirections\GoogleDirections.csproj">
       <Project>{7c6447b2-d889-4306-ad8b-da5542054c66}</Project>
       <Name>GoogleDirections</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
