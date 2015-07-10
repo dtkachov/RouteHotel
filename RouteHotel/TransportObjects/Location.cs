@@ -9,11 +9,34 @@ namespace RouteHotel.TransportObjects
     /// </summary>
     public class Location
     {
+        private LatLng latLng;
+        /// <summary>
+        /// Gets/sets the latitude/longitude of the location.
+        /// </summary>
+        public LatLng LatLng
+        {
+            get { return latLng; }
+            set { latLng = value; }
+        }
+
+        private string locationName;
+        /// <summary>
+        /// Gets/sets the name/address of the location.
+        /// </summary>
+        /// <value>
+        /// The name/address of the location.
+        /// </value>
+        public string LocationName
+        {
+            get { return locationName; }
+            set { locationName = value; }
+        }
+
         /// <summary>
         /// Default c.tor
         /// </summary>
         public Location()
-        { 
+        {
         }
 
         /// <summary>
@@ -38,29 +61,6 @@ namespace RouteHotel.TransportObjects
         {
             this.latLng = latLng;
             this.locationName = locationName;
-        }
-
-        private LatLng latLng;
-        /// <summary>
-        /// Gets/sets the latitude/longitude of the location.
-        /// </summary>
-        public LatLng LatLng
-        {
-            get { return latLng; }
-            set { latLng = value; }
-        }
-
-        private string locationName;
-        /// <summary>
-        /// Gets/sets the name/address of the location.
-        /// </summary>
-        /// <value>
-        /// The name/address of the location.
-        /// </value>
-        public string LocationName
-        {
-            get { return locationName; }
-            set { locationName = value; }
         }
 
         /// <summary>

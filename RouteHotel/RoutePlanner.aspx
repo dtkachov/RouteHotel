@@ -12,6 +12,22 @@
     var map, questionMarkIcon;
     var lastClick = { lat: 0, lng: 0 };
     var prevClick = { lat: 0, lng: 0 };
+
+    function LatLng(latitude, longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+    
+    function Location() {
+        this.latLng = new LatLng(0,0);
+        this.locationName = "";
+    }
+
+    function RouteParams()
+    {
+        var optimizeRoute = true;
+        var locations = []
+    }
     
     function initialize() 
     {
@@ -58,6 +74,27 @@
     }
     google.setOnLoadCallback(initialize);
 
+    function buildParams()
+    {
+        var result = new RouteParams();
+        result.OptimizeRoute = true;
+
+        var locations = [];
+        {
+            var location1 = new Location();
+            location1.LocationName = "Lviv";
+            //location1.LatLng = new LatLng(49.83549134162667, 24.024996757507324);
+            var location2 = new Location();
+            location2.LocationName = "Kyiv";
+
+            locations[0] = location1;
+            locations[1] = location2;
+        }
+        result.Locations = locations;
+
+        return result;
+    }
+
     function parceTO(routeParams)
     {
         if (routeParams != null) {
@@ -73,7 +110,9 @@
                 }
                 marker.openInfoWindowHtml(html);
 
-                RouteHotel.RouteAPI.GetRoute(routeParams, parceRoute);
+                //RouteHotel.RouteAPI.GetRoute(routeParams, parceRoute);
+                var params = buildParams();
+                RouteHotel.RouteAPI.GetRoute(params, parceRoute);
             });
             //Place marker on reverse-geocode result location
             map.addOverlay(marker);
