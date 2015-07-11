@@ -1,12 +1,32 @@
-﻿function initialize() {
+﻿
+
+function initialize() {
     var mapOptions = {
-        zoom: 17,
-        center: { lat: -33.8666, lng: 151.1958 }
+        zoom: 6
     };
-    var mapContainer = document.getElementById('map-canvas');
-    var map = new google.maps.Map(mapContainer, mapOptions);
+
+    var mapCanvas = document.getElementById('map-canvas');
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+
+    centerMap(map)
 }
 
+function centerMap(map) {
+    // Try HTML5 geolocation
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                                             position.coords.longitude);
 
+            map.setCenter(pos);
+        }, function () {
+            handleNoGeolocation(true);
+        });
+    } 
+}
+
+function handleNoGeolocation(errorFlag) {
+    // TODO: consider adding error handling 
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);
