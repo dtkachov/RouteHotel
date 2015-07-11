@@ -27,14 +27,15 @@ function processLegs(legs) {
 function processLeg(leg) {
     if (null == leg) return;
 
+    var markerImg = {
+        url: 'images/icons/iconmonstr-map-5-icon.svg',
+        optimized: false,
+    };
+
     var startPosition = convertToLatLng(leg.StartLocation);
-    const LEG_POSITION_MARKER_SCALE = 5;
     var markerStart = new google.maps.Marker({
         position: startPosition,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: LEG_POSITION_MARKER_SCALE
-        },
+        icon: markerImg,
         draggable: false,
         map: map
     });
@@ -42,10 +43,7 @@ function processLeg(leg) {
     var endPosition = convertToLatLng(leg.EndLocation);
     var markerFinish = new google.maps.Marker({
         position: endPosition,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: LEG_POSITION_MARKER_SCALE
-        },
+        icon: markerImg,
         draggable: false,
         map: map
     });
