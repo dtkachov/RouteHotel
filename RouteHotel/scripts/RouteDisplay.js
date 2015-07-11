@@ -139,6 +139,8 @@ function processPoint(point) {
     const POINT_COLOR = "blue";
 
     var position = convertToLatLng(point);
+    // adding so much markers leads to bad performance - consider using KML to show data
+    /*
     var startMarker = new google.maps.Marker({
         position: position,
         icon: {
@@ -150,4 +152,5 @@ function processPoint(point) {
         opacity: POINT_MARKER_OPACITY,
         map: map
     });
+    */
 }
