@@ -1,4 +1,4 @@
-﻿
+
 function convertToLatLng(toObj) {
     if (null == toObj) return null;
 
@@ -126,6 +126,46 @@ function processStep(step, index) {
 function processPoints(points) {
     if (null == points) return;
 
+    // adding so much markers leads to bad performance - consider using KML or poliline to show data
+    // addStepMarkets(points);
+
+    drawStepPolyline(points);
+}
+
+
+
+function drawStepPolyline(points)
+{
+    const POINT_LINE_WEIGHT = 5;
+    const POINT_MARKER_OPACITY = 0.2;
+    const POINT_COLOR = "blue";
+
+    if (null == points) return;
+
+    var coordinates = [points.length];
+
+    for (var i = 0; i < points.length; ++i) {
+        var point = points[i];
+
+        var position = convertToLatLng(point);
+        coordinates[i] = position;
+    }
+
+    var polyLine = new google.maps.Polyline({
+        path: coordinates,
+        strokeColor: POINT_COLOR,
+        strokeOpacity: POINT_MARKER_OPACITY,
+        strokeWeight: POINT_LINE_WEIGHT
+    });
+
+    polyLine.setMap(map);
+
+}
+
+function addStepMarkets(points)
+{
+    if (null == points) return;
+
     for (var i = 0; i < points.length; ++i) {
         var point = points[i];
 
@@ -139,8 +179,7 @@ function processPoint(point) {
     const POINT_COLOR = "blue";
 
     var position = convertToLatLng(point);
-    // adding so much markers leads to bad performance - consider using KML to show data
-    /*
+    
     var startMarker = new google.maps.Marker({
         position: position,
         icon: {
@@ -152,5 +191,4 @@ function processPoint(point) {
         opacity: POINT_MARKER_OPACITY,
         map: map
     });
-    */
 }
