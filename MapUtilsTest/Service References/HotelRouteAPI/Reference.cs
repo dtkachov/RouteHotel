@@ -203,6 +203,9 @@ namespace MapUtilsTest.HotelRouteAPI {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RouteIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string SummaryField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -223,6 +226,19 @@ namespace MapUtilsTest.HotelRouteAPI {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string RouteID {
+            get {
+                return this.RouteIDField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RouteIDField, value) != true)) {
+                    this.RouteIDField = value;
+                    this.RaisePropertyChanged("RouteID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
         public string Summary {
             get {
                 return this.SummaryField;
@@ -235,7 +251,7 @@ namespace MapUtilsTest.HotelRouteAPI {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
         public MapUtilsTest.HotelRouteAPI.RouteLeg[] Legs {
             get {
                 return this.LegsField;
@@ -248,7 +264,7 @@ namespace MapUtilsTest.HotelRouteAPI {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=2)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
         public int Duration {
             get {
                 return this.DurationField;
@@ -261,7 +277,7 @@ namespace MapUtilsTest.HotelRouteAPI {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=4)]
         public int Distance {
             get {
                 return this.DistanceField;
@@ -540,6 +556,20 @@ namespace MapUtilsTest.HotelRouteAPI {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRoute", ReplyAction="*")]
         System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRouteResponse> GetRouteAsync(MapUtilsTest.HotelRouteAPI.GetRouteRequest request);
+        
+        // CODEGEN: Generating message contract since element name GetTOResult from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetTO", ReplyAction="*")]
+        MapUtilsTest.HotelRouteAPI.GetTOResponse GetTO(MapUtilsTest.HotelRouteAPI.GetTORequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetTO", ReplyAction="*")]
+        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetTOResponse> GetTOAsync(MapUtilsTest.HotelRouteAPI.GetTORequest request);
+        
+        // CODEGEN: Generating message contract since element name GetUserLocationByIPResult from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserLocationByIP", ReplyAction="*")]
+        MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse GetUserLocationByIP(MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetUserLocationByIP", ReplyAction="*")]
+        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse> GetUserLocationByIPAsync(MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -610,6 +640,128 @@ namespace MapUtilsTest.HotelRouteAPI {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTORequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTO", Namespace="http://tempuri.org/", Order=0)]
+        public MapUtilsTest.HotelRouteAPI.GetTORequestBody Body;
+        
+        public GetTORequest() {
+        }
+        
+        public GetTORequest(MapUtilsTest.HotelRouteAPI.GetTORequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute()]
+    public partial class GetTORequestBody {
+        
+        public GetTORequestBody() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTOResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTOResponse", Namespace="http://tempuri.org/", Order=0)]
+        public MapUtilsTest.HotelRouteAPI.GetTOResponseBody Body;
+        
+        public GetTOResponse() {
+        }
+        
+        public GetTOResponse(MapUtilsTest.HotelRouteAPI.GetTOResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetTOResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public MapUtilsTest.HotelRouteAPI.RouteParams GetTOResult;
+        
+        public GetTOResponseBody() {
+        }
+        
+        public GetTOResponseBody(MapUtilsTest.HotelRouteAPI.RouteParams GetTOResult) {
+            this.GetTOResult = GetTOResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUserLocationByIPRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserLocationByIP", Namespace="http://tempuri.org/", Order=0)]
+        public MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequestBody Body;
+        
+        public GetUserLocationByIPRequest() {
+        }
+        
+        public GetUserLocationByIPRequest(MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute()]
+    public partial class GetUserLocationByIPRequestBody {
+        
+        public GetUserLocationByIPRequestBody() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUserLocationByIPResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUserLocationByIPResponse", Namespace="http://tempuri.org/", Order=0)]
+        public MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponseBody Body;
+        
+        public GetUserLocationByIPResponse() {
+        }
+        
+        public GetUserLocationByIPResponse(MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetUserLocationByIPResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public MapUtilsTest.HotelRouteAPI.LatLng GetUserLocationByIPResult;
+        
+        public GetUserLocationByIPResponseBody() {
+        }
+        
+        public GetUserLocationByIPResponseBody(MapUtilsTest.HotelRouteAPI.LatLng GetUserLocationByIPResult) {
+            this.GetUserLocationByIPResult = GetUserLocationByIPResult;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface RouteAPISoapChannel : MapUtilsTest.HotelRouteAPI.RouteAPISoap, System.ServiceModel.IClientChannel {
     }
@@ -660,6 +812,52 @@ namespace MapUtilsTest.HotelRouteAPI {
             inValue.Body = new MapUtilsTest.HotelRouteAPI.GetRouteRequestBody();
             inValue.Body.routeParams = routeParams;
             return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetRouteAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        MapUtilsTest.HotelRouteAPI.GetTOResponse MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetTO(MapUtilsTest.HotelRouteAPI.GetTORequest request) {
+            return base.Channel.GetTO(request);
+        }
+        
+        public MapUtilsTest.HotelRouteAPI.RouteParams GetTO() {
+            MapUtilsTest.HotelRouteAPI.GetTORequest inValue = new MapUtilsTest.HotelRouteAPI.GetTORequest();
+            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetTORequestBody();
+            MapUtilsTest.HotelRouteAPI.GetTOResponse retVal = ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetTO(inValue);
+            return retVal.Body.GetTOResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetTOResponse> MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetTOAsync(MapUtilsTest.HotelRouteAPI.GetTORequest request) {
+            return base.Channel.GetTOAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetTOResponse> GetTOAsync() {
+            MapUtilsTest.HotelRouteAPI.GetTORequest inValue = new MapUtilsTest.HotelRouteAPI.GetTORequest();
+            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetTORequestBody();
+            return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetTOAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetUserLocationByIP(MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest request) {
+            return base.Channel.GetUserLocationByIP(request);
+        }
+        
+        public MapUtilsTest.HotelRouteAPI.LatLng GetUserLocationByIP() {
+            MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest inValue = new MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest();
+            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequestBody();
+            MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse retVal = ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetUserLocationByIP(inValue);
+            return retVal.Body.GetUserLocationByIPResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse> MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetUserLocationByIPAsync(MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest request) {
+            return base.Channel.GetUserLocationByIPAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse> GetUserLocationByIPAsync() {
+            MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest inValue = new MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequest();
+            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetUserLocationByIPRequestBody();
+            return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetUserLocationByIPAsync(inValue);
         }
     }
 }

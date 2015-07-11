@@ -95,7 +95,19 @@
     <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetRouteResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetTOResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetUserLocationByIPResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.LatLng.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.Route.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.RouteParams.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\HotelRouteAPI\RouteAPI.wsdl" />

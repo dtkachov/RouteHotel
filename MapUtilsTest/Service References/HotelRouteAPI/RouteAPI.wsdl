@@ -41,6 +41,7 @@
       </s:element>
       <s:complexType name="Route">
         <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RouteID" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Summary" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Legs" type="tns:ArrayOfRouteLeg" />
           <s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />
@@ -82,6 +83,26 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="LatLng" nillable="true" type="tns:LatLng" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetTO">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTOResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTOResult" type="tns:RouteParams" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserLocationByIP">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUserLocationByIPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserLocationByIPResult" type="tns:LatLng" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetRouteSoapIn">
@@ -90,10 +111,30 @@
   <wsdl:message name="GetRouteSoapOut">
     <wsdl:part name="parameters" element="tns:GetRouteResponse" />
   </wsdl:message>
+  <wsdl:message name="GetTOSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTO" />
+  </wsdl:message>
+  <wsdl:message name="GetTOSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTOResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserLocationByIPSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserLocationByIP" />
+  </wsdl:message>
+  <wsdl:message name="GetUserLocationByIPSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserLocationByIPResponse" />
+  </wsdl:message>
   <wsdl:portType name="RouteAPISoap">
     <wsdl:operation name="GetRoute">
       <wsdl:input message="tns:GetRouteSoapIn" />
       <wsdl:output message="tns:GetRouteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTO">
+      <wsdl:input message="tns:GetTOSoapIn" />
+      <wsdl:output message="tns:GetTOSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserLocationByIP">
+      <wsdl:input message="tns:GetUserLocationByIPSoapIn" />
+      <wsdl:output message="tns:GetUserLocationByIPSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="RouteAPISoap" type="tns:RouteAPISoap">
@@ -107,11 +148,47 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetTO">
+      <soap:operation soapAction="http://tempuri.org/GetTO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserLocationByIP">
+      <soap:operation soapAction="http://tempuri.org/GetUserLocationByIP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="RouteAPISoap12" type="tns:RouteAPISoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetRoute">
       <soap12:operation soapAction="http://tempuri.org/GetRoute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTO">
+      <soap12:operation soapAction="http://tempuri.org/GetTO" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserLocationByIP">
+      <soap12:operation soapAction="http://tempuri.org/GetUserLocationByIP" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

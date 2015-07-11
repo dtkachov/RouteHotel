@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.Script.Services;
 
 using RouteHotel.TransportObjects;
+using RouteHotel.code;
 
 namespace RouteHotel
 {
@@ -28,9 +29,17 @@ namespace RouteHotel
             GoogleDirections.Route webRequestedRoute = GoogleDirections.RouteDirections.GetRoute(routeParams.OptimizeRoute, locations);
 
             RouteHotel.TransportObjects.Route result = new RouteHotel.TransportObjects.Route(webRequestedRoute);
+
+            result.RouteID = RouteCalculator.GenerateID().ToString();
+            // TO DO - start hotels processing here
+
             return result;
         }
 
+        /// <summary>
+        /// !!! Temporary method - to examine API - to be removed
+        /// </summary>
+        /// <returns></returns>
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public RouteParams GetTO()

@@ -6,23 +6,11 @@ namespace RouteHotel.TransportObjects
 {
     public class Route
     {
-        internal Route (GoogleDirections.Route route)
-        {
-            this.Summary = route.Summary;
-            this.Duration = route.Duration;
-            this.Distance = route.Distance;
-
-            if (null != route.Legs)
-            {
-                this.Legs = new RouteLeg[route.Legs.Length];
-                for (int i = 0; i < route.Legs.Length; i++)
-                {
-                    Legs[i] = new RouteLeg(route.Legs[i]);
-                }
-            }
-        }
-
-        public Route() { }
+        /// <summary>
+        /// Unique ID of route for user.
+        /// It is used to identify route in calculation and requests frm client to recieve data
+        /// </summary>
+        public string RouteID { get; set; }
         
         /// <summary>
         /// Gets a summary of the roads used in the calculated route.
@@ -56,5 +44,23 @@ namespace RouteHotel.TransportObjects
             get;
             set;
         }
+
+        internal Route(GoogleDirections.Route route)
+        {
+            this.Summary = route.Summary;
+            this.Duration = route.Duration;
+            this.Distance = route.Distance;
+
+            if (null != route.Legs)
+            {
+                this.Legs = new RouteLeg[route.Legs.Length];
+                for (int i = 0; i < route.Legs.Length; i++)
+                {
+                    Legs[i] = new RouteLeg(route.Legs[i]);
+                }
+            }
+        }
+
+        public Route() { }
     }
 }
