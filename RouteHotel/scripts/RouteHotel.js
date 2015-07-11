@@ -2,7 +2,10 @@
 
 function initialize() {
     var mapOptions = {
-        zoom: 6
+        zoom: 7,
+        panControl: true,
+        zoomControl: true,
+        scaleControl: true
     };
 
     var mapCanvas = document.getElementById('map-canvas');
