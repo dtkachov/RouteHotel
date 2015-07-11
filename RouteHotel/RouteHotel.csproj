@@ -70,7 +70,9 @@
     <Content Include="RoutePlanner.aspx" />
     <Content Include="RoutePlanner.css" />
     <Content Include="RoutePlanner_gm_v3.aspx" />
-    <Content Include="scripts\RouteHotel.js" />
+    <Content Include="scripts\InitializeMap.js" />
+    <Content Include="scripts\RouteDisplay.js" />
+    <Content Include="scripts\SearchBuilder.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

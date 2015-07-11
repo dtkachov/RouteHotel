@@ -7,16 +7,27 @@
     <title>Route planner</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <link href="RoutePlanner.css" rel="stylesheet" type="text/css" />
-    <style>
-      
-    </style>
+    
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-    <script src="/scripts/RouteHotel.js" type="text/javascript"></script>
+
+    <script type='text/javascript'>
+            var map; // goolge map global varialble
+    </script>
+    <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
+    <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>
+    <script src="/scripts/RouteDisplay.js" type="text/javascript"></script>
+    
 </head>
 <body>
     <form id="form1" runat="server">    
+        <asp:ScriptManager runat="server">
+            <Services>
+                <asp:ServiceReference Path="RouteAPI.asmx" />
+            </Services>
+        </asp:ScriptManager>
         <div id ="routeSearchParams">
-            TODO: add search params here
+            TODO: add search params here<br/><br/>
+            <input type="button" onclick="performSearch();" value="Search" />
         </div>
         <div id="map-canvas" ></div> 
     </form>

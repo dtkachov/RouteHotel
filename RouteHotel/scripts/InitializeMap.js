@@ -9,9 +9,9 @@ function initialize() {
     };
 
     var mapCanvas = document.getElementById('map-canvas');
-    var map = new google.maps.Map(mapCanvas, mapOptions);
+    map = new google.maps.Map(mapCanvas, mapOptions);
 
-    centerMap(map)
+    centerMap(map);
 }
 
 function centerMap(map) {
