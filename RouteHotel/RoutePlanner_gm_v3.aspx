@@ -27,6 +27,7 @@
         </asp:ScriptManager>
         <div id ="routeSearchParams">
             TODO: add search params here<br/><br/>
+            <!-- todo add place autocomplete controls: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-hotelsearch -->
             <input type="button" onclick="performSearch();" value="Search" />
         </div>
         <div id="map-canvas" ></div> 
