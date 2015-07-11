@@ -11,7 +11,16 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
     <script type='text/javascript'>
-            var map; // goolge map global varialble
+        var map; // goolge map global varialble
+
+        // below goes configuration parameters
+        const POINT_LINE_WEIGHT = <%= PointLineWeight %>;
+        const POINT_MARKER_OPACITY = <%= PointMarkerOpacity %>;
+        const POINT_COLOR = '<%= PointColor %>';
+        const STEP_MARKER_SCALE = <%= StepMarkerScale %>;
+        const STEP_MARKER_OPACITY = <%= StepMarkerOpacity %>;
+        const START_STEP_COLOR = '<%= StartMarkerColor %>';
+        
     </script>
     <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
     <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>

@@ -1,4 +1,4 @@
-
+﻿
 function convertToLatLng(toObj) {
     if (null == toObj) return null;
 
@@ -64,11 +64,6 @@ function processSteps(steps) {
 function processStep(step, index) {
     if (null == step) return;
 
-    const STEP_MARKER_SCALE = 3;
-    const STEP_MARKER_OPACITY = 0.3;
-    const START_STEP_COLOR = "blue";
-    const END_STEP_COLOR = "gren";
-
     var startPosition = convertToLatLng(step.StartLocation);
     var startMarker = new google.maps.Marker({
         position: startPosition,
@@ -93,41 +88,11 @@ function processStep(step, index) {
         infowindow.open(map, startMarker);
     });
 
-    // start and end point coinsides - no reason to add end point to the map
-    /*
-    var endPosition = convertToLatLng(step.EndLocation);
-    var endMarker = new google.maps.Marker({
-        position: endPosition,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: STEP_MARKER_SCALE,
-            strokeColor: END_STEP_COLOR,
-        },
-        draggable: true,
-        opacity: STEP_MARKER_OPACITY,
-        map: map
-    });
-
-    google.maps.event.addListener(endMarker, 'click', function () {
-        var html =
-             "End point for step #" + index + "<br>" +
-             endPosition.lat().toFixed(4) + " latitude<br/>" +
-             endPosition.lng().toFixed(4) + " longitude";
-        var infowindow = new google.maps.InfoWindow({
-            content: html
-        });
-        infowindow.open(map, endMarker);
-    });
-    */
-
     processPoints(step.Points);
 }
 
 function processPoints(points) {
     if (null == points) return;
-
-    // adding so much markers leads to bad performance - consider using KML or poliline to show data
-    // addStepMarkets(points);
 
     drawStepPolyline(points);
 }
@@ -136,10 +101,6 @@ function processPoints(points) {
 
 function drawStepPolyline(points)
 {
-    const POINT_LINE_WEIGHT = 5;
-    const POINT_MARKER_OPACITY = 0.2;
-    const POINT_COLOR = "blue";
-
     if (null == points) return;
 
     var coordinates = [points.length];
@@ -160,35 +121,4 @@ function drawStepPolyline(points)
 
     polyLine.setMap(map);
 
-}
-
-function addStepMarkets(points)
-{
-    if (null == points) return;
-
-    for (var i = 0; i < points.length; ++i) {
-        var point = points[i];
-
-        processPoint(point);
-    }
-}
-
-function processPoint(point) {
-    const POINT_MARKER_SCALE = 2;
-    const POINT_MARKER_OPACITY = 0.2;
-    const POINT_COLOR = "blue";
-
-    var position = convertToLatLng(point);
-    
-    var startMarker = new google.maps.Marker({
-        position: position,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: POINT_MARKER_SCALE,
-            strokeColor: POINT_COLOR,
-        },
-        draggable: true,
-        opacity: POINT_MARKER_OPACITY,
-        map: map
-    });
 }
