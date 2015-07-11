@@ -68,7 +68,9 @@
     <Content Include="images\icons\bullet_black.ico" />
     <Content Include="RouteAPI.asmx" />
     <Content Include="RoutePlanner.aspx" />
+    <Content Include="RoutePlanner.css" />
     <Content Include="RoutePlanner_gm_v3.aspx" />
+    <Content Include="scripts\RouteHotel.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
