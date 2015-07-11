@@ -65,7 +65,7 @@ namespace GoogleDirections
         /// <returns>The route </returns>
         public static Route GetRoute(bool optimize, params Location[] locations)
         {
-            XmlDocument routeXmlDocument = GetRouteXML(true, locations);
+            XmlDocument routeXmlDocument = GetRouteXML(optimize, locations);
             Route result = new Route(routeXmlDocument);
             return result;
         }

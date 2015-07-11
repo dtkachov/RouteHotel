@@ -62,6 +62,10 @@ namespace MapUtilsTest
             EndpointAddress address = new EndpointAddress(ROUTE_URL);
             routeWebAPI.Endpoint.Address = address;
 
+            /* In case of error in line below - "cannot find end point" the issues might be that 
+             * Unit test project is not set as startup project and no web app listining to requests
+             * Just set current unit test project as start up one for solution and try re-run the test
+             */
             Route route = routeWebAPI.GetRoute(routeParams); //MapUtilsTest.HoteRouteAPI.Route
 
             DumpRote(route);
