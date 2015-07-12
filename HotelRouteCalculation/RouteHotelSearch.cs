@@ -11,12 +11,16 @@ namespace HotelRouteCalculation
     /// <summary>
     /// Seeks for hotel on a route
     /// </summary>
-    class RouteHotelSearch
+    public class RouteHotelSearch
     {
         /// <summary>
         /// Rote points object 
         /// </summary>
-        private RoutePoints RoutePoints;
+        public RoutePoints RoutePoints
+        {
+            get { return routePoints; }
+        }
+        private RoutePoints routePoints;
 
         /// <summary>
         /// Event notifying about search progress
@@ -36,7 +40,7 @@ namespace HotelRouteCalculation
         /// <summary>
         /// Current progress
         /// </summary>
-        private int currentProgeress = 0;
+        private int currentProgress = 0;
 
         /// <summary>
         /// .ctor
@@ -45,7 +49,7 @@ namespace HotelRouteCalculation
         /// <param name="proximity">Required accuracy values object</param>
         public RouteHotelSearch(Route route, Proximity proximity)
         {
-            this.RoutePoints = new RoutePoints(route, proximity);
+            this.routePoints = new RoutePoints(route, proximity);
         }
 
         /// <summary>
@@ -53,10 +57,12 @@ namespace HotelRouteCalculation
         /// </summary>
         public void SearchHotels()
         {
-            foreach (LinkedPoint start in RoutePoints.LegsStart)
+            routePoints.BuildRoutePoints();
+
+            foreach (LinkedPoint start in routePoints.LegsStart)
             {
                 LinkedPoint p = start;
-                while (!p.IsLast)
+                while (null != p) // IsLast property is not good work in this case as we still need to check the last one as well
                 {
                     SeachHotelsForPoint(p);
                     p = p.Next;
@@ -99,11 +105,11 @@ namespace HotelRouteCalculation
         /// </summary>
         private void IncreaseProgress()
         {
-            currentProgeress += 1;
+            currentProgress += 1;
 
             if (null != _progress)
             {
-                CalculationStatusEventArgs args = new CalculationStatusEventArgs(RoutePoints.PointCount, currentProgeress);
+                CalculationStatusEventArgs args = new CalculationStatusEventArgs(RoutePoints.PointCount, currentProgress);
                 _progress(this, args);
             }
         }

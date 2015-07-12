@@ -29,6 +29,14 @@ namespace HotelRouteCalculation
         private int progress;
 
         /// <summary>
+        /// Indicates that calculation finished
+        /// </summary>
+        public bool Finished
+        {
+            get { return progress == count; }
+        }
+
+        /// <summary>
         /// .ctor
         /// </summary>
         /// <param name="count">Count of all points</param>

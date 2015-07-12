@@ -50,6 +50,7 @@ namespace HotelRouteCalculation
         /// <returns>Count of hotels found</returns>
         public int Search()
         {
+            Hotels = new List<HotelData>(); 
             // TODO - do hotel search here
             return Hotels.Count;
         }

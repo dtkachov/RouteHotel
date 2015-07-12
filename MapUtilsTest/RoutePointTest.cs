@@ -18,7 +18,12 @@ namespace MapUtilsTest
     [TestClass]
     public class RoutePointTest
     {
-        private RoutePoints RoutePoints;
+        private RouteHotelSearch Search;
+
+        /// <summary>
+        /// Indicate that search is in progress
+        /// </summary>
+        private bool SearchInProgress = false;
 
         public RoutePointTest()
         {
@@ -114,6 +119,19 @@ namespace MapUtilsTest
             DoTest();
         }
 
+        /// <summary>
+        /// Ignore as it looks like google cannot identify the points
+        /// </summary>
+        [TestMethod]
+        public void TestHotelSearchLvivKyiv()
+        {
+            InitRoute(
+                new Location("Lviv"),
+                new Location("Kyiv")
+                );
+            DoTest();
+        }
+
         private void InitRoute(params Location[] locations)
         {
             TestIndex++;
@@ -122,20 +140,41 @@ namespace MapUtilsTest
 
             const bool OPTIMIZE = true;
             Route route = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
-            RoutePoints = new RoutePoints(route, proximity);
+
+            Search = new RouteHotelSearch(route, proximity);
         }
 
         private void DoTest()
         {
+            Search.Progress += Search_Progress;
+
+            SearchInProgress = true;
+            Search.SearchHotels();
+
+            Assert.IsFalse(SearchInProgress); // verify that test is finished and data priocessed
+        }
+
+        private void Search_Progress(object sender, CalculationStatusEventArgs e)
+        {
+            if (e.Finished)
+            {
+                CheckResults();
+            }
+        }
+
+        private void CheckResults()
+        {
+            SearchInProgress = false;
+
             CurrentLegIndex = 0;
-            foreach (LinkedPoint legStart in RoutePoints.LegsStart)
+            foreach (LinkedPoint legStart in Search.RoutePoints.LegsStart)
             {
                 LinkedPoint currentPoint = legStart;
                 string fileName = string.Format(@"d:\temp\HotelRoute.Test#{1}.Leg#{0}.txt", CurrentLegIndex++, TestIndex);
                 
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    DumpRote(RoutePoints.Route, writer);
+                    DumpRote(Search.RoutePoints.Route, writer);
                     writer.WriteLine("-----------------");
                     writer.WriteLine("Started optimized points");
                     while (!currentPoint.IsLast)
