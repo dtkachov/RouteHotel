@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace RouteHotel.code
+namespace RouteHotel
 {
     /// <summary>
     /// Route calculator - takes care of hotels calculation
@@ -11,10 +11,17 @@ namespace RouteHotel.code
     public class RouteCalculator
     {
         /// <summary>
+        /// ID of calculatory
+        /// </summary>
+        public Guid ID { get { return _ID; } }
+        private Guid _ID = GenerateID();
+        
+
+        /// <summary>
         /// Generates new ID for Route calculator
         /// </summary>
-        /// <returns></returns>
-        public static Guid GenerateID()
+        /// <returns>ID</returns>
+        private static Guid GenerateID()
         {
             return new Guid();
         }

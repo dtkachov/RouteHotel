@@ -6,7 +6,6 @@ using System.Web.Services;
 using System.Web.Script.Services;
 
 using RouteHotel.TransportObjects;
-using RouteHotel.code;
 
 namespace RouteHotel
 {
@@ -30,7 +29,7 @@ namespace RouteHotel
 
             RouteHotel.TransportObjects.Route result = new RouteHotel.TransportObjects.Route(webRequestedRoute);
 
-            result.RouteID = RouteCalculator.GenerateID().ToString();
+            //result.RouteID = RouteCalculator.GenerateID().ToString();s
             // TO DO - start hotels processing here
 
             return result;
