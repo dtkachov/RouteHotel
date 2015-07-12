@@ -10,13 +10,15 @@ function Location() {
 
 function RouteParams() {
     var optimizeRoute = true;
-    var locations = []
+    var locations = [];
+    var proximityRadius;
 }
 
 // the following method builds parameters for the search
 function buildParams() {
     var result = new RouteParams();
     result.OptimizeRoute = true;
+    result.proximityRadius = DEFAULT_PROXIMITY_RADIUS;
 
     var locations = [];
     {
@@ -36,5 +38,5 @@ function buildParams() {
 
 function performSearch() {
     var params = buildParams();
-    RouteHotel.RouteAPI.GetRoute(params, parceRoute); // parceRoute defined in RouteDisplay.js
+    RouteHotel.RouteAPI.GetRouteHotels(params, parceRoute); // parceRoute defined in RouteDisplay.js
 }

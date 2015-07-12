@@ -46,7 +46,7 @@ namespace RouteHotel
         /// </summary>
         /// <param name="routeParams"></param>
         /// <returns></returns>
-        [WebMethod(EnableSession = false)]
+        [WebMethod(EnableSession = true)]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public RouteHotel.TransportObjects.Route GetRouteHotels(RouteParams routeParams)
         {

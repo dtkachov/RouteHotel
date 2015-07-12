@@ -37,7 +37,7 @@ namespace RouteHotel
         {
             get
             {
-                return null != Objects[SessionKey];
+                return Objects.ContainsKey(SessionKey);
             }
         }
 
@@ -89,7 +89,7 @@ namespace RouteHotel
         {
             if (null == calculator) throw new ArgumentNullException("Argument calculator cannot be null");
 
-            if (null != Calculators[calculator.ID])
+            if (Calculators.ContainsKey(calculator.ID))
             {
                 string errMsg = string.Format("Invalid operation. Collection alredy contain calculatory with key {0}", calculator.ID);
                 throw new InvalidOperationException(errMsg);
@@ -131,28 +131,30 @@ namespace RouteHotel
                 throw new InvalidOperationException(errMsg);
             }
 
-            Objects[SessionKey] = new SessionObjects();
+            string key = SessionKey;
+            Objects[key] = new SessionObjects();
 
             Debug.Assert(SessionObjectExists);
         }
 
         /// <summary>
         /// Deletes Session object.
+        /// Warning! In Session_End there is no HttpContext anymore, that is why it is needed 
+        /// to pass session ID separately. Not nice way, but a workarround - possible in future 
+        /// might think of more elegant solution.
         /// </summary>
-        internal static void DeleteSessionObject()
+        /// <param name="sessionID">ID of session</param>
+        internal static void DeleteSessionObject(string sessionID)
         {
             Debug.Assert(CheckIfCalledFromglobal("Session_End"));
-            Debug.Assert(null != SessionKey);
-            
-            if (!SessionObjectExists)
+
+            if (Objects.ContainsKey(sessionID))
             {
-                string errMsg = string.Format("Session object for session {0} does not exist but should exist since this method is invoked", SessionKey);
-                throw new InvalidOperationException(errMsg);
+                /* by removing the key we leave the calculation object withou reference
+                 * and hence allowa GC to collect the object 
+                 */
+                Objects.Remove(sessionID);
             }
-
-            Objects.Remove(SessionKey);
-
-            Debug.Assert(!SessionObjectExists);
         }
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace RouteHotel
         /// <returns>True if called from Global.asax and false otherwise</returns>
         private static bool CheckIfCalledFromglobal(string methodExpected)
         {
-            StackTrace stack = new StackTrace();
+            StackTrace stack = new StackTrace(true);
             foreach (StackFrame frame in stack.GetFrames())
             {
                 string fileName = frame.GetFileName();

@@ -52,7 +52,7 @@ namespace RouteHotel
         /// <returns>ID</returns>
         private static Guid GenerateID()
         {
-            return new Guid();
+            return Guid.NewGuid();
         }
 
         /// <summary>
