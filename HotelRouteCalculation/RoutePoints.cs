@@ -13,11 +13,6 @@ namespace HotelRouteCalculation
     /// </summary>
     public class RoutePoints
     {
-        /// <summary>
-        /// List of locations to route fetch
-        /// </summary>
-        public Location[] Locations { get { return locations; } }
-        private Location[] locations;
 
         /// <summary>
         /// Rote object for give locations list
@@ -26,10 +21,6 @@ namespace HotelRouteCalculation
         {
             get
             {
-                if (null == _route)
-                {
-                    _route = RouteDirections.GetRoute(true, locations.ToArray());
-                }
                 return _route;
             }
         }
@@ -54,18 +45,34 @@ namespace HotelRouteCalculation
         private List<LinkedPoint> legsStart;
 
         /// <summary>
+        /// Count of points in this route for all legs
+        /// </summary>
+        public int PointCount
+        {
+            get { return pointCount; }
+        }
+        private int pointCount = 0;
+
+        /// <summary>
         /// .ctor
         /// </summary>
-        /// <param name="locations">List of locations to route fetch</param>
+        /// <param name="route">Route to optimize points for</param>
         /// <param name="proximity">Required accuracy values object</param>
-        public RoutePoints(Location[] locations, Proximity proximity)
+        public RoutePoints(Route route, Proximity proximity)
         {
-            if (null == locations) throw new ArgumentNullException("Argument 'locations' cannot be null");
-            this.locations = locations;
+            if (null == route) throw new ArgumentNullException("Argument 'route' cannot be null");
+            this._route = route;
             this.proximity = proximity;
+        }
 
+        /// <summary>
+        /// Build route point list
+        /// </summary>
+        public void BuildRoutePoints()
+        {
             BuildInitialList();
             OptimizePoints();
+            CalculateCount();
         }
 
         /// <summary>
@@ -146,6 +153,24 @@ namespace HotelRouteCalculation
                     }
                     currentPoint = currentPoint.Next;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Calculates count of points
+        /// </summary>
+        private void CalculateCount()
+        { 
+            foreach(LinkedPoint start in this.LegsStart)
+            {
+                int legPointsCount = 1;
+                LinkedPoint p = start;
+                while (!p.IsLast)
+                {
+                    legPointsCount += 1;
+                    p = p.Next;
+                }
+                pointCount += legPointsCount;
             }
         }
 

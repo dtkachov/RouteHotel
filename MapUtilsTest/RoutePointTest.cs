@@ -119,7 +119,10 @@ namespace MapUtilsTest
             TestIndex++;
             const double RADIUS = 1000; // meters
             Proximity proximity = new Proximity(RADIUS);
-            RoutePoints = new RoutePoints(locations, proximity);
+
+            const bool OPTIMIZE = true;
+            Route route = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
+            RoutePoints = new RoutePoints(route, proximity);
         }
 
         private void DoTest()
