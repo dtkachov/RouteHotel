@@ -166,6 +166,9 @@ namespace MapUtilsTest
         {
             SearchInProgress = false;
 
+            string routeCalculationStatistic = string.Format("Points originally: '{0}', after optimization: '{1}'", CalculatePointsCountINoriginalRoute(), Search.RoutePoints.PointCount);
+            Console.WriteLine(routeCalculationStatistic);
+
             CurrentLegIndex = 0;
             foreach (LinkedPoint legStart in Search.RoutePoints.LegsStart)
             {
@@ -191,6 +194,20 @@ namespace MapUtilsTest
                     DumpPoint(currentPoint, writer); // dumpt last point
                 }
             }
+        }
+
+        private int CalculatePointsCountINoriginalRoute()
+        {
+            int result = 0;
+            foreach (RouteLeg leg in Search.RoutePoints.Route.Legs)
+            {
+                foreach(RouteStep step in leg.Steps)
+                {
+                    if (step.HasPoints)
+                        result += step.Points.Length;
+                }
+            }
+            return result;
         }
 
         private void DumpRote(Route route, StreamWriter writer)
