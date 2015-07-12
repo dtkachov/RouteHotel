@@ -18,6 +18,12 @@ namespace RouteHotel
     public class RouteAPI : System.Web.Services.WebService
     {
 
+        /// <summary>
+        /// Purely search the route
+        /// Used for tests
+        /// </summary>
+        /// <param name="routeParams"></param>
+        /// <returns></returns>
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public RouteHotel.TransportObjects.Route GetRoute(RouteParams routeParams)
@@ -33,6 +39,30 @@ namespace RouteHotel
             // TO DO - start hotels processing here
 
             return result;
+        }
+
+        /// <summary>
+        /// Search route and hotels on it
+        /// </summary>
+        /// <param name="routeParams"></param>
+        /// <returns></returns>
+        [WebMethod(EnableSession = false)]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public RouteHotel.TransportObjects.Route GetRouteHotels(RouteParams routeParams)
+        {
+            if (null == routeParams) return null; // nothing to search
+
+            RouteCalculator calculator = new RouteCalculator(routeParams);
+
+            SessionObjects.Current.AddCalculator(calculator); // add calculator to session object to enable later search it from otehr web requests in this session
+            // TODO - remove calculator once web request see that calculation finished and grab all the data
+
+            calculator.Search();
+
+            RouteHotel.TransportObjects.Route route = new RouteHotel.TransportObjects.Route(calculator.Route);
+            route.RouteID = calculator.ID.ToString(); // to identify hotels requests
+
+            return route;
         }
 
         /// <summary>

@@ -23,6 +23,14 @@ namespace HotelRouteCalculation
         private RoutePoints routePoints;
 
         /// <summary>
+        /// Route object
+        /// </summary>
+        public Route Route
+        {
+            get { return routePoints.Route; }
+        }
+
+        /// <summary>
         /// Event notifying about search progress
         /// </summary>
         public event EventHandler<CalculationStatusEventArgs> Progress

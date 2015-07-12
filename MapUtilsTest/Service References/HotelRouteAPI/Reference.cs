@@ -27,6 +27,8 @@ namespace MapUtilsTest.HotelRouteAPI {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private MapUtilsTest.HotelRouteAPI.Location[] LocationsField;
         
+        private int ProximityRadiusField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -59,6 +61,19 @@ namespace MapUtilsTest.HotelRouteAPI {
                 if ((object.ReferenceEquals(this.LocationsField, value) != true)) {
                     this.LocationsField = value;
                     this.RaisePropertyChanged("Locations");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=2)]
+        public int ProximityRadius {
+            get {
+                return this.ProximityRadiusField;
+            }
+            set {
+                if ((this.ProximityRadiusField.Equals(value) != true)) {
+                    this.ProximityRadiusField = value;
+                    this.RaisePropertyChanged("ProximityRadius");
                 }
             }
         }
@@ -557,6 +572,13 @@ namespace MapUtilsTest.HotelRouteAPI {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRoute", ReplyAction="*")]
         System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRouteResponse> GetRouteAsync(MapUtilsTest.HotelRouteAPI.GetRouteRequest request);
         
+        // CODEGEN: Generating message contract since element name routeParams from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRoute1", ReplyAction="*")]
+        MapUtilsTest.HotelRouteAPI.GetRoute1Response GetRoute1(MapUtilsTest.HotelRouteAPI.GetRoute1Request request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRoute1", ReplyAction="*")]
+        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRoute1Response> GetRoute1Async(MapUtilsTest.HotelRouteAPI.GetRoute1Request request);
+        
         // CODEGEN: Generating message contract since element name GetTOResult from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetTO", ReplyAction="*")]
         MapUtilsTest.HotelRouteAPI.GetTOResponse GetTO(MapUtilsTest.HotelRouteAPI.GetTORequest request);
@@ -637,6 +659,74 @@ namespace MapUtilsTest.HotelRouteAPI {
         
         public GetRouteResponseBody(MapUtilsTest.HotelRouteAPI.Route GetRouteResult) {
             this.GetRouteResult = GetRouteResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetRoute1Request {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetRoute1", Namespace="http://tempuri.org/", Order=0)]
+        public MapUtilsTest.HotelRouteAPI.GetRoute1RequestBody Body;
+        
+        public GetRoute1Request() {
+        }
+        
+        public GetRoute1Request(MapUtilsTest.HotelRouteAPI.GetRoute1RequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetRoute1RequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public MapUtilsTest.HotelRouteAPI.RouteParams routeParams;
+        
+        public GetRoute1RequestBody() {
+        }
+        
+        public GetRoute1RequestBody(MapUtilsTest.HotelRouteAPI.RouteParams routeParams) {
+            this.routeParams = routeParams;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetRoute1Response {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetRoute1Response", Namespace="http://tempuri.org/", Order=0)]
+        public MapUtilsTest.HotelRouteAPI.GetRoute1ResponseBody Body;
+        
+        public GetRoute1Response() {
+        }
+        
+        public GetRoute1Response(MapUtilsTest.HotelRouteAPI.GetRoute1ResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetRoute1ResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public MapUtilsTest.HotelRouteAPI.Route GetRoute1Result;
+        
+        public GetRoute1ResponseBody() {
+        }
+        
+        public GetRoute1ResponseBody(MapUtilsTest.HotelRouteAPI.Route GetRoute1Result) {
+            this.GetRoute1Result = GetRoute1Result;
         }
     }
     
@@ -812,6 +902,31 @@ namespace MapUtilsTest.HotelRouteAPI {
             inValue.Body = new MapUtilsTest.HotelRouteAPI.GetRouteRequestBody();
             inValue.Body.routeParams = routeParams;
             return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetRouteAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        MapUtilsTest.HotelRouteAPI.GetRoute1Response MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetRoute1(MapUtilsTest.HotelRouteAPI.GetRoute1Request request) {
+            return base.Channel.GetRoute1(request);
+        }
+        
+        public MapUtilsTest.HotelRouteAPI.Route GetRoute1(MapUtilsTest.HotelRouteAPI.RouteParams routeParams) {
+            MapUtilsTest.HotelRouteAPI.GetRoute1Request inValue = new MapUtilsTest.HotelRouteAPI.GetRoute1Request();
+            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetRoute1RequestBody();
+            inValue.Body.routeParams = routeParams;
+            MapUtilsTest.HotelRouteAPI.GetRoute1Response retVal = ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetRoute1(inValue);
+            return retVal.Body.GetRoute1Result;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRoute1Response> MapUtilsTest.HotelRouteAPI.RouteAPISoap.GetRoute1Async(MapUtilsTest.HotelRouteAPI.GetRoute1Request request) {
+            return base.Channel.GetRoute1Async(request);
+        }
+        
+        public System.Threading.Tasks.Task<MapUtilsTest.HotelRouteAPI.GetRoute1Response> GetRoute1Async(MapUtilsTest.HotelRouteAPI.RouteParams routeParams) {
+            MapUtilsTest.HotelRouteAPI.GetRoute1Request inValue = new MapUtilsTest.HotelRouteAPI.GetRoute1Request();
+            inValue.Body = new MapUtilsTest.HotelRouteAPI.GetRoute1RequestBody();
+            inValue.Body.routeParams = routeParams;
+            return ((MapUtilsTest.HotelRouteAPI.RouteAPISoap)(this)).GetRoute1Async(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

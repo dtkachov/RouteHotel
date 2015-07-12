@@ -22,6 +22,11 @@ namespace RouteHotel.TransportObjects
         public Location[] Locations { get; set;}
 
         /// <summary>
+        /// Proximity radius for hotel search in meters
+        /// </summary>
+        public int ProximityRadius { get; set; }
+
+        /// <summary>
         /// Default c.tor
         /// </summary>
         public RouteParams()

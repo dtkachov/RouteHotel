@@ -33,6 +33,7 @@ namespace MapUtilsTest
             // fill the parameters object
             {
                 routeParams.OptimizeRoute = true;
+                routeParams.ProximityRadius = 1000;
 
                 MapUtilsTest.HotelRouteAPI.Location location1 = new MapUtilsTest.HotelRouteAPI.Location();
                 location1.LocationName = fromCity;

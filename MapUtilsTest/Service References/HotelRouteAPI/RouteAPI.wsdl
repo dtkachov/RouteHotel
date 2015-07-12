@@ -13,6 +13,7 @@
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="OptimizeRoute" type="s:boolean" />
           <s:element minOccurs="0" maxOccurs="1" name="Locations" type="tns:ArrayOfLocation" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProximityRadius" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ArrayOfLocation">
@@ -83,6 +84,20 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="LatLng" nillable="true" type="tns:LatLng" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetRoute1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="routeParams" type="tns:RouteParams" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRoute1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRoute1Result" type="tns:Route" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetTO">
         <s:complexType />
       </s:element>
@@ -111,6 +126,12 @@
   <wsdl:message name="GetRouteSoapOut">
     <wsdl:part name="parameters" element="tns:GetRouteResponse" />
   </wsdl:message>
+  <wsdl:message name="GetRoute1SoapIn">
+    <wsdl:part name="parameters" element="tns:GetRoute1" />
+  </wsdl:message>
+  <wsdl:message name="GetRoute1SoapOut">
+    <wsdl:part name="parameters" element="tns:GetRoute1Response" />
+  </wsdl:message>
   <wsdl:message name="GetTOSoapIn">
     <wsdl:part name="parameters" element="tns:GetTO" />
   </wsdl:message>
@@ -128,6 +149,10 @@
       <wsdl:input message="tns:GetRouteSoapIn" />
       <wsdl:output message="tns:GetRouteSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetRoute1">
+      <wsdl:input message="tns:GetRoute1SoapIn" />
+      <wsdl:output message="tns:GetRoute1SoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetTO">
       <wsdl:input message="tns:GetTOSoapIn" />
       <wsdl:output message="tns:GetTOSoapOut" />
@@ -141,6 +166,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetRoute">
       <soap:operation soapAction="http://tempuri.org/GetRoute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute1">
+      <soap:operation soapAction="http://tempuri.org/GetRoute1" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -171,6 +205,15 @@
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetRoute">
       <soap12:operation soapAction="http://tempuri.org/GetRoute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute1">
+      <soap12:operation soapAction="http://tempuri.org/GetRoute1" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

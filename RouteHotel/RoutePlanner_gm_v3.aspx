@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Route planner</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <link href="RoutePlanner.css" rel="stylesheet" type="text/css" />
     
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
@@ -20,6 +20,8 @@
         const STEP_MARKER_SCALE = <%= StepMarkerScale %>;
         const STEP_MARKER_OPACITY = <%= StepMarkerOpacity %>;
         const START_STEP_COLOR = '<%= StartMarkerColor %>';
+
+        const DEFAULT_PROXIMITY_RADIUS = '<%= ProximityRadius %>';
         
     </script>
     <script src="/scripts/InitializeMap.js" type="text/javascript"></script>

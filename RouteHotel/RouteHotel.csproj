@@ -116,6 +116,14 @@
       <Project>{7c6447b2-d889-4306-ad8b-da5542054c66}</Project>
       <Name>GoogleDirections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HotelRouteCalculation\HotelRouteCalculation.csproj">
+      <Project>{f1ddef35-d97a-481f-a16d-a4f7320400bc}</Project>
+      <Name>HotelRouteCalculation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapUtils\MapUtils.csproj">
+      <Project>{f27e4d18-96b3-46da-b183-4949680e417e}</Project>
+      <Name>MapUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
