@@ -25,16 +25,20 @@ namespace RouteHotel
         private RouteParams Params;
 
         /// <summary>
-        /// Search object
+        /// Hotels search object
         /// </summary>
-        private RouteHotelSearch HotelSearchObject;
+        public RouteHotelSearch HotelSearch
+        {
+            get { return hotelSearch; }
+        }
+        private RouteHotelSearch hotelSearch;
 
         /// <summary>
         /// Route object
         /// </summary>
         public GoogleDirections.Route Route
         {
-            get { return HotelSearchObject.Route; }
+            get { return HotelSearch.Route; }
         }
 
         /// <summary>
@@ -78,17 +82,9 @@ namespace RouteHotel
             GoogleDirections.Route route = GoogleDirections.RouteDirections.GetRoute(Params.OptimizeRoute, locations);
 
             Proximity proximity = new Proximity(Params.ProximityRadius);
-            HotelSearchObject = new RouteHotelSearch(route, proximity);
-
-            SearchHotelsAsync();
+            hotelSearch = new RouteHotelSearch(route, proximity);
+            hotelSearch.Search();
         }
 
-        /// <summary>
-        /// Starts async route search
-        /// </summary>
-        private void SearchHotelsAsync()
-        {
-            // TODO
-        }
     }
 }

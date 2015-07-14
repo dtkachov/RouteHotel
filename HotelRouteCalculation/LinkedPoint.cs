@@ -47,7 +47,12 @@ namespace HotelRouteCalculation
         /// </summary>
         public bool IsIntroduced
         {
-            get { return !Next.Equals(OriginalNext); }
+            get
+            {
+                if (IsLast) return false; // last point cannot be introduced
+                bool nextEqualOriginal = Next.Equals(OriginalNext);
+                return !nextEqualOriginal;
+            }
         }
 
         /// <summary>
@@ -152,6 +157,24 @@ namespace HotelRouteCalculation
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.Format(
+                "point: {0}, is introduced: {1}, Distance: {2}, OriginalDistance: {3}, is last: {4}",
+                Point.ToString(),
+                IsIntroduced,
+                Distance,
+                OriginalDistance,
+                IsLast
+                );
+        }
 
     }
 }

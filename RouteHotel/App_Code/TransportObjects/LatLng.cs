@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -111,6 +112,19 @@ namespace RouteHotel.TransportObjects
         public static bool operator !=(LatLng a, GoogleDirections.LatLng b)
         {
             return !a.Equals(b);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return latitude.ToString(CultureInfo.InvariantCulture)
+                + ", "
+                + longitude.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

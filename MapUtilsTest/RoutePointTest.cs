@@ -149,7 +149,7 @@ namespace MapUtilsTest
             Search.Progress += Search_Progress;
 
             SearchInProgress = true;
-            Search.SearchHotels();
+            Search.Search();
 
             Assert.IsFalse(SearchInProgress); // verify that test is finished and data priocessed
         }

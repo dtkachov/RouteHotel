@@ -9,9 +9,11 @@ function convertToLatLng(toObj) {
 }
 
 function parceRoute(route) {
-    if (null != route) {
-        processLegs(route.Legs); // iterate through legs
-    }
+    if (null == route) return;
+
+    processLegs(route.Legs); // iterate through legs
+
+    RouteHotel.RouteAPI.GetCalculationPoints(route.RouteID, parceCalculationPoints); // parceRoute defined in RouteDisplay.js
 }
 
 // processes legs - display them on map

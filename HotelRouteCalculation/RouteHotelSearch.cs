@@ -3,8 +3,9 @@ using MapUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HotelRouteCalculation
 {
@@ -14,7 +15,7 @@ namespace HotelRouteCalculation
     public class RouteHotelSearch
     {
         /// <summary>
-        /// Rote points object 
+        /// Rote points objects - optimized points list to be used for hotel search
         /// </summary>
         public RoutePoints RoutePoints
         {
@@ -51,6 +52,11 @@ namespace HotelRouteCalculation
         private int currentProgress = 0;
 
         /// <summary>
+        /// Hotel search task canceletion token
+        /// </summary>
+        private CancellationToken HotelSearchCancellationToken;
+
+        /// <summary>
         /// .ctor
         /// </summary>
         /// <param name="route">Route to optimize points for</param>
@@ -63,15 +69,39 @@ namespace HotelRouteCalculation
         /// <summary>
         /// Search hotels for each point
         /// </summary>
-        public void SearchHotels()
+        public void Search()
         {
             routePoints.BuildRoutePoints();
 
+            StartSearchHotels();
+        }
+
+        /// <summary>
+        /// Starts execution of internally hotel search
+        /// </summary>
+        private void StartSearchHotels()
+        { 
+            HotelSearchCancellationToken = new CancellationToken();
+
+            Task hotelSearchTask = new Task(SearchHotelsInternalAsync);
+            hotelSearchTask.Start();
+        }
+
+
+        /// <summary>
+        /// Executes internally hotel search
+        /// </summary>
+        /// <param name="cancellationToken">Cancelation token</param>
+        /// <returns>Task status</returns>
+        private void SearchHotelsInternalAsync()
+        {
             foreach (LinkedPoint start in routePoints.LegsStart)
             {
                 LinkedPoint p = start;
                 while (null != p) // IsLast property is not good work in this case as we still need to check the last one as well
                 {
+                    if (HotelSearchCancellationToken.IsCancellationRequested) break;
+
                     SeachHotelsForPoint(p);
                     p = p.Next;
                 }

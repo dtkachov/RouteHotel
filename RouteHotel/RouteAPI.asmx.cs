@@ -66,6 +66,34 @@ namespace RouteHotel
         }
 
         /// <summary>
+        /// Returns calculation posints for route with Id provided
+        /// If routeID is wrong or no data exists for any reason - null returned
+        /// </summary>
+        /// <param name="routeID">ID of route been calculated</param>
+        /// <returns>Array of calculation points. Each element represents new leg.</returns>
+        [WebMethod(EnableSession = true)]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public RouteHotel.TransportObjects.CalculationRouteLeg[] GetCalculationPoints(string routeID)
+        {
+            if (null == routeID) return null;
+            Guid routeIDobj = new Guid(routeID);
+
+            RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
+            if (null == calculator) return null;
+
+            List<CalculationRouteLeg> result = new List<CalculationRouteLeg>();
+            foreach (HotelRouteCalculation.LinkedPoint firstLegPoint in calculator.HotelSearch.RoutePoints.LegsStart)
+            {
+                CalculationRouteLeg leg = new CalculationRouteLeg(firstLegPoint);
+                result.Add(leg);
+            }
+            
+            return result.ToArray();
+        }
+
+
+
+        /// <summary>
         /// !!! Temporary method - to examine API - to be removed
         /// </summary>
         /// <returns></returns>
