@@ -20,12 +20,23 @@ function displayLeg(leg) {
     }
 }
 
+// stroke works for lines while fil works for other shapes inside svg
+function crossSymbol(color) {
+  return {
+    path: "M-3,-3 L3,3 M-3,3 L3,-3",
+    fillColor: color, 
+    strokeColor: color, 
+    fillOpacity: 0.5,
+    scale: 1
+  };
+}
+
 function displayCalculationPoint(point) {
     if (null == point) return;
 
     var position = convertToLatLng(point.Point);
 
-    var color = point.IsIntroduced ? "green" : "black";
+    var color = point.IsIntroduced ? "green" : "yello";
     var markerImg = {
         url: 'images/icons/cross-512px.svg',
         optimized: false,
@@ -34,7 +45,7 @@ function displayCalculationPoint(point) {
 
     var marker = new google.maps.Marker({
         position: position,
-        icon: markerImg,
+        icon: crossSymbol(color),
         draggable: false,
         map: map
         
@@ -54,5 +65,4 @@ function displayCalculationPoint(point) {
 
         //marker.style.fill = "white";
     });    
-
 }
