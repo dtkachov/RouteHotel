@@ -66,8 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="images\icons\bullet_black.ico" />
-    <Content Include="images\icons\cross-512px.svg" />
     <Content Include="images\icons\iconmonstr-map-5-icon.svg" />
     <Content Include="RouteAPI.asmx" />
     <Content Include="RoutePlanner.aspx" />

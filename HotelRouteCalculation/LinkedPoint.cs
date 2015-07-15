@@ -49,11 +49,10 @@ namespace HotelRouteCalculation
         {
             get
             {
-                if (IsLast) return false; // last point cannot be introduced
-                bool nextEqualOriginal = Next.Equals(OriginalNext);
-                return !nextEqualOriginal;
+               return _isIntroduced;
             }
         }
+        private bool _isIntroduced = false;
 
         /// <summary>
         /// Indicates whether point is the last in list
@@ -100,6 +99,19 @@ namespace HotelRouteCalculation
         {
             this.point = point;
             SetNextPoint(nextPoint);
+        }
+
+        /// <summary>
+        /// Constructs introduced point
+        /// </summary>
+        /// <param name="point">Point on a map</param>
+        /// <param name="nextPoint">Sets next point</param>
+        /// <returns>Linked point</returns>
+        internal static LinkedPoint CreateIntroducedPoint(LatLng point, LinkedPoint nextPoint)
+        {
+            LinkedPoint result = new LinkedPoint(point, nextPoint);
+            result._isIntroduced = true;
+            return result;
         }
 
         /// <summary>

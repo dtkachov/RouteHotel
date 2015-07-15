@@ -36,12 +36,7 @@ function displayCalculationPoint(point) {
 
     var position = convertToLatLng(point.Point);
 
-    var color = point.IsIntroduced ? "green" : "yello";
-    var markerImg = {
-        url: 'images/icons/cross-512px.svg',
-        optimized: false,
-        stroke: color,
-    };
+    var color = point.IsIntroduced ? "green" : "yellow";
 
     var marker = new google.maps.Marker({
         position: position,

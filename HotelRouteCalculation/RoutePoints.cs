@@ -249,7 +249,7 @@ namespace HotelRouteCalculation
 
                 double distanceBeforeInsert = currentPoint.Distance;
                 // insert point in the middle and update the links
-                LinkedPoint point = new LinkedPoint(mapPoint, finish);
+                LinkedPoint point = LinkedPoint.CreateIntroducedPoint(mapPoint, finish);
                 currentPoint.Next = point;
                 if (distanceBeforeInsert <= currentPoint.Distance) throw new InvalidOperationException("Logic in points optimization After making attempt to insert points in the middle distance between points grown or stay unchanged");
 
