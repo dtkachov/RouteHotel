@@ -150,8 +150,6 @@ namespace MapUtilsTest
 
             SearchInProgress = true;
             Search.Search();
-
-            Assert.IsFalse(SearchInProgress); // verify that test is finished and data priocessed
         }
 
         private void Search_Progress(object sender, CalculationStatusEventArgs e)
