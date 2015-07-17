@@ -12,6 +12,8 @@ function initialize() {
     map = new google.maps.Map(mapCanvas, mapOptions);
 
     centerMap(map);
+
+    initializeAutocomplete(); // in PlaceAutocomplete.js
 }
 
 function centerMap(map) {

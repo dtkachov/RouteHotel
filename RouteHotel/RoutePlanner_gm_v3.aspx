@@ -7,8 +7,8 @@
     <title>Route planner</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <link href="RoutePlanner.css" rel="stylesheet" type="text/css" />
-    
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+   
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 
     <script type='text/javascript'>
         var map; // goolge map global varialble
@@ -21,10 +21,12 @@
         const STEP_MARKER_OPACITY = <%= StepMarkerOpacity %>;
         const START_STEP_COLOR = '<%= StartMarkerColor %>';
 
+        // Defaults:
         const DEFAULT_PROXIMITY_RADIUS = '<%= ProximityRadius %>';
         
     </script>
     <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
+    <script src="/scripts/PlaceAutocomplete.js" type="text/javascript"></script>
     <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>
     <script src="/scripts/RouteDisplay.js" type="text/javascript"></script>
     <script src="/scripts/CalculationPointsDisplay.js" type="text/javascript"></script>
@@ -38,9 +40,11 @@
             </Services>
         </asp:ScriptManager>
         <div id ="routeSearchParams">
-            TODO: add search params here<br/><br/>
+            From : <input id="fromPlace" class="controls" type="text" placeholder="Please enter a start location" style="autocomplete-input"/><br />
+            To : <input id="toPlace" class="controls" type="text" placeholder="Please enter a finish location" style="autocomplete-input"/><br />
+            
             <!-- todo add place autocomplete controls: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-hotelsearch -->
-            <input type="button" onclick="performSearch();" value="Search" />
+            <input type="button" onclick="performSearch();" value="Search" id="btnSearch" />
         </div>
         <div id="map-canvas" ></div> 
     </form>

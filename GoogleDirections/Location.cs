@@ -67,7 +67,7 @@ namespace GoogleDirections
         /// </returns>
         public override string ToString()
         {
-            if (locationName != null)
+            if (null != locationName && locationName.Trim().Length > 0)
                 return locationName;
 
             return latLng.ToString();

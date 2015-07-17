@@ -73,6 +73,7 @@
     <Content Include="RoutePlanner_gm_v3.aspx" />
     <Content Include="scripts\CalculationPointsDisplay.js" />
     <Content Include="scripts\InitializeMap.js" />
+    <Content Include="scripts\PlaceAutocomplete.js" />
     <Content Include="scripts\RouteDisplay.js" />
     <Content Include="scripts\SearchBuilder.js" />
     <Content Include="Web.config" />
