@@ -40,11 +40,20 @@
             </Services>
         </asp:ScriptManager>
         <div id ="routeSearchParams">
-            From : <input id="fromPlace" class="controls" type="text" placeholder="Please enter a start location" style="autocomplete-input"/><br />
-            To : <input id="toPlace" class="controls" type="text" placeholder="Please enter a finish location" style="autocomplete-input"/><br />
+            <table>
+                   <tr>
+                       <td>From</td>
+                        <td> <input id="fromPlace" class="controls" type="text" placeholder="Please enter a start location" style="autocomplete-input"/></td>
+                    </tr>
+                <tr>
+                    <td>To</td>
+                    <td><input id="toPlace" class="controls" type="text" placeholder="Please enter a finish location" style="autocomplete-input"/></td>
+                    </tr>
+
+            </table>
             
             <!-- todo add place autocomplete controls: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-hotelsearch -->
-            <input type="button" onclick="performSearch();" value="Search" id="btnSearch" />
+            <br /><input type="button" onclick="performSearch();" value="Search" id="btnSearchRoute"  />
         </div>
         <div id="map-canvas" ></div> 
     </form>

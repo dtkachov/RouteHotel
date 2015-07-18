@@ -59,7 +59,7 @@ function initializeAutocomplete() {
 }
 
 function getSearchButton() {
-    return document.getElementById('btnSearch');
+    return document.getElementById('btnSearchRoute');
 }
 
 
