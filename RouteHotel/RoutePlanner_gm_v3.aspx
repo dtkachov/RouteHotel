@@ -40,7 +40,7 @@
             </Services>
         </asp:ScriptManager>
         <div id ="routeSearchParams">
-            <table>
+            <table width="100%">
                    <tr>
                        <td>From</td>
                         <td> <input id="fromPlace" class="controls" type="text" placeholder="Please enter a start location" style="autocomplete-input"/></td>
