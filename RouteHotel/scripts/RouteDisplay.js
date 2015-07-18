@@ -1,4 +1,4 @@
-﻿
+
 function convertToLatLng(toObj) {
     if (null == toObj) return null;
 
@@ -12,6 +12,7 @@ function parceRoute(route) {
     if (null == route) return;
 
     processLegs(route.Legs); // iterate through legs
+    zoomMap(route);
 
     RouteHotel.RouteAPI.GetCalculationPoints(route.RouteID, parceCalculationPoints); // parceRoute defined in RouteDisplay.js
 }
@@ -123,4 +124,48 @@ function drawStepPolyline(points)
 
     polyLine.setMap(map);
 
+}
+
+function zoomMap(route) {
+    if (null == route) return;
+    if (null == route.Legs) return;
+    if (0 == route.Legs.length) return;
+
+    var firstLeg = route.Legs[0];
+
+    var startLocation = convertToLatLng(firstLeg.StartLocation);
+    var endLocation = convertToLatLng(firstLeg.EndLocation);
+
+    var minLatVal, maxLatVal, minLngVal, maxLngVal;
+    if (startLocation.lat() < endLocation.lat()) {
+        minLatVal = startLocation.lat();
+        maxLatVal = endLocation.lat();
+    }
+    else {
+        minLatVal = endLocation.lat();
+        maxLatVal = startLocation.lat();
+    }
+
+    if (startLocation.lng() < endLocation.lng()) {
+        minLngVal = startLocation.lng();
+        maxLngVal = endLocation.lng();
+    }
+    else {
+        minLngVal = endLocation.lng();
+        maxLngVal = startLocation.lng();
+    }
+
+    var bottomLeft = new google.maps.LatLng(minLatVal, minLngVal);
+    var topLeft = new google.maps.LatLng(maxLatVal, maxLngVal);
+    
+    var bounds = new google.maps.LatLngBounds(bottomLeft, topLeft);
+    map.fitBounds(bounds);
+
+    //Convert data to float type
+    var centerLat = (minLatVal + maxLatVal) / 2;
+    var centerLng = (minLngVal + maxLngVal) / 2;
+
+    //Zoom to the center of the two points
+    var centerLatLng = new google.maps.LatLng(centerLat, centerLng);
+    map.panTo(centerLatLng);
 }

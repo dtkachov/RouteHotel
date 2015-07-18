@@ -12,10 +12,10 @@ namespace GoogleDirections
     {
         internal RouteLeg(XmlElement leg)
         {
-            startAddress = leg.SelectSingleNode("start_address").InnerText;
-            endAddress = leg.SelectSingleNode("end_address").InnerText;
-            distance = int.Parse(leg.SelectSingleNode("distance/value").InnerText);
-            duration = int.Parse(leg.SelectSingleNode("duration/value").InnerText);
+            startAddress = GetNodeInnerText(leg.SelectSingleNode("start_address"));
+            endAddress = GetNodeInnerText(leg.SelectSingleNode("end_address"));
+            distance = int.Parse(GetNodeInnerText(leg.SelectSingleNode("distance/value")));
+            duration = int.Parse(GetNodeInnerText(leg.SelectSingleNode("duration/value")));
             startLocation = new LatLng((XmlElement)leg.SelectSingleNode("start_location"));
             endLocation = new LatLng((XmlElement)leg.SelectSingleNode("end_location"));
 
@@ -26,6 +26,12 @@ namespace GoogleDirections
                 stepsList.Add(new RouteStep(step));
             }
             steps = stepsList.ToArray();
+        }
+
+        private static string GetNodeInnerText(XmlNode node)
+        {
+            if (null == node) return null;
+            return node.InnerText;
         }
 
         private string startAddress;
