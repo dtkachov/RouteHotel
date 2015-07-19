@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Xml;
 
+
 namespace GoogleDirections
 {
     /// <summary>
@@ -107,11 +108,11 @@ namespace GoogleDirections
         /// <returns>Wether two objects are equal</returns>
         public bool Equals(LatLng obj)
         {
-            double distance = Utils.Distance(this, obj);
+            double distance = CalculationUtils.DistanceUtils.Distance(this.Latitude, this.Longitude, obj.Latitude, obj.Longitude);
 
             double distanceMeters = distance;
 
-            return Utils.ACCURACY > distanceMeters;
+            return CalculationUtils.CONSTS.ACCURACY > distanceMeters;
         }
 
         /// <summary>

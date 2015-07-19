@@ -6,32 +6,17 @@ using System.Web;
 
 namespace RouteHotel.TransportObjects
 {
-    public class LatLng
+    /// <summary>
+    /// Latitude/Longitude object
+    /// </summary>
+    public class LatLng : RouteTransportObjects.LatLng
     {       
-        /// <summary>
-        /// Gets the latitude.
-        /// </summary>
-        public double Latitude
-        {
-            get { return latitude; }
-            set { latitude = value; }
-        }
-        private double latitude;
 
-        /// <summary>
-        /// Gets the longitude.
-        /// </summary>
-        public double Longitude
-        {
-            get { return longitude;  }
-            set { longitude = value; }
-        }
-        private double longitude;
 
         internal LatLng(GoogleDirections.LatLng location)
         {
-            this.latitude = location.Latitude;
-            this.longitude = location.Longitude;
+            this.Latitude = location.Latitude;
+            this.Longitude = location.Longitude;
         }
 
         public LatLng()
@@ -45,8 +30,8 @@ namespace RouteHotel.TransportObjects
         /// <param name="longitude">Longitude value</param>
         public LatLng(double latitude, double longitude)
         {
-            this.latitude = latitude;
-            this.longitude = longitude;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
         }
 
         /// <summary>
@@ -55,7 +40,17 @@ namespace RouteHotel.TransportObjects
         /// <returns>Google direction LanLng object</returns>
         public GoogleDirections.LatLng ConvertToLatLng()
         {
-            return new GoogleDirections.LatLng(Latitude, Longitude);
+            return ConvertToLatLng(this);
+        }
+
+        /// <summary>
+        /// Converts this transport object into Google direction LanLng object
+        /// </summary>
+        /// <param name="latLng">Object to convert</param>
+        /// <returns>Google direction LanLng object</returns>
+        internal static GoogleDirections.LatLng ConvertToLatLng(RouteTransportObjects.LatLng latLng)
+        {
+            return new GoogleDirections.LatLng(latLng.Latitude, latLng.Longitude);
         }
 
         /// <summary>
@@ -77,7 +72,7 @@ namespace RouteHotel.TransportObjects
         /// <returns>Wether two objects are equal</returns>
         public bool Equals(LatLng obj)
         {
-            double distance = GoogleDirections.Utils.Distance(Latitude, Longitude, obj.Latitude, obj.Longitude);
+            double distance = CalculationUtils.DistanceUtils.Distance(Latitude, Longitude, obj.Latitude, obj.Longitude);
 
             double distanceMeters = distance;
 
@@ -95,14 +90,7 @@ namespace RouteHotel.TransportObjects
             return Equals(new LatLng(obj));
         }
 
-        /// <summary>
-        /// Returns hashcode
-        /// </summary>
-        /// <returns>Hashcode</returns>
-        public override int GetHashCode()
-        {
-            return (Latitude + Longitude).GetHashCode();
-        }
+
 
         public static bool operator ==(LatLng a, GoogleDirections.LatLng b)
         {
@@ -114,17 +102,5 @@ namespace RouteHotel.TransportObjects
             return !a.Equals(b);
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return latitude.ToString(CultureInfo.InvariantCulture)
-                + ", "
-                + longitude.ToString(CultureInfo.InvariantCulture);
-        }
     }
 }

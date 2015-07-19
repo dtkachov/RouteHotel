@@ -121,7 +121,7 @@ namespace HotelRouteCalculation
         private void SetNextPoint(LinkedPoint nextPoint)
         {
             next = nextPoint;
-            distance = Utils.Distance(point, next.Point);
+            distance = DistanceUtils.Distance(point, next.Point);
 
             if (null == originalNext)
             {

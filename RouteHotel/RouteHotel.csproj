@@ -83,6 +83,7 @@
     <Compile Include="App_Code\SessionObjects.cs" />
     <Compile Include="App_Code\TransportObjects\CalculationPoint.cs" />
     <Compile Include="App_Code\TransportObjects\CalculationRouteLeg.cs" />
+    <Compile Include="App_Code\TransportObjects\RouteParams.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -109,7 +110,6 @@
     <Compile Include="App_Code\TransportObjects\Location.cs" />
     <Compile Include="App_Code\TransportObjects\Route.cs" />
     <Compile Include="App_Code\TransportObjects\RouteLeg.cs" />
-    <Compile Include="App_Code\TransportObjects\RouteParams.cs" />
     <Compile Include="App_Code\TransportObjects\RouteStep.cs" />
     <Compile Include="App_Code\Utils\IPRequestResponce.cs" />
     <Compile Include="App_Code\Utils\IPUtils.cs" />
@@ -126,6 +126,14 @@
     <ProjectReference Include="..\MapUtils\MapUtils.csproj">
       <Project>{f27e4d18-96b3-46da-b183-4949680e417e}</Project>
       <Name>MapUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RouteTransportObjects\RouteTransportObjects.csproj">
+      <Project>{b610c5af-4fbf-4a1d-b830-b6cc0535a252}</Project>
+      <Name>RouteTransportObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\CalculationUtils.csproj">
+      <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>
+      <Name>CalculationUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

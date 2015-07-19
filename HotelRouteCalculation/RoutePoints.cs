@@ -197,7 +197,7 @@ namespace HotelRouteCalculation
             while (!currentPoint.IsLast && (distance + currentPoint.Distance) < Proximity.Step)
             {
                 currentPoint = currentPoint.Next;
-                distance = Utils.Distance(start.Point, currentPoint.Point);
+                distance = DistanceUtils.Distance(start.Point, currentPoint.Point);
                 closePoints.Add(currentPoint);
             }
 

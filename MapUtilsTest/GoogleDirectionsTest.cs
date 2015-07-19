@@ -34,7 +34,7 @@ namespace MapUtilsTest
             /// <param name="to">Finish point</param>
             public void Visit(LatLng from, LatLng to)
             {
-                double km = Utils.Distance(from, to);
+                double km = DistanceUtils.Distance(from, to);
                 const int KM_TO_METERS = 1000;
                 double meters = km * KM_TO_METERS;
                 writer.WriteLine("Segment with {2:0.00} meters started at <{0}>, finished at <{1}> ",

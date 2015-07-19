@@ -277,7 +277,7 @@ namespace MapUtilsTest
                     writer.WriteLine("\t\tOriginal:{0}-{1} distance: {2}",
                             currentPoint.Point.Latitude,
                             currentPoint.Point.Longitude,
-                            Utils.Distance(currentPoint.Point, currentPoint.OriginalNext.Point)
+                            DistanceUtils.Distance(currentPoint.Point, currentPoint.OriginalNext.Point)
                         );
                     LinkedPoint p = currentPoint.Next;
                     while (p != currentPoint.OriginalNext)

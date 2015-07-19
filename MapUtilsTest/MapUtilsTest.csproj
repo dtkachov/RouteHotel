@@ -86,6 +86,10 @@
       <Project>{cc318083-9752-4c58-9815-e5c3ac0d6616}</Project>
       <Name>RouteHotel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\CalculationUtils.csproj">
+      <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>
+      <Name>CalculationUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

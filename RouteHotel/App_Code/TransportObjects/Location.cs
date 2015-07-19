@@ -7,30 +7,8 @@ namespace RouteHotel.TransportObjects
     /// <summary>
     /// Class representing a location, defined by name and/or by latitude/longitude
     /// </summary>
-    public class Location
+    public class Location : RouteTransportObjects.Location
     {
-        private LatLng latLng;
-        /// <summary>
-        /// Gets/sets the latitude/longitude of the location.
-        /// </summary>
-        public LatLng LatLng
-        {
-            get { return latLng; }
-            set { latLng = value; }
-        }
-
-        private string locationName;
-        /// <summary>
-        /// Gets/sets the name/address of the location.
-        /// </summary>
-        /// <value>
-        /// The name/address of the location.
-        /// </value>
-        public string LocationName
-        {
-            get { return locationName; }
-            set { locationName = value; }
-        }
 
         /// <summary>
         /// Default c.tor
@@ -45,7 +23,7 @@ namespace RouteHotel.TransportObjects
         /// <param name="locationName">Name of the location.</param>
         public Location(string locationName)
         {
-            this.locationName = locationName;
+            this.LocationName = locationName;
         }
 
         /// <summary>
@@ -54,39 +32,26 @@ namespace RouteHotel.TransportObjects
         /// <param name="latLng">The latitude/longitude of the location.</param>
         public Location(LatLng latLng)
         {
-            this.latLng = latLng;
+            this.LatLng = latLng;
         }
 
         internal Location(LatLng latLng, string locationName)
         {
-            this.latLng = latLng;
-            this.locationName = locationName;
+            this.LatLng = latLng;
+            this.LocationName = locationName;
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            if (locationName != null)
-                return locationName;
-
-            return latLng.ToString();
-        }
 
         /// <summary>
         /// Converts into GoogleDirections.Location
         /// </summary>
         /// <returns>GoogleDirections.Location object</returns>
-        public GoogleDirections.Location ConvertToLocation()
+        public static GoogleDirections.Location ConvertToLocation(RouteTransportObjects.Location location)
         {
-            GoogleDirections.LatLng googleLatLng = null == LatLng
+            GoogleDirections.LatLng googleLatLng = null == location.LatLng
                 ? GoogleDirections.LatLng.EMPTY
-                : LatLng.ConvertToLatLng();
-            return new GoogleDirections.Location(googleLatLng, LocationName);
+                : RouteHotel.TransportObjects.LatLng.ConvertToLatLng(location.LatLng);
+            return new GoogleDirections.Location(googleLatLng, location.LocationName);
         }
 
         /// <summary>
@@ -94,7 +59,7 @@ namespace RouteHotel.TransportObjects
         /// </summary>
         /// <param name="locations">List of locations</param>
         /// <returns>Google direction list of locations</returns>
-        public static GoogleDirections.Location[] ConvertLocations(Location[] locations)
+        public static GoogleDirections.Location[] ConvertLocations(RouteTransportObjects.Location[] locations)
         {
             if (null == locations) return null;
 
@@ -102,7 +67,7 @@ namespace RouteHotel.TransportObjects
 
             for (int i = 0; i < locations.Length; ++i)
             {
-                result[i] = locations[i].ConvertToLocation();
+                result[i] = ConvertToLocation(locations[i]);
             }
 
             return result;

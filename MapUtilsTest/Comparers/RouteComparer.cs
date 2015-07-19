@@ -16,8 +16,8 @@ namespace MapUtilsTest.Comparers
         
         public static bool EqualPoints(LatLng point1, GoogleDirections.LatLng point2)
         {
-            double distanceBetweenPoints = GoogleDirections.Utils.Distance(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude);
-            return distanceBetweenPoints <= GoogleDirections.Utils.ACCURACY; 
+            double distanceBetweenPoints = CalculationUtils.DistanceUtils.Distance(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude);
+            return distanceBetweenPoints <= CalculationUtils.CONSTS.ACCURACY; 
         }
 
         public static bool EqualPoints(GoogleDirections.LatLng point1, LatLng point2)
