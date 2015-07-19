@@ -6,9 +6,9 @@ using System.Web;
 namespace RouteHotel.Utils
 {
     /// <summary>
-    /// Represents responce from http://freegeoip.net/xml/ web service
+    /// Represents Response from http://freegeoip.net/xml/ web service
     /// </summary>
-    public class IPRequestResponce
+    public class IPRequestResponse
     {
         public string Ip { get; set; }
         public string Countrycode { get; set; }

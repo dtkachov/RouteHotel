@@ -9,6 +9,15 @@ namespace CalculationUtils
     /// </summary>
     public class DistanceUtils
     {
+        /// <summary>
+        /// Converts meters to kilimoters
+        /// </summary>
+        /// <param name="meters">Meters value</param>
+        /// <returns>Kilometers value</returns>
+        public static double MetersToKm(double meters)
+        {
+            return meters / CONSTS.METERS_IN_KM;
+        }
 
         /// <summary>
         /// This routine calculates the distance between two points

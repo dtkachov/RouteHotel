@@ -102,5 +102,14 @@ namespace RouteHotel.TransportObjects
             return !a.Equals(b);
         }
 
+        /// <summary>
+        /// Returns hashcode
+        /// </summary>
+        /// <returns>Hashcode</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
     }
 }

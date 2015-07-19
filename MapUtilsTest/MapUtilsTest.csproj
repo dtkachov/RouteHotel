@@ -68,11 +68,20 @@
     </Compile>
     <Compile Include="TestCache.cs" />
     <Compile Include="TestWebAPI.cs" />
+    <Compile Include="EANRequestTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EANInterface\EANInterface.csproj">
+      <Project>{c335311c-2751-451c-9a2e-00a3da9e0dc6}</Project>
+      <Name>EANInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GoogleDirections\GoogleDirections.csproj">
       <Project>{7c6447b2-d889-4306-ad8b-da5542054c66}</Project>
       <Name>GoogleDirections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HotelInterface\HotelInterface.csproj">
+      <Project>{1981335a-aca9-4800-97ae-6badf9b8d0f5}</Project>
+      <Name>HotelInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\HotelRouteCalculation\HotelRouteCalculation.csproj">
       <Project>{f1ddef35-d97a-481f-a16d-a4f7320400bc}</Project>
@@ -85,6 +94,10 @@
     <ProjectReference Include="..\RouteHotel\RouteHotel.csproj">
       <Project>{cc318083-9752-4c58-9815-e5c3ac0d6616}</Project>
       <Name>RouteHotel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RouteTransportObjects\RouteTransportObjects.csproj">
+      <Project>{b610c5af-4fbf-4a1d-b830-b6cc0535a252}</Project>
+      <Name>RouteTransportObjects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\CalculationUtils.csproj">
       <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>

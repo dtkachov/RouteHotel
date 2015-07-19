@@ -40,7 +40,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransportObjects\HotelList.cs" />
+    <Compile Include="TransportObjects\HotelSummary.cs" />
+    <Compile Include="TransportObjects\RoomParameter.cs" />
     <Compile Include="TransportObjects\HotelListParameters.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RouteTransportObjects\RouteTransportObjects.csproj">
+      <Project>{b610c5af-4fbf-4a1d-b830-b6cc0535a252}</Project>
+      <Name>RouteTransportObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\CalculationUtils.csproj">
+      <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>
+      <Name>CalculationUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
