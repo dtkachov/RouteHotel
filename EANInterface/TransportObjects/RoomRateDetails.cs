@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,45 +15,35 @@ namespace EANInterface.TransportObjects
         /// <summary>
         /// Response dynamic data
         /// </summary>
-        private dynamic ResponseData;
+        private EANInterface.JsonNET.EANHotelListJsonTypes.RoomRateDetails RawResponseData;
 
-        public RoomRateDetails(dynamic responseData)
+        internal RoomRateDetails(EANInterface.JsonNET.EANHotelListJsonTypes.RoomRateDetails responseData)
         {
-            this.ResponseData = responseData;
+            this.RawResponseData = responseData;
             ParseData();
         }
 
         /// <summary>
         /// Parses Response data
         /// </summary>
-        public void ParseData()
+        private void ParseData()
         {
-            this.MaxRoomOccupancy = (int)ResponseData.maxRoomOccupancy;
-            this.QuotedRoomOccupancy = (int)ResponseData.quotedRoomOccupancy;
-            this.MinGuestAge = (int)ResponseData.minGuestAge;
-            this.RoomDescription = ResponseData.roomDescription;
-            this.PropertyAvailable = ResponseData.propertyAvailable;
-            this.PropertyRestricted = ResponseData.propertyRestricted;
+            this.MaxRoomOccupancy = RawResponseData.MaxRoomOccupancy;
+            this.QuotedRoomOccupancy = RawResponseData.QuotedRoomOccupancy;
+            this.MinGuestAge = RawResponseData.MinGuestAge;
+            this.RoomDescription = RawResponseData.RoomDescription;
+            this.PropertyAvailable = RawResponseData.PropertyAvailable;
+            this.PropertyRestricted = RawResponseData.PropertyRestricted;
 
             ParseRate();
         }
 
         private void ParseRate()
         {
-            // parse rate 
-            var rateInfos = ResponseData.RateInfos;
-            var rateInfo = (rateInfos.IsArray) ? rateInfos[0] : rateInfos.RateInfo;
+            EANInterface.JsonNET.EANHotelListJsonTypes.ChargeableRateInfo chargeableRateInfo = RawResponseData.RateInfos.RateInfo.ChargeableRateInfo;
 
-            var chargeableRateInfo = rateInfo.ChargeableRateInfo;
-
-            string itemName = string.Empty;
-            foreach (var item in chargeableRateInfo)
-            {
-                    itemName = item.Key.ToString() + " - " + item.Value.ToString();  
-            }
-
-            this.Price = chargeableRateInfo.total;
-            this.Currency = chargeableRateInfo.currencyCode;
+            this.Price = Double.Parse(chargeableRateInfo.Total, CultureInfo.InvariantCulture);
+            this.Currency = chargeableRateInfo.CurrencyCode;
 
         }
     }

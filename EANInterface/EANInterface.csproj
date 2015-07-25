@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -41,10 +44,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRequest.cs" />
-    <Compile Include="DynamicJson.cs" />
     <Compile Include="EANCommon.cs" />
     <Compile Include="HotelListRequest.cs" />
     <Compile Include="HotelListRequestParametersBuilder.cs" />
+    <Compile Include="JsonNET\CachedSupplierResponse.cs" />
+    <Compile Include="JsonNET\ChargeableNightlyRate.cs" />
+    <Compile Include="JsonNET\ChargeableRateInfo.cs" />
+    <Compile Include="JsonNET\EANHotelList.cs" />
+    <Compile Include="JsonNET\HotelFee.cs" />
+    <Compile Include="JsonNET\HotelFees.cs" />
+    <Compile Include="JsonNET\HotelList.cs" />
+    <Compile Include="JsonNET\HotelListResponse.cs" />
+    <Compile Include="JsonNET\HotelSummary.cs" />
+    <Compile Include="JsonNET\NightlyRate.cs" />
+    <Compile Include="JsonNET\NightlyRatesPerRoom.cs" />
+    <Compile Include="JsonNET\RateInfo.cs" />
+    <Compile Include="JsonNET\RateInfos.cs" />
+    <Compile Include="JsonNET\Room.cs" />
+    <Compile Include="JsonNET\RoomGroup.cs" />
+    <Compile Include="JsonNET\RoomRateDetails.cs" />
+    <Compile Include="JsonNET\RoomRateDetailsList.cs" />
+    <Compile Include="JsonNET\SingleValueArrayConverter.cs" />
+    <Compile Include="JsonNET\Surcharge.cs" />
+    <Compile Include="JsonNET\Surcharges.cs" />
+    <Compile Include="JsonNET\ValueAdds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestParametersKeys.cs" />
     <Compile Include="TransportObjects\HotelList.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EANInterface.JsonNET;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace EANInterface.TransportObjects
         /// <summary>
         /// Response dynamic data
         /// </summary>
-        private dynamic ResponseData;
+        private EANInterface.JsonNET.EANHotelListJsonTypes.HotelListResponse RawResponseData;
 
         public string CustomerSessionId { get; set; }
         public int NumberOfRoomsRequested { get; set; }
@@ -24,24 +25,24 @@ namespace EANInterface.TransportObjects
 
         public HotelList Hotels { get; set; }
 
-        public HotelListResponse(dynamic data)
+        internal HotelListResponse(EANHotelList data)
         {
-            ResponseData = data.HotelListResponse;
+            RawResponseData = data.HotelListResponse;
+            ParseData();
         }
 
         /// <summary>
         /// Parses Response data
         /// </summary>
-        public void ParseData()
+        private void ParseData()
         {
-            CustomerSessionId = ResponseData.@customerSessionId;
-            NumberOfRoomsRequested = (int) (ResponseData.@numberOfRoomsRequested);
-            MoreResultsAvailable = ResponseData.@moreResultsAvailable;
-            CacheKey = ResponseData.@cacheKey;
-            CacheLocation = ResponseData.@cacheLocation;
+            CustomerSessionId = RawResponseData.CustomerSessionId;
+            NumberOfRoomsRequested = RawResponseData.NumberOfRoomsRequested;
+            MoreResultsAvailable = RawResponseData.MoreResultsAvailable;
+            CacheKey = RawResponseData.CacheKey;
+            CacheLocation = RawResponseData.CacheLocation;
 
-            Hotels = new HotelList(ResponseData);
-            Hotels.Parce();
+            Hotels = new HotelList(RawResponseData.HotelList);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using EANInterface.TransportObjects;
+﻿using EANInterface.JsonNET;
+using EANInterface.TransportObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,11 @@ namespace EANInterface
             get { return response; }
         }
         private HotelListResponse response;
+
+        /// <summary>
+        /// Raw responce object retrived
+        /// </summary>
+        private EANHotelList RawResponce;
 
         /// <summary>
         /// HOtel list request parameters
@@ -53,8 +59,16 @@ namespace EANInterface
         {
             base.Request();
 
-            response = new HotelListResponse(ResponseData);
-            response.ParseData();
+            response = new HotelListResponse(RawResponce);
+        }
+
+        /// <summary>
+        /// Initializs response object
+        /// </summary>
+        /// <param name="responseStr">Downloaded responce</param>
+        protected override void InitResponce(string responseStr)
+        {
+            RawResponce = Newtonsoft.Json.JsonConvert.DeserializeObject<EANInterface.JsonNET.EANHotelList>(responseStr);
         }
     }
 }

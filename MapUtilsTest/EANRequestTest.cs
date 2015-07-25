@@ -5,6 +5,7 @@ using EANInterface;
 using HotelInterface.TransportObjects;
 using EANInterface.TransportObjects;
 using CalculationUtils;
+using System.IO;
 
 namespace MapUtilsTest
 {
@@ -38,11 +39,34 @@ namespace MapUtilsTest
             DumpData(request.Response);
         }
 
-        private void DumpData(HotelListResponse Response)
+        private void DumpData(HotelListResponse response)
         {
             string baseData = string.Format("Basic data: CacheKey: '{0}' CacheLocation: '{1}' CustomerSessionId: '{2}' MoreResultsAvailable: '{3}' NumberOfRoomsRequested: '{4}'", 
-                Response.CacheKey, Response.CacheLocation, Response.CustomerSessionId, Response.MoreResultsAvailable, Response.NumberOfRoomsRequested);
-            Console.WriteLine(baseData);
+                response.CacheKey, response.CacheLocation, response.CustomerSessionId, response.MoreResultsAvailable, response.NumberOfRoomsRequested);
+
+            string fileName = string.Format(@"d:\temp\HotelData\hotel reponse dump at {0}.txt", DateTime.Now.ToFileTime());
+
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                writer.WriteLine(baseData);
+
+                foreach (EANInterface.TransportObjects.HotelSummary hotel in response.Hotels.Hotels)
+                {
+                    string hotelData = string.Format("Hotel '{0}' located in city {1} more info: {2}, link: {3}", hotel.Name, hotel.City, hotel.ShortDescription, hotel.DeepLink);
+                    writer.WriteLine(hotelData);
+
+                    int index = 0;
+                    foreach (HotelInterface.TransportObjects.RoomRateDetails roomRate in hotel.RoomRates)
+                    {
+                        string roomRateStr = string.Format("room rate {0}: {1} {2} for max guests: {3}", ++index, roomRate.Price, roomRate.Currency, roomRate.MaxRoomOccupancy, roomRate.RoomDescription);
+                        writer.WriteLine(roomRateStr);
+                    }
+                    writer.WriteLine(string.Empty);
+                }
+
+                writer.WriteLine("кінець");
+            }
+
         }
 
         /// <summary>
