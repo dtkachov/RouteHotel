@@ -98,20 +98,22 @@ namespace MapUtilsTest
         private HotelListParameters Buildparameters1()
         {
             HotelListParameters p = new HotelListParameters();
-            p.Locale = "uk_UA";
+            p.HotelPreferences = new HotelPreference();
+
+            p.HotelPreferences.Locale = "uk_UA";
             p.SearchRadius = 2000; // Meters
             p.SearchRadiusUnit = DistanceUnit.Meters;
             p.Location = new RouteTransportObjects.LatLng(49.8350004, 24.027728); // Lviv
-            p.CurrencyCode = "USD";
-            p.ArrivalDate = DateTime.Now.AddDays(2);
-            p.DepartureDate = p.ArrivalDate.AddDays(1);
+            p.HotelPreferences.CurrencyCode = "USD";
+            p.HotelPreferences.ArrivalDate = DateTime.Now.AddDays(2);
+            p.HotelPreferences.DepartureDate = p.HotelPreferences.ArrivalDate.AddDays(1);
             {
                 RoomParameter room = new RoomParameter();
                 room.AdultsCount = 2;
 
                 List<RoomParameter> roomList = new List<RoomParameter>();
                 roomList.Add(room);
-                p.Rooms = roomList.ToArray();
+                p.HotelPreferences.Rooms = roomList.ToArray();
             }
             
 
@@ -125,18 +127,20 @@ namespace MapUtilsTest
         private HotelListParameters Buildparameters2()
         {
             HotelListParameters p = new HotelListParameters();
-            p.Locale = "uk_UA";
+            p.HotelPreferences = new HotelPreference();
+
+            p.HotelPreferences.Locale = "uk_UA";
             p.Location = new RouteTransportObjects.LatLng(50.5, 20.5);
-            p.CurrencyCode = "USD";
-            p.ArrivalDate = DateTime.Now.AddDays(2);
-            p.DepartureDate = p.ArrivalDate.AddDays(1);
+            p.HotelPreferences.CurrencyCode = "USD";
+            p.HotelPreferences.ArrivalDate = DateTime.Now.AddDays(2);
+            p.HotelPreferences.DepartureDate = p.HotelPreferences.ArrivalDate.AddDays(1);
             {
                 RoomParameter room = new RoomParameter();
                 room.AdultsCount = 2;
 
                 List<RoomParameter> roomList = new List<RoomParameter>();
                 roomList.Add(room);
-                p.Rooms = roomList.ToArray();
+                p.HotelPreferences.Rooms = roomList.ToArray();
             }
             
 

@@ -1,5 +1,6 @@
 ﻿using EANInterface.JsonNET;
 using EANInterface.TransportObjects;
+using HotelInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace EANInterface
     /// <summary>
     /// Represents hotel list request
     /// </summary>
-    public class HotelListRequest : BaseRequest
+    public class HotelListRequest : BaseRequest, IHotelListRequest
     {
         /// <summary>
         /// Parced Response
@@ -28,17 +29,18 @@ namespace EANInterface
         private EANHotelList RawResponce;
 
         /// <summary>
-        /// HOtel list request parameters
+        /// Hotel list request parameters
         /// </summary>
-        private HotelInterface.TransportObjects.HotelListParameters Parameters;
+        private HotelInterface.TransportObjects.HotelListParameters Parameters { get { return _parameters; } }
+        private HotelInterface.TransportObjects.HotelListParameters _parameters;
 
         /// <summary>
         /// .ctor
         /// </summary>
-        /// <param name="URL">URL parameter to make request to</param>
+        /// <param name="parameters">Parameter to make request to</param>
         public HotelListRequest(HotelInterface.TransportObjects.HotelListParameters parameters) : base ()
         {
-            Parameters = parameters;
+            _parameters = parameters;
             Init();
         }
 
@@ -55,11 +57,13 @@ namespace EANInterface
         /// <summary>
         /// Performs web request and parses data
         /// </summary>
-        public override void Request()
+        public HotelInterface.TransportObjects.HotelList Request()
         {
-            base.Request();
+            MakeRequest();
 
             response = new HotelListResponse(RawResponce);
+
+            return Response.Hotels;
         }
 
         /// <summary>

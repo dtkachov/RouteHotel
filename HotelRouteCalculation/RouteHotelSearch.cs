@@ -1,4 +1,5 @@
 ﻿using GoogleDirections;
+using HotelInterface.TransportObjects;
 using MapUtils;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,18 @@ namespace HotelRouteCalculation
         }
 
         /// <summary>
+        /// Represents hotel search criterias
+        /// </summary>
+        public HotelPreference HotelParameters
+        {
+            get
+            {
+                return _hotelParameters;
+            }
+        }
+        private HotelPreference _hotelParameters;
+
+        /// <summary>
         /// Event notifying about search progress
         /// </summary>
         public event EventHandler<CalculationStatusEventArgs> Progress
@@ -61,8 +74,12 @@ namespace HotelRouteCalculation
         /// </summary>
         /// <param name="route">Route to optimize points for</param>
         /// <param name="proximity">Required accuracy values object</param>
-        public RouteHotelSearch(Route route, Proximity proximity)
+        /// <param name="hotelParameters">Represents hotel search criterias</param>
+        public RouteHotelSearch(Route route, Proximity proximity, HotelPreference hotelParameters)
         {
+            if (null == hotelParameters) throw new ArgumentNullException("Argument hotelParameters cannot be null");
+
+            _hotelParameters = hotelParameters;
             this.routePoints = new RoutePoints(route, proximity);
         }
 
@@ -115,12 +132,14 @@ namespace HotelRouteCalculation
         /// <param name="point">Point to search hotels for</param>
         private void SeachHotelsForPoint(LinkedPoint point)
         {
-            HotelSearch search = new HotelSearch(point);
+            HotelListParameters hotelSearchParametersObject = CreateHotelSearhParameterObject(point);
+
+            HotelSearch search = new HotelSearch(point, hotelSearchParametersObject);
             int newHotelsFound = search.Search();
 
             if (newHotelsFound > 0)
             {
-                HotelData[] hotels = search.GetHotels();
+                HotelSummary[] hotels = search.GetHotels();
                 Debug.Assert(null != hotels);
 
                 AddNewHotels(hotels);
@@ -133,7 +152,7 @@ namespace HotelRouteCalculation
         /// Checks current hotel list and add only new ones
         /// </summary>
         /// <param name="hotels">Hotels found for some of locations</param>
-        private void AddNewHotels(HotelData[] hotels)
+        private void AddNewHotels(HotelSummary[] hotels)
         {
             // TODO - do comparision and add only new hotels
         }
@@ -151,6 +170,22 @@ namespace HotelRouteCalculation
                 _progress(this, args);
             }
         }
-        
+
+        /// <summary>
+        /// Constructs hotel search parameters object based on current class data
+        /// </summary>
+        /// <param name="point">Point to search hotels for</param>
+        /// <returns>Hotel search parameters object</returns>
+        private HotelListParameters CreateHotelSearhParameterObject(LinkedPoint point)
+        {
+            HotelListParameters hotelSearchParametersObject = new HotelListParameters();
+            hotelSearchParametersObject.HotelPreferences = HotelParameters;
+            hotelSearchParametersObject.Location = new RouteTransportObjects.LatLng(point.Point.Latitude, point.Point.Longitude);
+            hotelSearchParametersObject.SearchRadius = routePoints.Proximity.Radius;
+            hotelSearchParametersObject.SearchRadiusUnit = CalculationUtils.DistanceUnit.Meters; // TODO: read from config
+
+
+            return hotelSearchParametersObject;
+        }
     }
 }

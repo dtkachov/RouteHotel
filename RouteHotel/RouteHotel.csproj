@@ -120,6 +120,10 @@
       <Project>{7c6447b2-d889-4306-ad8b-da5542054c66}</Project>
       <Name>GoogleDirections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HotelInterface\HotelInterface.csproj">
+      <Project>{1981335a-aca9-4800-97ae-6badf9b8d0f5}</Project>
+      <Name>HotelInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HotelRouteCalculation\HotelRouteCalculation.csproj">
       <Project>{f1ddef35-d97a-481f-a16d-a4f7320400bc}</Project>
       <Name>HotelRouteCalculation</Name>

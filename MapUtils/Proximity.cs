@@ -14,11 +14,11 @@ namespace MapUtils
         /// <summary>
         /// Required accuracy radius in meters
         /// </summary>
-        public double Radius
+        public int Radius
         {
             get { return radius; }
         }
-        private double radius;
+        private int radius;
 
         /// <summary>
         /// Value of minimal band (radius minimized on accuracy value)
@@ -62,7 +62,7 @@ namespace MapUtils
         /// .ctor
         /// </summary>
         /// <param name="radius">Required accuracy radius in meters</param>
-        public Proximity(double radius)
+        public Proximity(int radius)
         {
             Init(radius, RECOMMENDED_ACCURACY);
         }
@@ -72,7 +72,7 @@ namespace MapUtils
         /// </summary>
         /// <param name="radius">Required accuracy radius in meters</param>
         /// <param name="accuracy">Calculation accuracy (percentage value). Recommended accuracy value 5%</param>
-        public Proximity(double radius, short accuracy)
+        public Proximity(int radius, short accuracy)
         {
             Init(radius, accuracy);
         }
@@ -82,7 +82,7 @@ namespace MapUtils
         /// </summary>
         /// <param name="radius">Required accuracy radius in meters</param>
         /// <param name="accuracy">Calculation accuracy (percentage value). Recommended accuracy value 5%</param>
-        private void Init(double radius, short accuracy)
+        private void Init(int radius, short accuracy)
         {
             if (radius < 0) throw new ArgumentException("Value of 'radius' should be bigger than zero");
             if (accuracy < 0) throw new ArgumentException("Value of 'accuracy' should be bigger than zero");
@@ -100,7 +100,7 @@ namespace MapUtils
         private void Calculate()
         { 
             const short MAX_PERSENTAGE = 100;
-            double accuracyValue = radius * accuracy / MAX_PERSENTAGE;
+            double accuracyValue = ((double)radius) * accuracy / MAX_PERSENTAGE;
             minBand = radius - accuracyValue;
             maxBand = radius + accuracyValue;
 

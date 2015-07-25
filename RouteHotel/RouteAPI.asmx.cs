@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,6 +7,7 @@ using System.Web.Services;
 using System.Web.Script.Services;
 
 using RouteHotel.TransportObjects;
+using HotelInterface.TransportObjects;
 
 namespace RouteHotel
 {
@@ -52,7 +54,8 @@ namespace RouteHotel
         {
             if (null == routeParams) return null; // nothing to search
 
-            RouteCalculator calculator = new RouteCalculator(routeParams);
+            HotelPreference hotelParameters = null; // TBD - based on RouteParams fill like in BuildHotelParameters() 
+            RouteCalculator calculator = new RouteCalculator(routeParams, hotelParameters);
 
             SessionObjects.Current.AddCalculator(calculator); // add calculator to session object to enable later search it from otehr web requests in this session
             // TODO - remove calculator once web request see that calculation finished and grab all the data
@@ -64,6 +67,31 @@ namespace RouteHotel
 
             return route;
         }
+
+        /*
+
+        private HotelPreference BuildHotelParameters()
+        {
+            HotelPreference result = new HotelPreference();
+            result.ArrivalDate = DateTime.Now.AddDays(2);
+            result.DepartureDate = result.ArrivalDate.AddDays(2);
+            result.CurrencyCode = "UAH";
+            result.Locale = "ua_UK";
+
+            {
+                List<RoomParameter> rooms = new List<RoomParameter>();
+
+                RoomParameter room1 = new RoomParameter();
+                room1.AdultsCount = 2;
+                rooms.Add(room1);
+
+                result.Rooms = rooms.ToArray();
+            }
+
+            return result;
+        }
+         */
+
 
         /// <summary>
         /// Returns calculation posints for route with Id provided

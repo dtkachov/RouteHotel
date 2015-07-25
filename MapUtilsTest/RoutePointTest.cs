@@ -8,6 +8,7 @@ using HotelRouteCalculation;
 using GoogleDirections;
 using MapUtils;
 using System.IO;
+using HotelInterface.TransportObjects;
 
 namespace MapUtilsTest
 {
@@ -135,13 +136,35 @@ namespace MapUtilsTest
         private void InitRoute(params Location[] locations)
         {
             TestIndex++;
-            const double RADIUS = 1000; // meters
+            const int RADIUS = 1000; // meters
             Proximity proximity = new Proximity(RADIUS);
 
             const bool OPTIMIZE = true;
             Route route = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
+            HotelPreference hotelParameters = BuildHotelParameters();
 
-            Search = new RouteHotelSearch(route, proximity);
+            Search = new RouteHotelSearch(route, proximity, hotelParameters);
+        }
+
+        private HotelPreference BuildHotelParameters()
+        {
+            HotelPreference result = new HotelPreference();
+            result.ArrivalDate = DateTime.Now.AddDays(2);
+            result.DepartureDate = result.ArrivalDate.AddDays(2);
+            result.CurrencyCode = "UAH";
+            result.Locale = "ua_UK";
+
+            {
+                List<RoomParameter> rooms = new List<RoomParameter>();
+
+                RoomParameter room1 = new RoomParameter();
+                room1.AdultsCount = 2;
+                rooms.Add(room1);
+
+                result.Rooms = rooms.ToArray();
+            }
+
+            return result;
         }
 
         private void DoTest()

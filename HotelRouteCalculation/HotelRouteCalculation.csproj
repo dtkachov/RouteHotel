@@ -56,19 +56,36 @@
     <Compile Include="CalculationStatusEventArgs.cs" />
     <Compile Include="HotelData.cs" />
     <Compile Include="HotelSearch.cs" />
+    <Compile Include="HotelSearchFactory.cs" />
     <Compile Include="LinkedPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteHotelSearch.cs" />
     <Compile Include="RoutePoints.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EANInterface\EANInterface.csproj">
+      <Project>{c335311c-2751-451c-9a2e-00a3da9e0dc6}</Project>
+      <Name>EANInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GoogleDirections\GoogleDirections.csproj">
       <Project>{7C6447B2-D889-4306-AD8B-DA5542054C66}</Project>
       <Name>GoogleDirections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HotelInterface\HotelInterface.csproj">
+      <Project>{1981335a-aca9-4800-97ae-6badf9b8d0f5}</Project>
+      <Name>HotelInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MapUtils\MapUtils.csproj">
       <Project>{F27E4D18-96B3-46DA-B183-4949680E417E}</Project>
       <Name>MapUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RouteTransportObjects\RouteTransportObjects.csproj">
+      <Project>{b610c5af-4fbf-4a1d-b830-b6cc0535a252}</Project>
+      <Name>RouteTransportObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\CalculationUtils.csproj">
+      <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>
+      <Name>CalculationUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
-﻿using HotelRouteCalculation;
+﻿using HotelInterface.TransportObjects;
+using HotelRouteCalculation;
 using MapUtils;
 using RouteHotel.TransportObjects;
 using System;
@@ -34,6 +35,18 @@ namespace RouteHotel
         private RouteHotelSearch hotelSearch;
 
         /// <summary>
+        /// Represents hotel search criterias
+        /// </summary>
+        public HotelPreference HotelParameters
+        {
+            get
+            {
+                return _hotelParameters;
+            }
+        }
+        private HotelPreference _hotelParameters;
+
+        /// <summary>
         /// Route object
         /// </summary>
         public GoogleDirections.Route Route
@@ -63,9 +76,11 @@ namespace RouteHotel
         /// .ctor
         /// </summary>
         /// <param name="routeParams">Route search parameters</param>
-        public RouteCalculator(RouteParams routeParams)
+        /// <param name="hotelParameters">Represents hotel search criterias</param>
+        public RouteCalculator(RouteParams routeParams, HotelPreference hotelParameters)
         {
             if (null == routeParams) throw new ArgumentNullException("Argument routeParams cannot be null");
+            if (null == hotelParameters) throw new ArgumentNullException("Argument hotelParameters cannot be null");
 
             this.Params = routeParams;
         }
@@ -82,7 +97,7 @@ namespace RouteHotel
             GoogleDirections.Route route = GoogleDirections.RouteDirections.GetRoute(Params.OptimizeRoute, locations);
 
             Proximity proximity = new Proximity(Params.ProximityRadius);
-            hotelSearch = new RouteHotelSearch(route, proximity);
+            hotelSearch = new RouteHotelSearch(route, proximity, HotelParameters);
             hotelSearch.Search();
         }
 

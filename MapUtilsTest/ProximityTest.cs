@@ -106,7 +106,6 @@ namespace MapUtilsTest
             TestSignleCalculation(3, 7, 3.174902);
             TestSignleCalculation(3, 8, 3.394113);
 
-            TestSignleCalculation(1.4, 6, 1.371714);
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace MapUtilsTest
         /// <param name="radius">Radius value to pass</param>
         /// <param name="accuracy">Accuracy value to pass</param>
         /// <param name="step">Step value to be verified with what calculation returns</param>
-        private void TestSignleCalculation(double radius, short accuracy, double step)
+        private void TestSignleCalculation(int radius, short accuracy, double step)
         {
             var proximity = new Proximity(radius, accuracy);
             const double DELTA_ALLOWED = 0.000001;

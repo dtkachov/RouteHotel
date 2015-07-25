@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IHotelListRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransportObjects\HotelList.cs" />
+    <Compile Include="TransportObjects\HotelPreference.cs" />
     <Compile Include="TransportObjects\HotelSummary.cs" />
     <Compile Include="TransportObjects\RoomParameter.cs" />
     <Compile Include="TransportObjects\HotelListParameters.cs" />

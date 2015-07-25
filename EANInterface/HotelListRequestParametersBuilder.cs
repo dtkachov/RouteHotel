@@ -105,9 +105,9 @@ sample: http://api.ean.com/ean-services/rs/hotel/v3/list?apiKey=cbrzfta369qwyrm9
         /// </summary>
         private void CheckParametersValidyty()
         {
-            if (null == Params.Locale || 0 == Params.Locale.Trim().Length) throw new InvalidOperationException("Parameter locale is not specified");
+            if (null == Params.HotelPreferences.Locale || 0 == Params.HotelPreferences.Locale.Trim().Length) throw new InvalidOperationException("Parameter locale is not specified");
             if (null == Params.Location) throw new InvalidOperationException("Parameter Location is not specified");
-            if (null == Params.Rooms || 0 == Params.Rooms.Length) throw new InvalidOperationException("Parameter rooms  is not specified");
+            if (null == Params.HotelPreferences.Rooms || 0 == Params.HotelPreferences.Rooms.Length) throw new InvalidOperationException("Parameter rooms  is not specified");
             
         }
 
@@ -116,8 +116,8 @@ sample: http://api.ean.com/ean-services/rs/hotel/v3/list?apiKey=cbrzfta369qwyrm9
         /// </summary>
         private void BuildInt()
         {
-            AddParameterToUrl(RequestParametersKeys.LOCALE, Params.Locale);
-            AddParameterToUrl(RequestParametersKeys.CURRENCY_CODE, Params.CurrencyCode);
+            AddParameterToUrl(RequestParametersKeys.LOCALE, Params.HotelPreferences.Locale);
+            AddParameterToUrl(RequestParametersKeys.CURRENCY_CODE, Params.HotelPreferences.CurrencyCode);
             
             AddParameterToUrl(RequestParametersKeys.LATITUDE, Params.Location.Latitude.ToString(RequestParametersKeys.Culture));
             AddParameterToUrl(RequestParametersKeys.LONGITUDE, Params.Location.Longitude.ToString(RequestParametersKeys.Culture));
@@ -132,9 +132,9 @@ sample: http://api.ean.com/ean-services/rs/hotel/v3/list?apiKey=cbrzfta369qwyrm9
                 AddParameterToUrl(RequestParametersKeys.SEARCH_RADIUS, val.ToString());
                 AddParameterToUrl(RequestParametersKeys.SEARCH_RADIUS_UNIT, GetUnitsStr(Params.SearchRadiusUnit));
             }
-            
-            AddParameterToUrl(RequestParametersKeys.ARRIVAL_DATE, Params.ArrivalDate.ToString(RequestParametersKeys.DATE_TIME_FORMAT, RequestParametersKeys.Culture));
-            AddParameterToUrl(RequestParametersKeys.DEPARTURE_DATE, Params.DepartureDate.ToString(RequestParametersKeys.DATE_TIME_FORMAT, RequestParametersKeys.Culture));
+
+            AddParameterToUrl(RequestParametersKeys.ARRIVAL_DATE, Params.HotelPreferences.ArrivalDate.ToString(RequestParametersKeys.DATE_TIME_FORMAT, RequestParametersKeys.Culture));
+            AddParameterToUrl(RequestParametersKeys.DEPARTURE_DATE, Params.HotelPreferences.DepartureDate.ToString(RequestParametersKeys.DATE_TIME_FORMAT, RequestParametersKeys.Culture));
             AddRoomParameters();
         }
 
@@ -178,9 +178,9 @@ sample: http://api.ean.com/ean-services/rs/hotel/v3/list?apiKey=cbrzfta369qwyrm9
         /// </summary>
         private void AddRoomParameters()
         {
-            for (int i = 0; i < Params.Rooms.Length; ++i)
+            for (int i = 0; i < Params.HotelPreferences.Rooms.Length; ++i)
             {
-                RoomParameter room = Params.Rooms[i];
+                RoomParameter room = Params.HotelPreferences.Rooms[i];
                 if (null == room) throw new InvalidOperationException(string.Format("Room {0} is null. Room cannot be null", i));
 
                 string adultsKey = RequestParametersKeys.ROOM + (i + 1).ToString();

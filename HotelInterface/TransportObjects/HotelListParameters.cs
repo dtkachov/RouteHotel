@@ -12,25 +12,6 @@ namespace HotelInterface.TransportObjects
     /// </summary>
     public class HotelListParameters
     {
-        /// <summary>
-        /// Locale for Response.
-        /// </summary>
-        public string Locale { get; set; }
-
-        /// <summary>
-        /// Hotel search radius - minnimum 2km
-        /// </summary>
-        public int SearchRadius { get; set; }
-
-        /// <summary>
-        /// Hotel search radius - minnimum 2km
-        /// </summary>
-        public DistanceUnit SearchRadiusUnit { get; set; }
-
-        /// <summary>
-        /// Code of currency to present data in
-        /// </summary>
-        public string CurrencyCode { get; set; }
 
         /// <summary>
         /// Location object to search hotels for
@@ -38,18 +19,23 @@ namespace HotelInterface.TransportObjects
         public RouteTransportObjects.LatLng Location { get; set; }
 
         /// <summary>
-        /// Date of arrival for hotel search
+        /// Hotel search radius - minnimum 2km
         /// </summary>
-        public DateTime ArrivalDate { get; set; }
+        public int SearchRadius { get; set; }
 
         /// <summary>
-        /// Date of departure for hotel search
+        /// Hotel search radius unit - minimum 2km
         /// </summary>
-        public DateTime DepartureDate { get; set; }
+        public DistanceUnit SearchRadiusUnit { get; set; }
 
         /// <summary>
-        /// Represents rooms array
+        /// User's preference for the hotel
         /// </summary>
-        public RoomParameter[] Rooms { get; set; }
+        public HotelPreference HotelPreferences
+        {
+            get { return _hotelPreferences; }
+            set { _hotelPreferences = value; } 
+        }
+        private HotelPreference _hotelPreferences;
     }
 }
