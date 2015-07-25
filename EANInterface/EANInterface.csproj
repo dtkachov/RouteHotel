@@ -50,6 +50,7 @@
     <Compile Include="TransportObjects\HotelList.cs" />
     <Compile Include="TransportObjects\HotelListResponce.cs" />
     <Compile Include="TransportObjects\HotelSummary.cs" />
+    <Compile Include="TransportObjects\RoomRateDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

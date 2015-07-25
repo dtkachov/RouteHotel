@@ -44,6 +44,7 @@
     <Compile Include="TransportObjects\HotelSummary.cs" />
     <Compile Include="TransportObjects\RoomParameter.cs" />
     <Compile Include="TransportObjects\HotelListParameters.cs" />
+    <Compile Include="TransportObjects\RoomRateDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RouteTransportObjects\RouteTransportObjects.csproj">
