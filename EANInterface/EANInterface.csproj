@@ -91,6 +91,10 @@
       <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>
       <Name>CalculationUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebUtils\WebUtils.csproj">
+      <Project>{5658c9a2-1cae-4af8-96ea-df307f29034d}</Project>
+      <Name>WebUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
