@@ -22,6 +22,11 @@ namespace HotelRouteCalculation
         { 
         }
 
+        static HotelSearchFactory()
+        {
+            InitEAN();
+        }
+
         /// <summary>
         /// Creates array of search providers used to search hotels
         /// </summary>
@@ -45,6 +50,18 @@ namespace HotelRouteCalculation
         {
             EANInterface.HotelListRequest result = new EANInterface.HotelListRequest(parameters);
             return result;
+        }
+
+        /// <summary>
+        /// Initializes EAN library
+        /// </summary>
+        private static void InitEAN()
+        {
+            // TODO - get real data
+            const string API_KEY = "cbrzfta369qwyrm9t5b8y8kf";
+            const string CID = "55505";
+            const string MINOR_REV = "99";
+            EANInterface.EANCommon.Initialize(API_KEY, CID, MINOR_REV);
         }
     }
 }

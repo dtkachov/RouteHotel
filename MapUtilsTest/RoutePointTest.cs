@@ -19,6 +19,7 @@ namespace MapUtilsTest
     [TestClass]
     public class RoutePointTest
     {
+
         private RouteHotelSearch Search;
 
         /// <summary>
@@ -74,35 +75,46 @@ namespace MapUtilsTest
 
         private static int TestIndex = 0;
 
-        [TestMethod]
-        public void TestVladivostokLissabon()
-        {
-            //InitRoute(
-            //    new Location("Vladivostok"),
-            //    new Location("Lissabon")
-            //    );
-            //DoTest();
-        }
-
-        [TestMethod]
-        public void TestLissabonVladivostok()
-        {
-            //InitRoute(
-            //    new Location("Lissabon"),
-            //    new Location("Vladivostok")
-            //    );
-            //DoTest();
-        }
-
         /// <summary>
-        /// Ignore as it looks like google cannot identify the points
+        /// Small distance, few hotels - to be used in test in general
+        /// other cities to be used occasionally
         /// </summary>
-        [TestMethod, Ignore]
-        public void TestSalvadorValparaiso()
+        [TestMethod]
+        public void TestWyzneLutoryz()
         {
             InitRoute(
-                new Location("Salvador"),
-                new Location("Valparaiso")
+                new Location("Wyzne"),
+                new Location("Lutoryz")
+                );
+            DoTest();
+        }
+
+        [TestMethod, TestCategory("Route")]
+        public void TestWashingtonSanDiego()
+        {
+            InitRoute(
+                new Location("Washington"),
+                new Location("San Diego")
+                );
+            DoTest();
+        }
+
+        [TestMethod, TestCategory("Route")]
+        public void TestWarsawLissbon()
+        {
+            InitRoute(
+                new Location("Warsaw"),
+                new Location("Lissbon")
+                );
+            DoTest();
+        }
+
+        [TestMethod, TestCategory("Route")]
+        public void TestDubrovnikParis()
+        {
+            InitRoute(
+                new Location("Dubrovnik"),
+                new Location("Paris")
                 );
             DoTest();
         }
@@ -110,20 +122,7 @@ namespace MapUtilsTest
         /// <summary>
         /// Ignore as it looks like google cannot identify the points
         /// </summary>
-        [TestMethod, Ignore]
-        public void TestValparaisoSalvador()
-        {
-            InitRoute(
-                new Location("Valparaiso"),
-                new Location("Salvador")
-                );
-            DoTest();
-        }
-
-        /// <summary>
-        /// Ignore as it looks like google cannot identify the points
-        /// </summary>
-        [TestMethod]
+        [TestMethod, TestCategory("Route")]
         public void TestHotelSearchLvivKyiv()
         {
             InitRoute(
@@ -170,9 +169,20 @@ namespace MapUtilsTest
         private void DoTest()
         {
             Search.Progress += Search_Progress;
+            Search.HotelSearchError += Search_HotelSearchError;
 
             SearchInProgress = true;
             Search.Search();
+
+            // wait until seacch is done
+            Search.WaitUntilFinished();
+        }
+
+        private void Search_HotelSearchError(object sender, HotelSearchErrorEventArgs e)
+        {
+            string errStr = e.ErrorSource.ToString() + e.Point.ToString();
+            Console.WriteLine(errStr);
+            throw e.ErrorSource;
         }
 
         private void Search_Progress(object sender, CalculationStatusEventArgs e)
@@ -180,6 +190,18 @@ namespace MapUtilsTest
             if (e.Finished)
             {
                 CheckResults();
+                SearchInProgress = false;
+            }
+            else
+            {
+                int hotelCount = Search.Hotels.Count;
+                string progressStr = string.Format(
+                    "Processed {0} from {1} points. {2}  hotels found", 
+                    e.Progress, 
+                    e.Count,
+                    hotelCount
+                    );
+                System.Diagnostics.Trace.WriteLine(progressStr);
             }
         }
 
@@ -187,6 +209,39 @@ namespace MapUtilsTest
         {
             SearchInProgress = false;
 
+            DumpPoints();
+            DumpHotels();
+        }
+
+        private void DumpHotels()
+        {
+            string fileName = string.Format(@"d:\temp\HotelData\RoutePointTest.Search hotels at {0}.txt", DateTime.Now.ToFileTime());
+
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                foreach (HotelSummary hotel in Search.Hotels)
+                {
+                    DumpHotel(hotel, writer);
+                }
+            }
+        }
+
+        private void DumpHotel(HotelSummary hotel, StreamWriter writer)
+        {
+            string hotelData = string.Format("Hotel '{0}' located in city {1} more info: {2}, link: {3}", hotel.Name, hotel.City, hotel.ShortDescription, hotel.DeepLink);
+            writer.WriteLine(hotelData);
+
+            int index = 0;
+            foreach (HotelInterface.TransportObjects.RoomRateDetails roomRate in hotel.RoomRates)
+            {
+                string roomRateStr = string.Format("room rate {0}: {1} {2} for max guests: {3}", ++index, roomRate.Price, roomRate.Currency, roomRate.MaxRoomOccupancy, roomRate.RoomDescription);
+                writer.WriteLine(roomRateStr);
+            }
+            writer.WriteLine(string.Empty);
+        }
+
+        private void DumpPoints()
+        {
             string routeCalculationStatistic = string.Format("Points originally: '{0}', after optimization: '{1}'", CalculatePointsCountINoriginalRoute(), Search.RoutePoints.PointCount);
             Console.WriteLine(routeCalculationStatistic);
 

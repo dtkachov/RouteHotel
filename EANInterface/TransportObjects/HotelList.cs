@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace EANInterface.TransportObjects
         /// <param name="ResponseData">Response data to be parced</param>
         internal HotelList(EANInterface.JsonNET.EANHotelListJsonTypes.HotelList responseData)
         {
+            if (null == responseData) throw new ArgumentNullException("Argument responseData cannot be null");
+
             RawResponseData = responseData;
             ParseData();
         }
@@ -32,6 +35,7 @@ namespace EANInterface.TransportObjects
         private void ParseData()
         {
             List<HotelSummary> hotels = new List<HotelSummary>();
+            Debug.Assert(null != RawResponseData);
             foreach (EANInterface.JsonNET.EANHotelListJsonTypes.HotelSummary rawHotelSummary in RawResponseData.HotelSummary)
             {
                 HotelSummary hotel = new HotelSummary(rawHotelSummary);

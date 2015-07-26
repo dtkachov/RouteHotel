@@ -54,8 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalculationStatusEventArgs.cs" />
-    <Compile Include="HotelData.cs" />
     <Compile Include="HotelSearch.cs" />
+    <Compile Include="HotelSearchErrorEventArgs.cs" />
     <Compile Include="HotelSearchFactory.cs" />
     <Compile Include="LinkedPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

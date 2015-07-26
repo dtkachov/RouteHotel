@@ -17,7 +17,8 @@ namespace EANInterface.JsonNET.EANHotelListJsonTypes
         public string Size { get; set; }
 
         [JsonProperty("Surcharge")]
-        public Surcharge Surcharge { get; set; }
+        [JsonConverter(typeof(SingleValueArrayConverter<Surcharge>))]
+        public Surcharge[] Surcharge { get; set; }
     }
 
 }

@@ -83,6 +83,7 @@ namespace RouteHotel
             if (null == hotelParameters) throw new ArgumentNullException("Argument hotelParameters cannot be null");
 
             this.Params = routeParams;
+            this._hotelParameters = hotelParameters;
         }
 
         /// <summary>

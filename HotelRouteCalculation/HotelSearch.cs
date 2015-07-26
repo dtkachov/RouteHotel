@@ -74,12 +74,14 @@ namespace HotelRouteCalculation
             foreach (IHotelListRequest request in requests)
             {
                 HotelList result = request.Request();
-                Hotels.AddRange(result.Hotels);
+                if (null != result)
+                {
+                    Hotels.AddRange(result.Hotels);
+                }
             }
 
             return Hotels.Count;
         }
-
 
     }
 }

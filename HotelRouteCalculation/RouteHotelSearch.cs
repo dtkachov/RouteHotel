@@ -55,9 +55,23 @@ namespace HotelRouteCalculation
         private event EventHandler<CalculationStatusEventArgs> _progress;
 
         /// <summary>
+        /// Event notifying about error happened while seeing error for some point
+        /// </summary>
+        public event EventHandler<HotelSearchErrorEventArgs> HotelSearchError
+        {
+            add { _hotelSearchError += new EventHandler<HotelSearchErrorEventArgs>(value); }
+            remove { _hotelSearchError -= value; }
+        }
+        private event EventHandler<HotelSearchErrorEventArgs> _hotelSearchError;
+
+        /// <summary>
         /// Hotels in current search
         /// </summary>
-        private List<HotelData> Hotels = new List<HotelData>();
+        public List<HotelSummary> Hotels
+        {
+            get { return _hotels; }
+        }
+        private List<HotelSummary> _hotels;
 
         /// <summary>
         /// Current progress
@@ -68,6 +82,12 @@ namespace HotelRouteCalculation
         /// Hotel search task canceletion token
         /// </summary>
         private CancellationToken HotelSearchCancellationToken;
+
+        /// <summary>
+        /// Hotel search task.
+        /// Null if no task in progress.
+        /// </summary>
+        private Task HotelSearchTask;
 
         /// <summary>
         /// .ctor
@@ -94,14 +114,28 @@ namespace HotelRouteCalculation
         }
 
         /// <summary>
+        /// If search is in progress this method will join search thread
+        /// to wait until search task is finished.
+        /// If no search in progress this method do nothing.
+        /// </summary>
+        public void WaitUntilFinished()
+        {
+            if (null == HotelSearchTask) return;
+
+            HotelSearchTask.Wait();
+        }
+
+        /// <summary>
         /// Starts execution of internally hotel search
         /// </summary>
         private void StartSearchHotels()
         { 
             HotelSearchCancellationToken = new CancellationToken();
 
-            Task hotelSearchTask = new Task(SearchHotelsInternalAsync);
-            hotelSearchTask.Start();
+            _hotels = new List<HotelSummary>();
+
+            HotelSearchTask = new Task(SearchHotelsInternalAsync);
+            HotelSearchTask.Start();
         }
 
 
@@ -119,10 +153,31 @@ namespace HotelRouteCalculation
                 {
                     if (HotelSearchCancellationToken.IsCancellationRequested) break;
 
-                    SeachHotelsForPoint(p);
+                    try
+                    {
+                        SeachHotelsForPoint(p);
+                    }
+                    catch (Exception exc)
+                    {
+                        SignalRouteSearchError(exc, p);
+                    }
                     p = p.Next;
                 }
                 
+            }
+        }
+
+        /// <summary>
+        /// Signals about exception happened when searching hotels
+        /// </summary>
+        /// <param name="exc">Exception occured</param>
+        /// <param name="point">Point for which error occured</param>
+        private void SignalRouteSearchError(Exception exc, LinkedPoint point)
+        {
+            if (null != _hotelSearchError)
+            {
+                HotelSearchErrorEventArgs args = new HotelSearchErrorEventArgs(exc, point);
+                _hotelSearchError(this, args);
             }
         }
 
@@ -151,10 +206,53 @@ namespace HotelRouteCalculation
         /// <summary>
         /// Checks current hotel list and add only new ones
         /// </summary>
-        /// <param name="hotels">Hotels found for some of locations</param>
-        private void AddNewHotels(HotelSummary[] hotels)
+        /// <param name="hotelsToAdd">Hotels found for some of locations</param>
+        private void AddNewHotels(HotelSummary[] hotelsToAdd)
         {
-            // TODO - do comparision and add only new hotels
+            int countBeforeMerge = this.Hotels.Count;
+            foreach (HotelSummary hotel in hotelsToAdd)
+            {
+                bool hotelInList = IsHotelInList(hotel);
+                if (!hotelInList)
+                {
+                    // add this hotel to list
+                    this.Hotels.Add(hotel);
+                }
+            }
+            OutputDebugInfo(countBeforeMerge, hotelsToAdd.Length, this.Hotels.Count);
+        }
+
+        /// <summary>
+        /// Debug time method to dump info about found hotels
+        /// </summary>
+        /// <param name="hotelsBefore">Hotels before adding to list</param>
+        /// <param name="hotelsFound">New hotels found</param>
+        /// <param name="hotelsAfter">Hotels after merge in collection</param>
+        [Conditional("DEBUG")] 
+        private void OutputDebugInfo(int hotelsBefore, int hotelsFound, int hotelsAfter)
+        {
+            string progressStr = string.Format(
+                    "Found {0} hotels, added {1} new to list",
+                    hotelsFound, hotelsAfter - hotelsBefore
+                    );
+            System.Diagnostics.Trace.WriteLine(progressStr);
+        }
+
+        /// <summary>
+        /// Checks whether hotel specified is in list of hotels
+        /// </summary>
+        /// <param name="hotel">Hotel toc check it its in list</param>
+        /// <returns>True if hotel is in current hotels collection and false otherwise</returns>
+        private bool IsHotelInList(HotelSummary hotel)
+        {
+            foreach (HotelSummary existingHotel in Hotels)
+            {
+                if (existingHotel.HotelId == hotel.HotelId)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -167,8 +265,20 @@ namespace HotelRouteCalculation
             if (null != _progress)
             {
                 CalculationStatusEventArgs args = new CalculationStatusEventArgs(RoutePoints.PointCount, currentProgress);
+                if (args.Finished)
+                {
+                    OnFinished();
+                }
                 _progress(this, args);
             }
+        }
+
+        /// <summary>
+        /// Is invoked when search task is finished
+        /// </summary>
+        private void OnFinished()
+        {
+            HotelSearchTask = null;
         }
 
         /// <summary>

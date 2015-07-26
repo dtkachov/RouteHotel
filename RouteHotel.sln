@@ -23,6 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationUtils", "Utils\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUtils", "WebUtils\WebUtils.csproj", "{5658C9A2-1CAE-4AF8-96EA-DF307F29034D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotCodeArtifacts", "NotCodeArtifacts", "{5E0EAFAE-B472-41C4-BB68-04132648B02C}"
+	ProjectSection(SolutionItems) = preProject
+		NotCodeArtifacts\JSON class generator\JsonCSharpClassGenerator.zip = NotCodeArtifacts\JSON class generator\JsonCSharpClassGenerator.zip
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

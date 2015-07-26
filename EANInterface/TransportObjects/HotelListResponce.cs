@@ -25,6 +25,17 @@ namespace EANInterface.TransportObjects
 
         public HotelList Hotels { get; set; }
 
+        /// <summary>
+        /// Whetehr any hotel has beedn found
+        /// </summary>
+        public bool AnyHotelFound 
+        { 
+            get 
+            { 
+                return (null != Hotels) && (Hotels.Hotels.Length > 0); 
+            } 
+        }
+
         internal HotelListResponse(EANHotelList data)
         {
             RawResponseData = data.HotelListResponse;
@@ -42,7 +53,10 @@ namespace EANInterface.TransportObjects
             CacheKey = RawResponseData.CacheKey;
             CacheLocation = RawResponseData.CacheLocation;
 
-            Hotels = new HotelList(RawResponseData.HotelList);
+            if (null != RawResponseData.HotelList)
+            {
+                Hotels = new HotelList(RawResponseData.HotelList);
+            }
         }
 
     }
