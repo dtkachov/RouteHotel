@@ -80,11 +80,11 @@ namespace MapUtilsTest
         /// other cities to be used occasionally
         /// </summary>
         [TestMethod]
-        public void TestWyzneLutoryz()
+        public void TestWieliczkaKatowice()
         {
             InitRoute(
-                new Location("Wyzne"),
-                new Location("Lutoryz")
+                new Location("Wieliczka"),
+                new Location("Katowice")
                 );
             DoTest();
         }
@@ -135,7 +135,7 @@ namespace MapUtilsTest
         private void InitRoute(params Location[] locations)
         {
             TestIndex++;
-            const int RADIUS = 1000; // meters
+            const int RADIUS = 2000; // meters
             Proximity proximity = new Proximity(RADIUS);
 
             const bool OPTIMIZE = true;
