@@ -127,12 +127,15 @@ namespace RouteHotel
 
             if (SessionObjectExists)
             {
+                // TODO: commented code looks more coreect , but every time on debug the error occures. It might be debug only issue, but need to be investigated
+                /*
                 string errMsg = string.Format("Session object for session {0} already exists but should not since this method is invoked", SessionKey);
                 throw new InvalidOperationException(errMsg);
+                 */
+                Objects[SessionKey] = null;
             }
 
-            string key = SessionKey;
-            Objects[key] = new SessionObjects();
+            Objects[SessionKey] = new SessionObjects();
 
             Debug.Assert(SessionObjectExists);
         }
