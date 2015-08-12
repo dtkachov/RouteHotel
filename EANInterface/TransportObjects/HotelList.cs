@@ -10,7 +10,7 @@ namespace EANInterface.TransportObjects
     /// <summary>
     /// Represents EAN specific hotel list Response
     /// </summary>
-    public class HotelList : HotelInterface.TransportObjects.HotelList
+    public class HotelList : HotelInterface.TO.HotelList
     {
         /// <summary>
         /// Response dynamic data

@@ -1,5 +1,5 @@
 ﻿using GoogleDirections;
-using HotelInterface.TransportObjects;
+using HotelInterface.TO;
 using MapUtils;
 using System;
 using System.Collections.Generic;

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelInterface.TransportObjects
+namespace HotelInterface.TO
 {
     /// <summary>
-    /// User [preference for hotel (price, stars, review, etc)
+    /// User preference for hotel (price, stars, review, etc)
     /// </summary>
     public class HotelPreference
     {
@@ -35,5 +35,10 @@ namespace HotelInterface.TransportObjects
         /// Represents rooms array
         /// </summary>
         public RoomParameter[] Rooms { get; set; }
+
+        /// <summary>
+        /// .ctor 
+        /// </summary>
+        public HotelPreference() { }
     }
 }

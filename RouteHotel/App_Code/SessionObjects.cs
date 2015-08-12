@@ -48,6 +48,12 @@ namespace RouteHotel
         {
             get
             {
+                if (null == Objects || null == Objects[SessionKey])
+                {
+                    /* TODO - investigate why this is happening that CreateNewSessionObject() method is not invoked on session start!
+                    */
+                    CreateNewSessionObject(); 
+                }
                 SessionObjects result = Objects[SessionKey];
                 Debug.Assert(null != result);
                 return result; 
@@ -68,6 +74,8 @@ namespace RouteHotel
         /// <returns>Calculator object for key provided or null if none</returns>
         public RouteCalculator GetCalculator(Guid key)
         {
+            if (!Calculators.ContainsKey(key)) return null;
+
             RouteCalculator calculator = Calculators[key];
             if (null != calculator)
             {

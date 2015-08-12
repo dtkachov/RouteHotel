@@ -15,6 +15,8 @@ function parceRoute(route) {
     zoomMap(route);
 
     RouteHotel.RouteAPI.GetCalculationPoints(route.RouteID, parceCalculationPoints); // parceRoute defined in RouteDisplay.js
+
+    fetchHotels(route.RouteID);
 }
 
 // processes legs - display them on map

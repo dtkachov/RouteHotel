@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelInterface.TransportObjects
+namespace HotelInterface.TO
 {
     /// <summary>
     /// Represents transport object fopr hotel list parameters
@@ -37,5 +37,7 @@ namespace HotelInterface.TransportObjects
             set { _hotelPreferences = value; } 
         }
         private HotelPreference _hotelPreferences;
+
+        public HotelListParameters() { }
     }
 }

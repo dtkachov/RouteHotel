@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelInterface.TransportObjects
+namespace HotelInterface.TO
 {
     /// <summary>
     /// Transport object for hotel Response data
@@ -12,5 +12,7 @@ namespace HotelInterface.TransportObjects
     public class HotelList 
     {
         public HotelSummary[] Hotels { get; set; }
+
+        public HotelList() { }
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 using CalculationUtils;
-using HotelInterface.TransportObjects;
+using HotelInterface.TO;
 using RouteTransportObjects;
 using System;
 using System.Collections.Generic;

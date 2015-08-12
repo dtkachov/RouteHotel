@@ -67,12 +67,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="images\icons\hotel1.svg">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="images\icons\iconmonstr-map-5-icon.svg" />
     <Content Include="RouteAPI.asmx" />
     <Content Include="RoutePlanner.aspx" />
     <Content Include="RoutePlanner.css" />
     <Content Include="RoutePlanner_gm_v3.aspx" />
     <Content Include="scripts\CalculationPointsDisplay.js" />
+    <Content Include="scripts\HotelGoogleMapMarker.js" />
+    <Content Include="scripts\HotelDisplay.js" />
     <Content Include="scripts\InitializeMap.js" />
     <Content Include="scripts\PlaceAutocomplete.js" />
     <Content Include="scripts\RouteDisplay.js" />

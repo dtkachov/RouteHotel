@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelInterface.TransportObjects
+namespace HotelInterface.TO
 {
     /// <summary>
     /// Represents room parameter
@@ -22,5 +22,10 @@ namespace HotelInterface.TransportObjects
         /// If not empty - each element represent a children's age
         /// </summary>
         public int[] Childrens { get; set; }
+
+        /// <summary>
+        /// .ctor 
+        /// </summary>
+        public RoomParameter() { }
     }
 }

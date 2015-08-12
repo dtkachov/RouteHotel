@@ -31,14 +31,14 @@ namespace EANInterface
         /// <summary>
         /// Hotel list request parameters
         /// </summary>
-        private HotelInterface.TransportObjects.HotelListParameters Parameters { get { return _parameters; } }
-        private HotelInterface.TransportObjects.HotelListParameters _parameters;
+        private HotelInterface.TO.HotelListParameters Parameters { get { return _parameters; } }
+        private HotelInterface.TO.HotelListParameters _parameters;
 
         /// <summary>
         /// .ctor
         /// </summary>
         /// <param name="parameters">Parameter to make request to</param>
-        public HotelListRequest(HotelInterface.TransportObjects.HotelListParameters parameters) : base ()
+        public HotelListRequest(HotelInterface.TO.HotelListParameters parameters) : base ()
         {
             _parameters = parameters;
             Init();
@@ -57,7 +57,7 @@ namespace EANInterface
         /// <summary>
         /// Performs web request and parses data
         /// </summary>
-        public HotelInterface.TransportObjects.HotelList Request()
+        public HotelInterface.TO.HotelList Request()
         {
             MakeRequest();
 

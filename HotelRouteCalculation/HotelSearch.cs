@@ -1,5 +1,5 @@
 ﻿using HotelInterface;
-using HotelInterface.TransportObjects;
+using HotelInterface.TO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

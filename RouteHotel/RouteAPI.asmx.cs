@@ -7,7 +7,7 @@ using System.Web.Services;
 using System.Web.Script.Services;
 
 using RouteHotel.TransportObjects;
-using HotelInterface.TransportObjects;
+using HotelInterface.TO;
 
 namespace RouteHotel
 {
@@ -37,6 +37,7 @@ namespace RouteHotel
 
             RouteHotel.TransportObjects.Route result = new RouteHotel.TransportObjects.Route(webRequestedRoute);
 
+
             //result.RouteID = RouteCalculator.GenerateID().ToString();s
             // TO DO - start hotels processing here
 
@@ -54,11 +55,9 @@ namespace RouteHotel
         {
             if (null == routeParams) return null; // nothing to search
 
-            HotelPreference hotelParameters = null; // TBD - based on RouteParams fill like in BuildHotelParameters() 
-            RouteCalculator calculator = new RouteCalculator(routeParams, hotelParameters);
+            RouteCalculator calculator = new RouteCalculator(routeParams);
 
             SessionObjects.Current.AddCalculator(calculator); // add calculator to session object to enable later search it from otehr web requests in this session
-            // TODO - remove calculator once web request see that calculation finished and grab all the data
 
             calculator.Search();
 
@@ -68,37 +67,12 @@ namespace RouteHotel
             return route;
         }
 
-        /*
-
-        private HotelPreference BuildHotelParameters()
-        {
-            HotelPreference result = new HotelPreference();
-            result.ArrivalDate = DateTime.Now.AddDays(2);
-            result.DepartureDate = result.ArrivalDate.AddDays(2);
-            result.CurrencyCode = "UAH";
-            result.Locale = "ua_UK";
-
-            {
-                List<RoomParameter> rooms = new List<RoomParameter>();
-
-                RoomParameter room1 = new RoomParameter();
-                room1.AdultsCount = 2;
-                rooms.Add(room1);
-
-                result.Rooms = rooms.ToArray();
-            }
-
-            return result;
-        }
-         */
-
-
         /// <summary>
         /// Returns calculation posints for route with Id provided
         /// If routeID is wrong or no data exists for any reason - null returned
         /// </summary>
         /// <param name="routeID">ID of route been calculated</param>
-        /// <returns>Array of calculation points. Each element represents new leg.</returns>
+        /// <returns>Array of calculation points. </returns>
         [WebMethod(EnableSession = true)]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public RouteHotel.TransportObjects.CalculationRouteLeg[] GetCalculationPoints(string routeID)
@@ -106,6 +80,18 @@ namespace RouteHotel
             if (null == routeID) return null;
             Guid routeIDobj = new Guid(routeID);
 
+            RouteHotel.TransportObjects.CalculationRouteLeg[] result = FetchPoints(routeIDobj);
+            
+            return result;
+        }
+
+        /// <summary>
+        /// Gets route object and fetch points for it
+        /// </summary>
+        /// <param name="routeIDobj">ID of route object</param>
+        /// <returns>Array of calculation points. </returns>
+        private RouteHotel.TransportObjects.CalculationRouteLeg[] FetchPoints(Guid routeIDobj)
+        {
             RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
             if (null == calculator) return null;
 
@@ -115,11 +101,70 @@ namespace RouteHotel
                 CalculationRouteLeg leg = new CalculationRouteLeg(firstLegPoint);
                 result.Add(leg);
             }
-            
+
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Returns hotels found for specific route from index specied
+        /// </summary>
+        /// <param name="routeID">ID of route been calculated</param>
+        /// <param name="alreadyFetchedHotelsCount">Count of already fetched hotels</param>
+        /// <returns>Array of hotels. </returns>
+        [WebMethod(EnableSession = true)]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public HotelSummary[] GetHotels(string routeID, int alreadyFetchedHotelsCount)
+        {
+            if (null == routeID) return null;
+            Guid routeIDobj = new Guid(routeID);
 
+            RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
+            if (null == calculator) return null;
+
+            List<HotelSummary> allHotels = calculator.HotelSearch.Hotels;
+
+            if (!calculator.SearchInProgress)
+            {
+                //remove calculator once web grabbeb all the data
+                SessionObjects.Current.RemoveCalculator(routeIDobj);
+            }
+
+            HotelSummary[] result = FilterHotels(allHotels.ToArray(), alreadyFetchedHotelsCount);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Filter hotel. Return hotels since position after index specified.
+        /// This is to help selection of hotels by bunches
+        /// </summary>
+        /// <param name="hotels">List of hotels</param>
+        /// <param name="alreadyFetchedHotelsCount">Count of already fetched hotels</param>
+        /// <returns>Hotel list</returns>
+        private HotelSummary[] FilterHotels(HotelSummary[] hotels, int alreadyFetchedHotelsCount)
+        {
+            if (alreadyFetchedHotelsCount > hotels.Length)
+            {
+                string err = string.Format(
+                    "Hotels count {0}, but requested to fetch hotels since index {1}. Logic error", 
+                    hotels.Length,
+                    alreadyFetchedHotelsCount
+                    );
+                throw new ApplicationException(err);
+            }
+
+            int resultCount = hotels.Length - alreadyFetchedHotelsCount;
+            HotelSummary[] result = new HotelSummary[resultCount];
+
+            int startPosition = alreadyFetchedHotelsCount;
+            for (int i = startPosition; i < hotels.Length; ++i)
+            { 
+                int index = i - startPosition;
+                result[index] = hotels[i];
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// !!! Temporary method - to examine API - to be removed

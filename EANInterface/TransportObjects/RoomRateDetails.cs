@@ -10,7 +10,7 @@ namespace EANInterface.TransportObjects
     /// <summary>
     /// Details for the room rate
     /// </summary>
-    public class RoomRateDetails : HotelInterface.TransportObjects.RoomRateDetails
+    public class RoomRateDetails : HotelInterface.TO.RoomRateDetails
     {
         /// <summary>
         /// Response dynamic data

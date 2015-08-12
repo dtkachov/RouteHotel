@@ -23,6 +23,7 @@
 
         // Defaults:
         const DEFAULT_PROXIMITY_RADIUS = '<%= ProximityRadius %>';
+        const FETCH_DATA_TIMEOUT = '<%= FetchDataTimeout %>';
         
     </script>
     <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
@@ -30,7 +31,9 @@
     <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>
     <script src="/scripts/RouteDisplay.js" type="text/javascript"></script>
     <script src="/scripts/CalculationPointsDisplay.js" type="text/javascript"></script>
-    
+    <script src="/scripts/HotelGoogleMapMarker.js" type="text/javascript"></script>
+    <script src="/scripts/HotelDisplay.js" type="text/javascript"></script>    
+
 </head>
 <body>
     <form id="form1" runat="server">    

@@ -32,7 +32,7 @@ namespace HotelRouteCalculation
         /// </summary>
         /// <param name="parameters">Parameter to make request to</param>
         /// <returns>Array of search providers used to search hotels</returns>
-        public IHotelListRequest[] CreateSearchRequestObjects(HotelInterface.TransportObjects.HotelListParameters parameters)
+        public IHotelListRequest[] CreateSearchRequestObjects(HotelInterface.TO.HotelListParameters parameters)
         {
             List<IHotelListRequest> result = new List<IHotelListRequest>();
 
@@ -46,7 +46,7 @@ namespace HotelRouteCalculation
         /// </summary>
         /// <param name="parameters">Parameter to make request to</param>
         /// <returns>EAN request object</returns>
-        private IHotelListRequest CreateEANRequest(HotelInterface.TransportObjects.HotelListParameters parameters)
+        private IHotelListRequest CreateEANRequest(HotelInterface.TO.HotelListParameters parameters)
         {
             EANInterface.HotelListRequest result = new EANInterface.HotelListRequest(parameters);
             return result;

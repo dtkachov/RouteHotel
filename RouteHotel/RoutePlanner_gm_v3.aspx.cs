@@ -17,7 +17,8 @@ namespace RouteHotel
         public string StepMarkerOpacity = System.Web.Configuration.WebConfigurationManager.AppSettings["StepMarkerOpacity"];
         public string StartMarkerColor = System.Web.Configuration.WebConfigurationManager.AppSettings["StartMarkerColor"];
 
-        public string ProximityRadius = System.Web.Configuration.WebConfigurationManager.AppSettings["ProximityRadius"];      
+        public string ProximityRadius = System.Web.Configuration.WebConfigurationManager.AppSettings["ProximityRadius"];
+        public string FetchDataTimeout = System.Web.Configuration.WebConfigurationManager.AppSettings["FetchDataTimeout"];      
 
         protected void Page_Load(object sender, EventArgs e)
         {

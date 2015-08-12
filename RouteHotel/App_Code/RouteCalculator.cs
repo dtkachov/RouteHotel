@@ -1,4 +1,4 @@
-﻿using HotelInterface.TransportObjects;
+﻿using HotelInterface.TO;
 using HotelRouteCalculation;
 using MapUtils;
 using RouteHotel.TransportObjects;
@@ -35,18 +35,6 @@ namespace RouteHotel
         private RouteHotelSearch hotelSearch;
 
         /// <summary>
-        /// Represents hotel search criterias
-        /// </summary>
-        public HotelPreference HotelParameters
-        {
-            get
-            {
-                return _hotelParameters;
-            }
-        }
-        private HotelPreference _hotelParameters;
-
-        /// <summary>
         /// Route object
         /// </summary>
         public GoogleDirections.Route Route
@@ -61,7 +49,7 @@ namespace RouteHotel
         {
             get { return searchInProgress; }
         }
-        public bool searchInProgress;
+        private bool searchInProgress;
 
         /// <summary>
         /// Generates new ID for Route calculator
@@ -77,13 +65,12 @@ namespace RouteHotel
         /// </summary>
         /// <param name="routeParams">Route search parameters</param>
         /// <param name="hotelParameters">Represents hotel search criterias</param>
-        public RouteCalculator(RouteParams routeParams, HotelPreference hotelParameters)
+        public RouteCalculator(RouteParams routeParams)
         {
             if (null == routeParams) throw new ArgumentNullException("Argument routeParams cannot be null");
-            if (null == hotelParameters) throw new ArgumentNullException("Argument hotelParameters cannot be null");
+            if (null == routeParams.HotelParameters) throw new ArgumentNullException("Field HotelParameters cannot be null");
 
             this.Params = routeParams;
-            this._hotelParameters = hotelParameters;
         }
 
         /// <summary>
@@ -98,8 +85,14 @@ namespace RouteHotel
             GoogleDirections.Route route = GoogleDirections.RouteDirections.GetRoute(Params.OptimizeRoute, locations);
 
             Proximity proximity = new Proximity(Params.ProximityRadius);
-            hotelSearch = new RouteHotelSearch(route, proximity, HotelParameters);
+            hotelSearch = new RouteHotelSearch(route, proximity, Params.HotelParameters);
             hotelSearch.Search();
+            hotelSearch.Progress += hotelSearch_Progress;
+        }
+
+        void hotelSearch_Progress(object sender, CalculationStatusEventArgs e)
+        {
+            searchInProgress = !e.Finished;
         }
 
     }

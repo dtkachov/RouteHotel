@@ -8,7 +8,7 @@ using HotelRouteCalculation;
 using GoogleDirections;
 using MapUtils;
 using System.IO;
-using HotelInterface.TransportObjects;
+using HotelInterface.TO;
 
 namespace MapUtilsTest
 {
@@ -232,7 +232,7 @@ namespace MapUtilsTest
             writer.WriteLine(hotelData);
 
             int index = 0;
-            foreach (HotelInterface.TransportObjects.RoomRateDetails roomRate in hotel.RoomRates)
+            foreach (HotelInterface.TO.RoomRateDetails roomRate in hotel.RoomRates)
             {
                 string roomRateStr = string.Format("room rate {0}: {1} {2} for max guests: {3}", ++index, roomRate.Price, roomRate.Currency, roomRate.MaxRoomOccupancy, roomRate.RoomDescription);
                 writer.WriteLine(roomRateStr);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelInterface.TransportObjects
+namespace HotelInterface.TO
 {
     public class RoomRateDetails
     {
@@ -31,5 +31,7 @@ namespace HotelInterface.TransportObjects
 
         public double Price { get; set; }
         public string Currency { get; set; }
+
+        public RoomRateDetails() { }
     }
 }
