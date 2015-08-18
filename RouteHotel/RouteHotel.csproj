@@ -89,6 +89,7 @@
     <Compile Include="App_Code\SessionObjects.cs" />
     <Compile Include="App_Code\TransportObjects\CalculationPoint.cs" />
     <Compile Include="App_Code\TransportObjects\CalculationRouteLeg.cs" />
+    <Compile Include="App_Code\TransportObjects\HotelResponse.cs" />
     <Compile Include="App_Code\TransportObjects\RouteParams.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

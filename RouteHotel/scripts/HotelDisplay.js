@@ -43,20 +43,22 @@ HotelDisplay.prototype.queryNextDataBunch = function() {
     RouteHotel.RouteAPI.GetHotels(this.routeID, processedHotelsCount, __parceHotels);
 }
 
-function __parceHotels(hotels) {
-    __hotelDisplay.parceHotels(hotels);
+function __parceHotels(hotelResponse) {
+    __hotelDisplay.parceHotels(hotelResponse);
 }
 
-HotelDisplay.prototype.parceHotels = function(hotels) {
-    if (null == hotels) return;
+HotelDisplay.prototype.parceHotels = function (hotelResponse) {
+    if (null == hotelResponse) return;
 
-    for (var i = 0; i < hotels.length; ++i) {
-        var hotel = hotels[i];
-
-        this.displayHotel(hotel);
+    for (var i = 0; i < hotelResponse.Hotels.length; ++i) {
+        this.displayHotel(hotelResponse.Hotels[i]);
     }
 
-    this.fetchDataWithTimeout();
+    this.displayProgress(hotelResponse);
+
+    if (!hotelResponse.IsFinished) {
+        this.fetchDataWithTimeout();
+    }
 }
 
 HotelDisplay.prototype.displayHotel = function(hotel) {
@@ -74,4 +76,13 @@ HotelDisplay.prototype.displayHotel = function(hotel) {
 	);
 
     this.hotelMarkers[this.hotelMarkers.length] = newHotelMarker;
+}
+
+HotelDisplay.prototype.displayProgress = function (hotelResponse) {
+    // TBD - change to real progress display
+    var time = new Date();
+    var timeStr = time.toLocaleTimeString();
+    var msg = timeStr + " Processed " + hotelResponse.ProcessedPointCount + " from " + hotelResponse.PointCount;
+    console.log(msg);
+    if (hotelResponse.IsFinished) console.log("!!!! finished");
 }

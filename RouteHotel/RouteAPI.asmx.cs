@@ -113,7 +113,7 @@ namespace RouteHotel
         /// <returns>Array of hotels. </returns>
         [WebMethod(EnableSession = true)]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public HotelSummary[] GetHotels(string routeID, int alreadyFetchedHotelsCount)
+        public HotelResponse GetHotels(string routeID, int alreadyFetchedHotelsCount)
         {
             if (null == routeID) return null;
             Guid routeIDobj = new Guid(routeID);
@@ -121,7 +121,7 @@ namespace RouteHotel
             RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
             if (null == calculator) return null;
 
-            List<HotelSummary> allHotels = calculator.HotelSearch.Hotels;
+            HotelResponse response = new HotelResponse(calculator, alreadyFetchedHotelsCount);
 
             if (!calculator.SearchInProgress)
             {
@@ -129,41 +129,7 @@ namespace RouteHotel
                 SessionObjects.Current.RemoveCalculator(routeIDobj);
             }
 
-            HotelSummary[] result = FilterHotels(allHotels.ToArray(), alreadyFetchedHotelsCount);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Filter hotel. Return hotels since position after index specified.
-        /// This is to help selection of hotels by bunches
-        /// </summary>
-        /// <param name="hotels">List of hotels</param>
-        /// <param name="alreadyFetchedHotelsCount">Count of already fetched hotels</param>
-        /// <returns>Hotel list</returns>
-        private HotelSummary[] FilterHotels(HotelSummary[] hotels, int alreadyFetchedHotelsCount)
-        {
-            if (alreadyFetchedHotelsCount > hotels.Length)
-            {
-                string err = string.Format(
-                    "Hotels count {0}, but requested to fetch hotels since index {1}. Logic error", 
-                    hotels.Length,
-                    alreadyFetchedHotelsCount
-                    );
-                throw new ApplicationException(err);
-            }
-
-            int resultCount = hotels.Length - alreadyFetchedHotelsCount;
-            HotelSummary[] result = new HotelSummary[resultCount];
-
-            int startPosition = alreadyFetchedHotelsCount;
-            for (int i = startPosition; i < hotels.Length; ++i)
-            { 
-                int index = i - startPosition;
-                result[index] = hotels[i];
-            }
-
-            return result;
+            return response;
         }
 
         /// <summary>

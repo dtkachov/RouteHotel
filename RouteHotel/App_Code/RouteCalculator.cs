@@ -52,6 +52,22 @@ namespace RouteHotel
         private bool searchInProgress;
 
         /// <summary>
+        /// Current search progress
+        /// </summary>
+        public int CurrentProgress
+        {
+            get { return hotelSearch.CurrentProgress; }
+        }
+
+        /// <summary>
+        /// Count of calculatin points in current search
+        /// </summary>
+        public int PointCount
+        {
+            get { return hotelSearch.RoutePoints.PointCount; }
+        }
+
+        /// <summary>
         /// Generates new ID for Route calculator
         /// </summary>
         /// <returns>ID</returns>

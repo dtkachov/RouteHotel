@@ -76,6 +76,7 @@ namespace HotelRouteCalculation
         /// <summary>
         /// Current progress
         /// </summary>
+        public int CurrentProgress { get { return currentProgress;} }
         private int currentProgress = 0;
 
         /// <summary>
