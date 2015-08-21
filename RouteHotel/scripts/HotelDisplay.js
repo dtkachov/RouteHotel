@@ -20,25 +20,47 @@ HotelDisplay.prototype.fetchDataWithTimeout = function () {
     setTimeout(function () { _this.queryNextDataBunch(); }, FETCH_DATA_TIMEOUT);
 }
 
-HotelDisplay.prototype.queryNextDataBunch = function() {
+HotelDisplay.prototype.queryNextDataBunch = function () {
+    //this.queryNextDataBunchBad();
+    this.queryNextDataBunchRight();
+}
 
-    /*
+
+HotelDisplay.prototype.queryNextDataBunchRight = function () {
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.open("GET", "http://mysite.com/myscript.asp", true);
+
+    var proxy = new RouteHotel.RouteAPI(); // TBD - init this on server
+    var path = proxy._get_path();
+    path += "/GetHotels"; // TBD - init this on server
+
+    xhr.open("POST", path, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    var self = this;
+
     xhr.onreadystatechange = function ()
     {
-        if (xhr.status == 200 && xhr.readystate == 4)
+        if (xhr.status == 200 && xhr.readyState == 4)
         {
-            if (JSON) // provided by json2.js or browsers with native JSON
-                var result = JSON.parse(xhr.responseText);
-            else
-                var result = eval ('(' + xhr.responseText + ')');
-
-            // Do something with the result here
+            var hotelResponse = JSON.parse(xhr.responseText);
+            self.parceHotels(hotelResponse.d); // why "d" - I do not know - maybe MS framework add some wrapper
         }
     }
-    xhr.send();
-    */
+
+    var params = this.buildParamStr();
+    xhr.send(params);
+}
+
+HotelDisplay.prototype.buildParamStr = function () {
+    // "{"routeID":"9980575c-14a0-487e-b88b-9226b3624fc7","alreadyFetchedHotelsCount":0}"
+    var result = "{\"routeID\":\"" + this.routeID + "\"";
+    var processedHotelsCount = this.hotelMarkers.length;
+    result += ",\"alreadyFetchedHotelsCount\":" + processedHotelsCount + "}";
+    return result;   
+}
+
+HotelDisplay.prototype.queryNextDataBunchBad = function () {
+
     var processedHotelsCount = this.hotelMarkers.length;
     RouteHotel.RouteAPI.GetHotels(this.routeID, processedHotelsCount, __parceHotels);
 }
