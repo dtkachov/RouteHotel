@@ -15,6 +15,11 @@ namespace RouteHotel
     public class RouteCalculator
     {
         /// <summary>
+        /// Type of route hotel search
+        /// </summary>
+        const SearchType SEARCH_TYPE = SearchType.SinglePoint;
+
+        /// <summary>
         /// ID of calculatory
         /// </summary>
         public Guid ID { get { return _ID; } }
@@ -28,11 +33,11 @@ namespace RouteHotel
         /// <summary>
         /// Hotels search object
         /// </summary>
-        public RouteHotelSearch HotelSearch
+        public IRouteHotelSearch HotelSearch
         {
             get { return hotelSearch; }
         }
-        private RouteHotelSearch hotelSearch;
+        private IRouteHotelSearch hotelSearch;
 
         /// <summary>
         /// Route object
@@ -101,7 +106,7 @@ namespace RouteHotel
             GoogleDirections.Route route = GoogleDirections.RouteDirections.GetRoute(Params.OptimizeRoute, locations);
 
             Proximity proximity = new Proximity(Params.ProximityRadius);
-            hotelSearch = new RouteHotelSearch(route, proximity, Params.HotelParameters);
+            hotelSearch = HoteSearchFactory.CreateSearch(SEARCH_TYPE, route, proximity, Params.HotelParameters);
             hotelSearch.Search();
             hotelSearch.Progress += hotelSearch_Progress;
         }

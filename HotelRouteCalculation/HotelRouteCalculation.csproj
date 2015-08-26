@@ -54,13 +54,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalculationStatusEventArgs.cs" />
+    <Compile Include="HoteSearchFactory.cs" />
+    <Compile Include="IRouteHotelSearch.cs" />
+    <Compile Include="SearchType.cs" />
+    <Compile Include="SinglePointRouteHotelSearch.cs" />
     <Compile Include="HotelSearch.cs" />
     <Compile Include="HotelSearchErrorEventArgs.cs" />
     <Compile Include="HotelSearchFactory.cs" />
+    <Compile Include="HotelsEventArgs.cs" />
+    <Compile Include="IHotelSearchStrategy.cs" />
     <Compile Include="LinkedPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteHotelSearch.cs" />
+    <Compile Include="BaseRouteHotelSearch.cs" />
     <Compile Include="RoutePoints.cs" />
+    <Compile Include="SinglePointHotelSearchStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EANInterface\EANInterface.csproj">

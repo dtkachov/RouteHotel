@@ -72,18 +72,22 @@ namespace MapUtilsTest
             {
                 writer.WriteLine(baseData);
 
-                foreach (EANInterface.TransportObjects.HotelSummary hotel in response.Hotels.Hotels)
+                if (null == response.Hotels) writer.WriteLine("empty hotel list");
+                else
                 {
-                    string hotelData = string.Format("Hotel '{0}' located in city {1} more info: {2}, link: {3}", hotel.Name, hotel.City, hotel.ShortDescription, hotel.DeepLink);
-                    writer.WriteLine(hotelData);
-
-                    int index = 0;
-                    foreach (HotelInterface.TO.RoomRateDetails roomRate in hotel.RoomRates)
+                    foreach (EANInterface.TransportObjects.HotelSummary hotel in response.Hotels.Hotels)
                     {
-                        string roomRateStr = string.Format("room rate {0}: {1} {2} for max guests: {3}", ++index, roomRate.Price, roomRate.Currency, roomRate.MaxRoomOccupancy, roomRate.RoomDescription);
-                        writer.WriteLine(roomRateStr);
+                        string hotelData = string.Format("Hotel '{0}' located in city {1} more info: {2}, link: {3}", hotel.Name, hotel.City, hotel.ShortDescription, hotel.DeepLink);
+                        writer.WriteLine(hotelData);
+
+                        int index = 0;
+                        foreach (HotelInterface.TO.RoomRateDetails roomRate in hotel.RoomRates)
+                        {
+                            string roomRateStr = string.Format("room rate {0}: {1} {2} for max guests: {3}", ++index, roomRate.Price, roomRate.Currency, roomRate.MaxRoomOccupancy, roomRate.RoomDescription);
+                            writer.WriteLine(roomRateStr);
+                        }
+                        writer.WriteLine(string.Empty);
                     }
-                    writer.WriteLine(string.Empty);
                 }
 
                 writer.WriteLine("кінець");

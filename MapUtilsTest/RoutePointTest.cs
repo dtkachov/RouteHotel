@@ -20,7 +20,7 @@ namespace MapUtilsTest
     public class RoutePointTest
     {
 
-        private RouteHotelSearch Search;
+        private IRouteHotelSearch Search;
 
         /// <summary>
         /// Indicate that search is in progress
@@ -142,7 +142,9 @@ namespace MapUtilsTest
             Route route = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
             HotelPreference hotelParameters = BuildHotelParameters();
 
-            Search = new RouteHotelSearch(route, proximity, hotelParameters);
+            const SearchType SEARCH_TYPE = SearchType.SinglePoint;
+
+            Search = HoteSearchFactory.CreateSearch(SEARCH_TYPE, route, proximity, hotelParameters);
         }
 
         private HotelPreference BuildHotelParameters()
