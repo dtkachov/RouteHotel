@@ -118,6 +118,7 @@ namespace RouteHotel
             if (null == routeID) return null;
             Guid routeIDobj = new Guid(routeID);
 
+            // TBD - add unit test for calculator! - at least to make sure we reach "finished" state
             RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
             if (null == calculator) return null;
 

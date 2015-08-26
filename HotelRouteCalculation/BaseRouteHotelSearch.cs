@@ -240,7 +240,8 @@ namespace HotelRouteCalculation
             {
                 OnFinished();
             }
-            else if (null != _progress)
+            
+            if (null != _progress)
             {
                 _progress(this, args);
             }
