@@ -19,9 +19,9 @@ HotelDisplay.prototype.fetchDataWithTimeout = function () {
 HotelDisplay.prototype.queryNextDataBunch = function () {
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
-    var proxy = new RouteHotel.RouteAPI(); // TBD - init this on server
+    var proxy = new RouteHotel.RouteAPI(); 
     var path = proxy._get_path();
-    path += "/GetHotels"; // TBD - init this on server
+    path += "/" + GET_HOTELS_METHOD_NAME;
 
     xhr.open("POST", path, true);
     xhr.setRequestHeader('Content-Type', 'application/json');

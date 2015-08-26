@@ -7,32 +7,6 @@
     <title>Route planner</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <link href="RoutePlanner.css" rel="stylesheet" type="text/css" />
-   
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
-
-    <script type='text/javascript'>
-        var map; // goolge map global varialble
-
-        // below goes configuration parameters
-        const POINT_LINE_WEIGHT = <%= PointLineWeight %>;
-        const POINT_MARKER_OPACITY = <%= PointMarkerOpacity %>;
-        const POINT_COLOR = '<%= PointColor %>';
-        const STEP_MARKER_SCALE = <%= StepMarkerScale %>;
-        const STEP_MARKER_OPACITY = <%= StepMarkerOpacity %>;
-        const START_STEP_COLOR = '<%= StartMarkerColor %>';
-
-        // Defaults:
-        const DEFAULT_PROXIMITY_RADIUS = '<%= ProximityRadius %>';
-        const FETCH_DATA_TIMEOUT = '<%= FetchDataTimeout %>';
-        
-    </script>
-    <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
-    <script src="/scripts/PlaceAutocomplete.js" type="text/javascript"></script>
-    <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>
-    <script src="/scripts/RouteDisplay.js" type="text/javascript"></script>
-    <script src="/scripts/CalculationPointsDisplay.js" type="text/javascript"></script>
-    <script src="/scripts/HotelGoogleMapMarker.js" type="text/javascript"></script>
-    <script src="/scripts/HotelDisplay.js" type="text/javascript"></script>    
 
 </head>
 <body>
@@ -61,4 +35,32 @@
         <div id="map-canvas" ></div> 
     </form>
 </body>
+
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+
+    <script type='text/javascript'>
+        var map; // goolge map global varialble
+
+        // below goes configuration parameters
+        const POINT_LINE_WEIGHT = <%= PointLineWeight %>;
+        const POINT_MARKER_OPACITY = <%= PointMarkerOpacity %>;
+        const POINT_COLOR = '<%= PointColor %>';
+        const STEP_MARKER_SCALE = <%= StepMarkerScale %>;
+        const STEP_MARKER_OPACITY = <%= StepMarkerOpacity %>;
+        const START_STEP_COLOR = '<%= StartMarkerColor %>';
+
+        // Defaults:
+        const DEFAULT_PROXIMITY_RADIUS = '<%= ProximityRadius %>';
+        const FETCH_DATA_TIMEOUT = '<%= FetchDataTimeout %>';
+        const GET_HOTELS_METHOD_NAME = '<%= GetHotelsMethodName %>';
+        
+    </script>
+    <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
+    <script src="/scripts/PlaceAutocomplete.js" type="text/javascript"></script>
+    <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>
+    <script src="/scripts/RouteDisplay.js" type="text/javascript"></script>
+    <script src="/scripts/CalculationPointsDisplay.js" type="text/javascript"></script>
+    <script src="/scripts/HotelGoogleMapMarker.js" type="text/javascript"></script>
+    <script src="/scripts/HotelDisplay.js" type="text/javascript"></script>    
+
 </html>
