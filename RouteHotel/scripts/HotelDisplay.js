@@ -4,11 +4,7 @@
 function fetchHotels(routeID) {
     var hotelDisplay = new HotelDisplay(routeID);
     hotelDisplay.fetchDataWithTimeout();
-
-    __hotelDisplay = hotelDisplay;// to be removed and made pure object method
 }
-
-var __hotelDisplay;
 
 function HotelDisplay(routeID) {
     this.routeID = routeID;
@@ -21,12 +17,6 @@ HotelDisplay.prototype.fetchDataWithTimeout = function () {
 }
 
 HotelDisplay.prototype.queryNextDataBunch = function () {
-    //this.queryNextDataBunchBad();
-    this.queryNextDataBunchRight();
-}
-
-
-HotelDisplay.prototype.queryNextDataBunchRight = function () {
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
     var proxy = new RouteHotel.RouteAPI(); // TBD - init this on server
@@ -52,21 +42,10 @@ HotelDisplay.prototype.queryNextDataBunchRight = function () {
 }
 
 HotelDisplay.prototype.buildParamStr = function () {
-    // "{"routeID":"9980575c-14a0-487e-b88b-9226b3624fc7","alreadyFetchedHotelsCount":0}"
     var result = "{\"routeID\":\"" + this.routeID + "\"";
     var processedHotelsCount = this.hotelMarkers.length;
     result += ",\"alreadyFetchedHotelsCount\":" + processedHotelsCount + "}";
     return result;   
-}
-
-HotelDisplay.prototype.queryNextDataBunchBad = function () {
-
-    var processedHotelsCount = this.hotelMarkers.length;
-    RouteHotel.RouteAPI.GetHotels(this.routeID, processedHotelsCount, __parceHotels);
-}
-
-function __parceHotels(hotelResponse) {
-    __hotelDisplay.parceHotels(hotelResponse);
 }
 
 HotelDisplay.prototype.parceHotels = function (hotelResponse) {
