@@ -12,9 +12,9 @@ namespace RouteHotel.TransportObjects
     public class HotelResponse
     {
         /// <summary>
-        /// Total count of calculation 
+        /// Total count of calculation points
         /// </summary>
-        public int PointCount { get; set; }
+        public int CalculationPointCount { get; set; }
 
         /// <summary>
         /// Count of processed points
@@ -60,7 +60,7 @@ namespace RouteHotel.TransportObjects
 
             this.IsFinished = !calculator.SearchInProgress;
             this.ProcessedPointCount = calculator.CurrentProgress;
-            this.PointCount = calculator.PointCount;
+            this.CalculationPointCount = calculator.HotelSearch.CalculationPointCount;
         }
 
         /// <summary>

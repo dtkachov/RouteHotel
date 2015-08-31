@@ -21,19 +21,29 @@ namespace HotelRouteCalculation
     class SinglePointHotelSearchStrategy : IHotelSearchStrategy
     {
         /// <summary>
-        /// Represents hotel search criterias
+        /// Search object for which strategy is applied. Used to read parameters from.
         /// </summary>
-        private HotelPreference HotelParameters;
+        private IRouteHotelSearch SearchObject;
 
         /// <summary>
         /// Rote points objects - optimized points list to be used for hotel search
         /// </summary>
-        private RoutePoints RoutePoints;
+        private RoutePoints RoutePoints
+        {
+            get { return SearchObject.RoutePoints; }
+        }
+
+        /// <summary>
+        /// Count of points calculation for which would be performed
+        /// </summary>
+        public int CalculationPointCount { get { return RoutePoints.PointCount; } }
 
         /// <summary>
         /// Current progress
         /// </summary>
         private int CurrentProgress;
+
+        #region events
 
         /// <summary>
         /// Event that is fired when new hotels found
@@ -65,6 +75,8 @@ namespace HotelRouteCalculation
         }
         private event EventHandler<HotelSearchErrorEventArgs> _hotelSearchError;
 
+        #endregion
+
         /// <summary>
         /// Constructs the strategy
         /// </summary>
@@ -76,12 +88,12 @@ namespace HotelRouteCalculation
         /// Invokes search method for the strategy
         /// </summary>
         /// <param name="cancellationToken">Cancellation token - used to cancel the search if requested.</param>
-        /// <param name="points">Linked pioints of the route to do search for</param>
-        /// <param name="hotelParameters">Hotel search criterias</param>
-        public void Search(System.Threading.CancellationToken cancellationToken, RoutePoints points, HotelPreference hotelParameters)
+        /// <param name="searchObject">Search object for which strategy is applied. Used to read parameters from.</param>
+        public void Search(System.Threading.CancellationToken cancellationToken, IRouteHotelSearch searchObject)
         {
-            HotelParameters = hotelParameters;
-            RoutePoints = points;
+            if (null == searchObject) throw new ArgumentNullException("Argument searchObject cannot be null");
+
+            this.SearchObject = searchObject;
 
             foreach (LinkedPoint start in RoutePoints.LegsStart)
             {
@@ -90,40 +102,23 @@ namespace HotelRouteCalculation
                 {
                     if (cancellationToken.IsCancellationRequested) break;
 
+                    HotelSummary[] hotels = null;
                     try
                     {
-                        SeachHotelsForPoint(p);
+                        hotels = SearchObject.SeachHotelsForPoint(p, RoutePoints.Proximity.Radius);
                     }
                     catch (Exception exc)
                     {
                         SignalRouteSearchError(exc, p);
                     }
+
+                    ReportNewHotels(hotels);
+
+                    IncreaseProgress();
                     p = p.Next;
                 }
 
             }
-        }
-
-        /// <summary>
-        /// Search hotels for specific point
-        /// </summary>
-        /// <param name="point">Point to search hotels for</param>
-        private void SeachHotelsForPoint(LinkedPoint point)
-        {
-            HotelListParameters hotelSearchParametersObject = CreateHotelSearhParameterObject(point);
-
-            HotelSearch search = new HotelSearch(point, hotelSearchParametersObject);
-            int newHotelsFound = search.Search();
-
-            if (newHotelsFound > 0)
-            {
-                HotelSummary[] hotels = search.GetHotels();
-                Debug.Assert(null != hotels);
-
-                ReportNewHotels(hotels);
-            }
-
-            IncreaseProgress();
         }
 
         /// <summary>
@@ -132,27 +127,11 @@ namespace HotelRouteCalculation
         /// <param name="hotels">Hotels found for some of locations</param>
         private void ReportNewHotels(HotelSummary[] hotels)
         {
+            if (null == hotels) return;
             if (null == _hotelsFound) return;
 
             HotelsEventArgs args = new HotelsEventArgs(hotels);
             _hotelsFound(this, args);
-        }
-
-        /// <summary>
-        /// Constructs hotel search parameters object based on current class data
-        /// </summary>
-        /// <param name="point">Point to search hotels for</param>
-        /// <returns>Hotel search parameters object</returns>
-        private HotelListParameters CreateHotelSearhParameterObject(LinkedPoint point)
-        {
-            HotelListParameters hotelSearchParametersObject = new HotelListParameters();
-            hotelSearchParametersObject.HotelPreferences = HotelParameters;
-            hotelSearchParametersObject.Location = new RouteTransportObjects.LatLng(point.Point.Latitude, point.Point.Longitude);
-            hotelSearchParametersObject.SearchRadius = RoutePoints.Proximity.Radius;
-            hotelSearchParametersObject.SearchRadiusUnit = CalculationUtils.DistanceUnit.Meters; // TODO: read from config
-
-
-            return hotelSearchParametersObject;
         }
 
         /// <summary>
@@ -178,10 +157,44 @@ namespace HotelRouteCalculation
 
             if (null != _progress)
             {
-                CalculationStatusEventArgs args = new CalculationStatusEventArgs(RoutePoints.PointCount, CurrentProgress);
+                CalculationStatusEventArgs args = new CalculationStatusEventArgs(CalculationPointCount, CurrentProgress);
                 _progress(this, args);
             }
         }
+
+        /// <summary>
+        /// Returns value of calculation radius in meters
+        /// </summary>
+        /// <returns></returns>
+        public int GetCalculationRaduis()
+        {
+            return SearchObject.RoutePoints.Proximity.Radius;
+        }
+
+#if DEBUG
+
+        /// <summary>
+        /// Returns calculation points for this search
+        /// </summary>
+        /// <returns>Calculation points - for which hotels would be searched</returns>
+        public GoogleDirections.LatLng[] GetCalculationPoints()
+        {
+            List<GoogleDirections.LatLng> result = new List<GoogleDirections.LatLng>();
+
+            foreach (LinkedPoint start in RoutePoints.LegsStart)
+            {
+                LinkedPoint p = start;
+                while (null != p) 
+                {
+                    result.Add(p.Point);
+                    p = p.Next;
+                }
+
+            }
+
+            return result.ToArray();
+        }
+#endif
 
     }
 }

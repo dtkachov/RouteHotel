@@ -2,6 +2,8 @@
 
 // entry point from seatch functionality
 function fetchHotels(routeID) {
+    displayHotelSearchAreas(routeID);
+
     var hotelDisplay = new HotelDisplay(routeID);
     hotelDisplay.fetchDataWithTimeout();
 }
@@ -49,7 +51,7 @@ HotelDisplay.prototype.buildParamStr = function () {
 }
 
 HotelDisplay.prototype.parceHotels = function (hotelResponse) {
-    if (null == hotelResponse) return;
+    if (null == hotelResponse) return; 
 
     for (var i = 0; i < hotelResponse.Hotels.length; ++i) {
         this.displayHotel(hotelResponse.Hotels[i]);
@@ -58,8 +60,10 @@ HotelDisplay.prototype.parceHotels = function (hotelResponse) {
     this.displayProgress(hotelResponse);
 
     if (!hotelResponse.IsFinished) {
-        this.fetchDataWithTimeout();
+        this.fetchDataWithTimeout(); // fetch ne wdata
     }
+
+
 }
 
 HotelDisplay.prototype.displayHotel = function(hotel) {
@@ -83,7 +87,40 @@ HotelDisplay.prototype.displayProgress = function (hotelResponse) {
     // TBD - change to real progress display
     var time = new Date();
     var timeStr = time.toLocaleTimeString();
-    var msg = timeStr + " Processed " + hotelResponse.ProcessedPointCount + " from " + hotelResponse.PointCount;
+    var msg = timeStr + " Processed " + hotelResponse.ProcessedPointCount + " from " + hotelResponse.CalculationPointCount;
     console.log(msg);
     if (hotelResponse.IsFinished) console.log("!!!! finished");
+}
+
+function displayHotelSearchAreas(routeID) {
+    RouteHotel.RouteAPI.GetHotelSearchPoints(routeID, parceHotelSearchPoints);
+}
+
+function parceHotelSearchPoints(hotelCalculationPoints) {
+    if (null == hotelCalculationPoints) return;
+    if (null == hotelCalculationPoints.Points) return;
+    //sample taken here http://obeattie.github.io/gmaps-radius/
+    
+    radius = hotelCalculationPoints.CalculationRadius;
+
+    for (var i = 0; i < hotelCalculationPoints.Points.length; ++i) {
+        var pointSrv = hotelCalculationPoints.Points[i];
+        var point = convertToLatLng(pointSrv);
+
+        var circle = new google.maps.Circle({
+            center: point,
+            clickable: true,
+            draggable: false,
+            editable: false,
+            fillColor: '#004de8',
+            fillOpacity: 0.27,
+            map: map,
+            radius: radius,
+            strokeColor: '#004de8',
+            strokeOpacity: 0.62,
+            strokeWeight: 1,
+        });
+
+    }
+    
 }

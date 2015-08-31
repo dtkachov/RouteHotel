@@ -48,7 +48,7 @@ namespace RouteHotel
         {
             get
             {
-                if (null == Objects || null == Objects[SessionKey])
+                if (null == Objects || (!Objects.ContainsKey(SessionKey)))
                 {
                     /* TODO - investigate why this is happening that CreateNewSessionObject() method is not invoked on session start!
                     */

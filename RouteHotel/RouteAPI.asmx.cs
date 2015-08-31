@@ -133,41 +133,40 @@ namespace RouteHotel
             return response;
         }
 
-        /// <summary>
-        /// !!! Temporary method - to examine API - to be removed
-        /// </summary>
-        /// <returns></returns>
-        [WebMethod]
-        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public RouteParams GetTO()
-        {
-            RouteParams result = new RouteParams();
-            result.OptimizeRoute = true;
-
-            Location[] locations = null;
-            {
-                Location location1 = new Location();
-                location1.LocationName = "Lviv";
-                location1.LatLng = new LatLng(new GoogleDirections.LatLng(49.83549134162667, 24.024996757507324));
-                Location location2 = new Location();
-                location2.LocationName = "Kyiv";
-
-                List<Location> locationsList = new List<Location>();
-                locationsList.Add(location1);
-                locationsList.Add(location2);
-
-                locations = locationsList.ToArray();
-            }
-            result.Locations = locations;
-
-            return result;
-        }
-
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public LatLng GetUserLocationByIP()
         {
             return RouteHotel.Utils.IPUtils.GetUserLocationByIP();
         }
+
+#if DEBUG
+        /// <summary>
+        /// Debug purpose method to fetch points that will be used in hotel search
+        /// Might be used to visualize covered areas on map
+        /// </summary>
+        /// <param name="routeID">ID of route selected</param>
+        /// <returns>List of points wioth other params</returns>
+        [WebMethod(EnableSession = true)]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public RouteHotel.TransportObjects.HotelCalculationPoints GetHotelSearchPoints(string routeID)
+        {
+            if (null == routeID) return null;
+            Guid routeIDobj = new Guid(routeID);
+
+            // TBD - add unit test for calculator! - at least to make sure we reach "finished" state
+            RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
+            if (null == calculator) return null;
+
+            GoogleDirections.LatLng[] calculationPoints = calculator.HotelSearch.GetCalculationPoints();
+            int calculationRadius = calculator.HotelSearch.GetCalculationRaduis();
+
+            RouteHotel.TransportObjects.HotelCalculationPoints result = new RouteHotel.TransportObjects.HotelCalculationPoints(calculationRadius, calculationPoints);
+
+            return result;
+        }
+
+#endif
+
     }
 }

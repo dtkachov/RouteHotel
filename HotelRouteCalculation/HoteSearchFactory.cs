@@ -23,8 +23,10 @@ namespace HotelRouteCalculation
         {
             switch (type)
             {
-                default:
                 case SearchType.SinglePoint: return new SinglePointRouteHotelSearch(route, proximity, hotelParameters);
+
+                default:
+                case SearchType.LoadBalancing: return new LoadBalancingRouteHotelSearch(route, proximity, hotelParameters);
             }
         }
     }

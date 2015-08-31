@@ -56,6 +56,11 @@
     <Compile Include="CalculationStatusEventArgs.cs" />
     <Compile Include="HoteSearchFactory.cs" />
     <Compile Include="IRouteHotelSearch.cs" />
+    <Compile Include="LoadBalancingHotelSearchStrategy.cs" />
+    <Compile Include="LoadBalancingRegion.cs" />
+    <Compile Include="LoadBalancingRouteHotelSearch.cs" />
+    <Compile Include="RouteRagesCalculator.cs" />
+    <Compile Include="RouteRange.cs" />
     <Compile Include="SearchType.cs" />
     <Compile Include="SinglePointRouteHotelSearch.cs" />
     <Compile Include="HotelSearch.cs" />

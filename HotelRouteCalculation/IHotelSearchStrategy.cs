@@ -13,6 +13,11 @@ namespace HotelRouteCalculation
     interface IHotelSearchStrategy
     {
         /// <summary>
+        /// Count of points calculation for which would be performed
+        /// </summary>
+        int CalculationPointCount { get; }
+
+        /// <summary>
         /// Event that is fired when new hotels found
         /// </summary>
         event EventHandler<HotelsEventArgs> HotelsFound;
@@ -31,8 +36,22 @@ namespace HotelRouteCalculation
         /// Invokes search method for the strategy
         /// </summary>
         /// <param name="cancellationToken">Cancellation token - used to cancel the search if requested.</param>
-        /// <param name="points">Linked pioints of the route to do search for</param>
-        void Search(System.Threading.CancellationToken cancellationToken, RoutePoints points, HotelInterface.TO.HotelPreference hotelParameters);
+        /// <param name="searchObject">Search object for which strategy is applied. Used to read parameters from.</param>
+        void Search(System.Threading.CancellationToken cancellationToken, IRouteHotelSearch searchObject);
+
+        /// <summary>
+        /// Returns value of calculation radius in meters
+        /// </summary>
+        /// <returns></returns>
+        int GetCalculationRaduis();
+
+#if DEBUG
+        /// <summary>
+        /// Returns calculation points for this search
+        /// </summary>
+        /// <returns>Calculation points - for which hotels would be searched</returns>
+        GoogleDirections.LatLng[] GetCalculationPoints();
+#endif
    
     }
 }

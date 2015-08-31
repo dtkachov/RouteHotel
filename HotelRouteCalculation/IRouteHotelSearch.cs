@@ -41,14 +41,27 @@ namespace HotelRouteCalculation
         List<HotelSummary> Hotels { get; }
 
         /// <summary>
-        /// Current progress
+        /// Current progress out of CalculationPointCount
         /// </summary>
         int CurrentProgress { get ; }
 
-                /// <summary>
+        /// <summary>
+        /// Count of points calculation for which would be performed
+        /// </summary>
+        int CalculationPointCount { get; }
+
+        /// <summary>
         /// Search hotels for each point
         /// </summary>
         void Search();
+
+        /// <summary>
+        /// Search hotels for specific point
+        /// </summary>
+        /// <param name="point">Point to search hotels for.</param>
+        /// <param name="searchRadius">Radius for hotel search.</param>
+        /// <returns>Hotels matching criterias specified.</returns>
+        HotelSummary[] SeachHotelsForPoint(LinkedPoint point, int searchRadius);
 
         /// <summary>
         /// If search is in progress this method will join search thread
@@ -56,5 +69,19 @@ namespace HotelRouteCalculation
         /// If no search in progress this method do nothing.
         /// </summary>
         void WaitUntilFinished();
+
+#if DEBUG
+        /// <summary>
+        /// Returns calculation points for this search
+        /// </summary>
+        /// <returns>Calculation points - for which hotels would be searched</returns>
+        GoogleDirections.LatLng[] GetCalculationPoints();
+
+        /// <summary>
+        /// Returns value of calculation radius in meters
+        /// </summary>
+        /// <returns></returns>
+        int GetCalculationRaduis();
+#endif
     }
 }

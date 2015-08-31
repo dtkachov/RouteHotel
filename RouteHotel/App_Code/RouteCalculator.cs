@@ -17,7 +17,7 @@ namespace RouteHotel
         /// <summary>
         /// Type of route hotel search
         /// </summary>
-        const SearchType SEARCH_TYPE = SearchType.SinglePoint;
+        const SearchType SEARCH_TYPE = SearchType.LoadBalancing;
 
         /// <summary>
         /// ID of calculatory

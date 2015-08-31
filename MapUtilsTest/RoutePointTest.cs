@@ -19,8 +19,8 @@ namespace MapUtilsTest
     [TestClass]
     public class RoutePointTest
     {
-
-        private IRouteHotelSearch Search;
+        private IRouteHotelSearch SignlePointSearch;
+        private IRouteHotelSearch LoadBalancingSearch;
 
         /// <summary>
         /// Indicate that search is in progress
@@ -49,27 +49,6 @@ namespace MapUtilsTest
             }
         }
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         private int CurrentLegIndex = 0;
 
@@ -142,9 +121,8 @@ namespace MapUtilsTest
             Route route = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
             HotelPreference hotelParameters = BuildHotelParameters();
 
-            const SearchType SEARCH_TYPE = SearchType.SinglePoint;
-
-            Search = HoteSearchFactory.CreateSearch(SEARCH_TYPE, route, proximity, hotelParameters);
+            SignlePointSearch = HoteSearchFactory.CreateSearch(SearchType.SinglePoint, route, proximity, hotelParameters);
+            LoadBalancingSearch = HoteSearchFactory.CreateSearch(SearchType.LoadBalancing, route, proximity, hotelParameters);
         }
 
         private HotelPreference BuildHotelParameters()
@@ -170,14 +148,22 @@ namespace MapUtilsTest
 
         private void DoTest()
         {
-            Search.Progress += Search_Progress;
-            Search.HotelSearchError += Search_HotelSearchError;
+            DoTest(LoadBalancingSearch);
+            DoTest(SignlePointSearch);            
+
+            //CompareSearchResults();
+        }
+
+        private void DoTest(IRouteHotelSearch search)
+        {
+            search.Progress += Search_Progress;
+            search.HotelSearchError += Search_HotelSearchError;
 
             SearchInProgress = true;
-            Search.Search();
+            search.Search();
 
             // wait until seacch is done
-            Search.WaitUntilFinished();
+            search.WaitUntilFinished();
         }
 
         private void Search_HotelSearchError(object sender, HotelSearchErrorEventArgs e)
@@ -189,14 +175,15 @@ namespace MapUtilsTest
 
         private void Search_Progress(object sender, CalculationStatusEventArgs e)
         {
+            IRouteHotelSearch search = sender as IRouteHotelSearch;
             if (e.Finished)
             {
-                CheckResults();
+                CheckResults(search);
                 SearchInProgress = false;
             }
             else
             {
-                int hotelCount = Search.Hotels.Count;
+                int hotelCount = search.Hotels.Count;
                 string progressStr = string.Format(
                     "Processed {0} from {1} points. {2}  hotels found", 
                     e.Progress, 
@@ -207,21 +194,21 @@ namespace MapUtilsTest
             }
         }
 
-        private void CheckResults()
+        private void CheckResults(IRouteHotelSearch search)
         {
             SearchInProgress = false;
 
-            DumpPoints();
-            DumpHotels();
+            DumpPoints(search);
+            DumpHotels(search);
         }
 
-        private void DumpHotels()
+        private void DumpHotels(IRouteHotelSearch search)
         {
             string fileName = string.Format(@"d:\temp\HotelData\RoutePointTest.Search hotels at {0}.txt", DateTime.Now.ToFileTime());
 
             using (StreamWriter writer = new StreamWriter(fileName))
             {
-                foreach (HotelSummary hotel in Search.Hotels)
+                foreach (HotelSummary hotel in search.Hotels)
                 {
                     DumpHotel(hotel, writer);
                 }
@@ -242,20 +229,20 @@ namespace MapUtilsTest
             writer.WriteLine(string.Empty);
         }
 
-        private void DumpPoints()
+        private void DumpPoints(IRouteHotelSearch search)
         {
-            string routeCalculationStatistic = string.Format("Points originally: '{0}', after optimization: '{1}'", CalculatePointsCountINoriginalRoute(), Search.RoutePoints.PointCount);
+            string routeCalculationStatistic = string.Format("Points originally: '{0}', after optimization: '{1}'", CalculatePointsCountINoriginalRoute(search), search.RoutePoints.PointCount);
             Console.WriteLine(routeCalculationStatistic);
 
             CurrentLegIndex = 0;
-            foreach (LinkedPoint legStart in Search.RoutePoints.LegsStart)
+            foreach (LinkedPoint legStart in search.RoutePoints.LegsStart)
             {
                 LinkedPoint currentPoint = legStart;
                 string fileName = string.Format(@"d:\temp\HotelRoute.Test#{1}.Leg#{0}.txt", CurrentLegIndex++, TestIndex);
                 
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    DumpRote(Search.RoutePoints.Route, writer);
+                    DumpRote(search.RoutePoints.Route, writer);
                     writer.WriteLine("-----------------");
                     writer.WriteLine("Started optimized points");
                     while (!currentPoint.IsLast)
@@ -274,10 +261,10 @@ namespace MapUtilsTest
             }
         }
 
-        private int CalculatePointsCountINoriginalRoute()
+        private int CalculatePointsCountINoriginalRoute(IRouteHotelSearch search)
         {
             int result = 0;
-            foreach (RouteLeg leg in Search.RoutePoints.Route.Legs)
+            foreach (RouteLeg leg in search.RoutePoints.Route.Legs)
             {
                 foreach(RouteStep step in leg.Steps)
                 {
@@ -379,6 +366,21 @@ namespace MapUtilsTest
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// Comparer if results obtaioned by different testmethods are the same 
+        /// </summary>
+        private void CompareSearchResults()
+        {
+            Assert.AreEqual(SignlePointSearch.Hotels.Count, LoadBalancingSearch.Hotels.Count);
+
+            foreach (HotelSummary hotel in SignlePointSearch.Hotels)
+            {
+                bool hasSameHotel = LoadBalancingSearch.Hotels.Contains(hotel);
+                Assert.IsTrue(hasSameHotel);
+            }
+            
         }
 
 

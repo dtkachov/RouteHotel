@@ -6,7 +6,7 @@ using System.Web;
 namespace RouteHotel.TransportObjects
 {
     /// <summary>
-    /// Represents transport object ued to tarnsmit data about calculation points
+    /// Represents transport object used to transmit data about calculation points
     /// It is not linked list as objects used internally in libraries as long list 
     /// cannot be passed over WS due to stack overflow cause by recursion creating objects
     /// </summary>
