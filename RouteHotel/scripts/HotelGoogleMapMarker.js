@@ -2,6 +2,7 @@ function HotelMarker(latlng, map, args) {
 	this.latlng = latlng;	
 	this.setMap(map);
 	this.hotel = this.parseHotel(args);
+	this.infoWindow = null;
 }
 
 HotelMarker.prototype = new google.maps.OverlayView();
@@ -44,10 +45,12 @@ HotelMarker.prototype.initOverlay = function () {
 		b.innerHTML = lowPriceStr;
 		b.setAttribute("align", "center");
 		this.div.appendChild(b);
+
+		var self = this;
 		
 		google.maps.event.addDomListener(this.div, "click", function(event) {
-			alert('Hotel info to be show here!');			
-			google.maps.event.trigger(this, "click");
+		    self.displayInfoWindow();
+			//google.maps.event.trigger(this, "click");
 		});
 		
 		var panes = this.getPanes();
@@ -65,3 +68,49 @@ HotelMarker.prototype.parseHotel = function (args) {
     var hotel = args.hotel_obj;
     return hotel;
 };
+
+HotelMarker.prototype.displayInfoWindow = function () {
+    if (null == this.infoWindow) {
+        this.intiInfoWindow();
+    }
+
+    this.infoWindow.open(map);
+};
+
+HotelMarker.prototype.intiInfoWindow = function () {
+    var contentString = '<b>' + this.hotel.Name + '</b><br>' + 
+        this.hotel.Address1 + ', ' + this.hotel.City;
+    if (null != this.hotel.StateProvinceCode && this.hotel.StateProvinceCode.length > 0) contentString += ', ' +  this.hotel.StateProvinceCode;
+    if (null != this.hotel.PostalCode && this.hotel.PostalCode.length > 0) contentString += ', ' +  this.hotel.PostalCode;
+    if (null != this.hotel.CountryCode && this.hotel.CountryCode.length > 0) contentString += ', ' +  this.hotel.CountryCode;
+    contentString += '<br>';
+
+    if (this.hotel.HotelRating > 0) contentString += 'Hotel rating: <b>' + this.hotel.HotelRating.toFixed(1) + '</b><br>';
+
+    //var description = decodeURIComponent(this.hotel.ShortDescription);
+    var description = decodeHTMLEntities(this.hotel.ShortDescription); 
+    contentString += description + '<br>';
+
+    contentString += '<br>Rates from <b>' + this.hotel.LowRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode;
+    if (this.hotel.LowRate < this.hotel.HighRate) contentString += ' to <b>' + this.hotel.HighRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode;
+
+    this.infoWindow = new google.maps.InfoWindow({
+        content: contentString,
+        position: this.latlng,
+    });
+};
+
+function decodeHTMLEntities(text) {
+    var entities = [
+        ['apos', '\''],
+        ['amp', '&'],
+        ['lt', '<'],
+        ['gt', '>']
+    ];
+
+    for (var i = 0, max = entities.length; i < max; ++i)
+        text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
+
+    return text;
+}
+
