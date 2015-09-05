@@ -12,7 +12,6 @@ namespace HotelInterface
     /// </summary>
     public interface IHotelListRequest
     {
-        
 
         /// <summary>
         /// Performs web request and parses data

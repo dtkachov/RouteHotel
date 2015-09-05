@@ -78,7 +78,13 @@ HotelMarker.prototype.displayInfoWindow = function () {
 };
 
 HotelMarker.prototype.intiInfoWindow = function () {
-    var contentString = '<b>' + this.hotel.Name + '</b><br>' + 
+    var contentString = '';
+    if (null != this.hotel.ThumbNailUrl && this.hotel.ThumbNailUrl.trim().length > 0) {
+        var src = encodeURI(this.hotel.ThumbNailUrl);
+        contentString += '<img style="float: right;" src="' + src + '" onerror="this.style.display = &apos;none&apos; ;" alt=".   ." border="0" />';
+    }
+
+    contentString += '<b>' + this.hotel.Name + '</b><br>' +
         this.hotel.Address1 + ', ' + this.hotel.City;
     if (null != this.hotel.StateProvinceCode && this.hotel.StateProvinceCode.length > 0) contentString += ', ' +  this.hotel.StateProvinceCode;
     if (null != this.hotel.PostalCode && this.hotel.PostalCode.length > 0) contentString += ', ' +  this.hotel.PostalCode;
@@ -87,7 +93,6 @@ HotelMarker.prototype.intiInfoWindow = function () {
 
     if (this.hotel.HotelRating > 0) contentString += 'Hotel rating: <b>' + this.hotel.HotelRating.toFixed(1) + '</b><br>';
 
-    //var description = decodeURIComponent(this.hotel.ShortDescription);
     var description = decodeHTMLEntities(this.hotel.ShortDescription); 
     contentString += description + '<br>';
 
