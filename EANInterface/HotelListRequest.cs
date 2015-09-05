@@ -3,6 +3,7 @@ using EANInterface.TransportObjects;
 using HotelInterface;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,9 +50,21 @@ namespace EANInterface
         /// </summary>
         private void Init()
         {
+            Validate();
+
             HotelListRequestParametersBuilder builder = new HotelListRequestParametersBuilder(Parameters);
             Uri url = builder.Build();
             Initialize(url);
+        }
+
+        /// <summary>
+        /// Vaidates parameters
+        /// </summary>
+        private void Validate()
+        {
+            const int MINIMAL_ACCEPTABLE_SEARCH_RAIUS_METERS = 2000;
+            Debug.Assert(Parameters.SearchRadius >= MINIMAL_ACCEPTABLE_SEARCH_RAIUS_METERS, 
+                string.Format("Attempt to execut EAN hotel search request with search radius equal {0} meters, while minimal acceptable radius value {1} meters", Parameters.SearchRadius, MINIMAL_ACCEPTABLE_SEARCH_RAIUS_METERS));
         }
 
         /// <summary>

@@ -257,6 +257,9 @@ namespace HotelRouteCalculation
         /// </summary>
         private void OnFinished()
         {
+#if DEBUG
+            CheckAllHotelsInProximityRadius();
+#endif
             HotelSearchTask = null;
         }
 
@@ -328,8 +331,65 @@ namespace HotelRouteCalculation
         /// <returns></returns>
         public int GetCalculationRaduis()
         {
-            return SearchStrategy.GetCalculationRaduis();
+            return SearchStrategy.GetCalculationRadius();
         }
+
+        /// <summary>
+        /// Checks whether all found hotels are in proximity radius to route points
+        /// </summary>
+        public void CheckAllHotelsInProximityRadius()
+        {
+            foreach (HotelSummary hotel in Hotels)
+            {
+                bool hotelInProximityToRoute = HotelInProximityToRoute(hotel);
+                if (!hotelInProximityToRoute)
+                {
+                    string errMsg = string.Format(
+                        "Hotel {0}  id: {1} located {2} {3} is not in proximity to route", 
+                        hotel.Name, hotel.HotelId, hotel.Latitude, hotel.Longitude
+                    );
+                    throw new InvalidOperationException(errMsg);
+                }
+ 
+            }
+        }
+        
+        /// <summary>
+        /// Checks whether hotel is whithin proximity distance to the reoute represented by route points
+        /// </summary>
+        /// <param name="hotel">Hotel to be validated on matching procimity distance</param>
+        /// <returns>Whether hotel is whithin proximity distance to the route</returns>
+        private bool HotelInProximityToRoute(HotelSummary hotel)
+        {
+            foreach (LinkedPoint legStart in RoutePoints.LegsStart)
+            {
+                bool belongToLeg = HotelInProximityToLeg(legStart, hotel);
+                if (belongToLeg) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks whether hotel is whithin proximity distance to the leg represented by leg start
+        /// </summary>
+        /// <param name="legStart">Starting point of the leg</param>
+        /// <param name="hotel">Hotel to be validated on matching procimity distance</param>
+        /// <returns>Whether hotel is whithin proximity distance to the leg represented by leg start</returns>
+        private bool HotelInProximityToLeg(LinkedPoint legStart, HotelSummary hotel)
+        {
+            int proximityRadius = RoutePoints.Proximity.Radius;
+            LinkedPoint p = legStart;
+            do
+            {
+                double distance = CalculationUtils.DistanceUtils.Distance(p.Point.Latitude, p.Point.Longitude, hotel.Latitude, hotel.Longitude);
+                if (distance < proximityRadius) return true;
+                p = p.Next;
+            }
+            while (null != p);
+
+            return false;
+        }
+
 #endif
 
     }

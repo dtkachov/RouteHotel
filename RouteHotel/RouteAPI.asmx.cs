@@ -19,6 +19,7 @@ namespace RouteHotel
     [System.Web.Script.Services.ScriptService]
     public class RouteAPI : System.Web.Services.WebService
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// Purely search the route
@@ -54,6 +55,8 @@ namespace RouteHotel
         public RouteHotel.TransportObjects.Route GetRouteHotels(RouteParams routeParams)
         {
             if (null == routeParams) return null; // nothing to search
+
+            Log.Debug(routeParams.ToString());
 
             RouteCalculator calculator = new RouteCalculator(routeParams);
 

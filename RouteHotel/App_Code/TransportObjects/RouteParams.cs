@@ -22,5 +22,12 @@ namespace RouteHotel.TransportObjects
         public RouteParams()
         {
         }
+
+        public override string ToString()
+        {
+            string baseInfo = base.ToString();
+            string hotelParametersStr = HotelParameters.ToString();
+            return baseInfo + '\t' + hotelParametersStr;
+        }
     }
 }

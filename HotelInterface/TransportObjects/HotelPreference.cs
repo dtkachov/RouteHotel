@@ -40,5 +40,20 @@ namespace HotelInterface.TO
         /// .ctor 
         /// </summary>
         public HotelPreference() { }
+
+        public override string ToString()
+        {
+            string roomsStr = string.Empty;
+            for(int i = 0; i < Rooms.Length; ++i)
+            {
+                RoomParameter room = Rooms[i];
+                if (i > 0) roomsStr += ", ";
+                roomsStr += string.Format("<{0}>'{1}'", i, room );
+            }
+
+            string result = string.Format("Locale: '{0}' ArrivalDate: '{1}' DepartureDate: {2}, CurrencyCode: {3}, Rooms: '{4}'", Locale, ArrivalDate, DepartureDate, CurrencyCode, roomsStr);
+
+            return result;
+        }
     }
 }

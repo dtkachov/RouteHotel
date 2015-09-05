@@ -146,7 +146,7 @@ namespace HotelRouteCalculation
         /// <param name="legStart">Leg startign point</param>
         private void FillCalculationRegionsForLeg(LinkedPoint legStart)
         {
-            int searchRadiusMeters = GetCalculationRaduis();
+            int searchRadiusMeters = GetCalculationRadius();
             int maxDistance = (int)(searchRadiusMeters - RoutePoints.Proximity.MaxBand * PRECISION_KOEFFICIENT);
             RouteRangesCalculator rangesCalculator = new RouteRangesCalculator(legStart, maxDistance);
 
@@ -185,7 +185,7 @@ namespace HotelRouteCalculation
                     SignalRouteSearchError(exc, region.Center);
                 }
 
-                HotelSummary[] reachableHotels = FilterHotelsinProximity(hotels, region.Start, region.End);
+                HotelSummary[] reachableHotels = FilterHotelsiInProximity(hotels, region.Start, region.End);
                 ReportNewHotels(reachableHotels);
 
                 IncreaseProgress();
@@ -200,7 +200,7 @@ namespace HotelRouteCalculation
         /// <param name="start">Range start point</param>
         /// <param name="finish">Range finish point</param>
         /// <returns>Hotels that are in proximity distance to route's point range</returns>
-        private HotelSummary[] FilterHotelsinProximity(HotelSummary[] hotels, LinkedPoint start, LinkedPoint finish)
+        private HotelSummary[] FilterHotelsiInProximity(HotelSummary[] hotels, LinkedPoint start, LinkedPoint finish)
         {
             if (null == hotels) return null;
 
@@ -278,7 +278,7 @@ namespace HotelRouteCalculation
         /// Returns value of calculation radius in meters
         /// </summary>
         /// <returns></returns>
-        public int GetCalculationRaduis()
+        public int GetCalculationRadius()
         {
             return CalculationRaduis;
         }

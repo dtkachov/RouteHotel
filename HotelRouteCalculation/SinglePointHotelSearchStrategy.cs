@@ -94,6 +94,7 @@ namespace HotelRouteCalculation
             if (null == searchObject) throw new ArgumentNullException("Argument searchObject cannot be null");
 
             this.SearchObject = searchObject;
+            int calculationRadius = GetCalculationRadius();
 
             foreach (LinkedPoint start in RoutePoints.LegsStart)
             {
@@ -105,7 +106,7 @@ namespace HotelRouteCalculation
                     HotelSummary[] hotels = null;
                     try
                     {
-                        hotels = SearchObject.SeachHotelsForPoint(p, RoutePoints.Proximity.Radius);
+                        hotels = SearchObject.SeachHotelsForPoint(p, calculationRadius);
                     }
                     catch (Exception exc)
                     {
@@ -166,7 +167,7 @@ namespace HotelRouteCalculation
         /// Returns value of calculation radius in meters
         /// </summary>
         /// <returns></returns>
-        public int GetCalculationRaduis()
+        public int GetCalculationRadius()
         {
             return SearchObject.RoutePoints.Proximity.Radius;
         }

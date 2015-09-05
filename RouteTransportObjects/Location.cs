@@ -71,7 +71,7 @@ namespace RouteTransportObjects
         /// </returns>
         public override string ToString()
         {
-            if (locationName != null)
+            if (locationName != null && locationName.Trim().Length > 0)
                 return locationName;
 
             return latLng.ToString();

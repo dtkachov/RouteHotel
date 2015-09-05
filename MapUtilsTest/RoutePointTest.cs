@@ -19,6 +19,8 @@ namespace MapUtilsTest
     [TestClass]
     public class RoutePointTest
     {
+        const int RADIUS = 2000; // meters
+
         private IRouteHotelSearch SignlePointSearch;
         private IRouteHotelSearch LoadBalancingSearch;
 
@@ -69,6 +71,16 @@ namespace MapUtilsTest
         }
 
         [TestMethod, TestCategory("Route")]
+        public void TestLancutDebica()
+        {
+            InitRoute(
+                new Location("Lancut"),
+                new Location("Debica")
+                );
+            DoTest();
+        }
+
+        [TestMethod, TestCategory("Route")]
         public void TestWashingtonSanDiego()
         {
             InitRoute(
@@ -111,10 +123,22 @@ namespace MapUtilsTest
             DoTest();
         }
 
+        /// <summary>
+        /// Ignore as it looks like google cannot identify the points
+        /// </summary>
+        [TestMethod, TestCategory("Route")]
+        public void TestHotelSearchLvivKrakow()
+        {
+            InitRoute(
+                new Location("Lviv"),
+                new Location("Krakow")
+                );
+            DoTest();
+        }
+
         private void InitRoute(params Location[] locations)
         {
             TestIndex++;
-            const int RADIUS = 2000; // meters
             Proximity proximity = new Proximity(RADIUS);
 
             const bool OPTIMIZE = true;
@@ -149,7 +173,7 @@ namespace MapUtilsTest
         private void DoTest()
         {
             DoTest(LoadBalancingSearch);
-            DoTest(SignlePointSearch);            
+            DoTest(SignlePointSearch);
 
             //CompareSearchResults();
         }
@@ -185,8 +209,8 @@ namespace MapUtilsTest
             {
                 int hotelCount = search.Hotels.Count;
                 string progressStr = string.Format(
-                    "Processed {0} from {1} points. {2}  hotels found", 
-                    e.Progress, 
+                    "Processed {0} from {1} points. {2}  hotels found",
+                    e.Progress,
                     e.Count,
                     hotelCount
                     );
@@ -239,7 +263,7 @@ namespace MapUtilsTest
             {
                 LinkedPoint currentPoint = legStart;
                 string fileName = string.Format(@"d:\temp\HotelRoute.Test#{1}.Leg#{0}.txt", CurrentLegIndex++, TestIndex);
-                
+
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
                     DumpRote(search.RoutePoints.Route, writer);
@@ -266,7 +290,7 @@ namespace MapUtilsTest
             int result = 0;
             foreach (RouteLeg leg in search.RoutePoints.Route.Legs)
             {
-                foreach(RouteStep step in leg.Steps)
+                foreach (RouteStep step in leg.Steps)
                 {
                     if (step.HasPoints)
                         result += step.Points.Length;
@@ -300,7 +324,7 @@ namespace MapUtilsTest
             writer.WriteLine("Route dump finished");
 
         }
-        
+
         /// <summary>
         /// Dumps the point
         /// In case if some pounts were inserted after this method 
@@ -370,19 +394,115 @@ namespace MapUtilsTest
 
         /// <summary>
         /// Comparer if results obtaioned by different testmethods are the same 
+        /// 
+        /// Ignot this method for EAN since EAN at least in test mode each time returns different results.
         /// </summary>
         private void CompareSearchResults()
         {
-            Assert.AreEqual(SignlePointSearch.Hotels.Count, LoadBalancingSearch.Hotels.Count);
+            if (SignlePointSearch.Hotels.Count != LoadBalancingSearch.Hotels.Count)
+            {
+                CheckHotelsDifference();
+            }
+
+            Assert.AreEqual(
+                SignlePointSearch.Hotels.Count, LoadBalancingSearch.Hotels.Count,
+                string.Format("Count of hotels found by simple search ({0}) and load balancing search ({1}) is different", SignlePointSearch.Hotels.Count, LoadBalancingSearch.Hotels.Count)
+                );
 
             foreach (HotelSummary hotel in SignlePointSearch.Hotels)
             {
                 bool hasSameHotel = LoadBalancingSearch.Hotels.Contains(hotel);
                 Assert.IsTrue(hasSameHotel);
             }
-            
+
         }
 
+        private void CheckHotelsDifference()
+        {
+            CheckAllHotelsWithinProximity(SignlePointSearch);
+            CheckAllHotelsWithinProximity(LoadBalancingSearch);
+
+            foreach (HotelSummary hotel in SignlePointSearch.Hotels)
+            {
+                bool hasSameHotel = ContainsHotel(hotel, LoadBalancingSearch.Hotels);
+                if (!hasSameHotel)
+                {
+                    string missedHotelDescription = string.Format(
+                        "Hotel {0} ID {1} located {2} {3} is present in simple search and missed in load balancing search",
+                        hotel.Name, hotel.HotelId, hotel.Latitude, hotel.Longitude
+                        );
+                    System.Diagnostics.Trace.WriteLine(missedHotelDescription);
+                }
+            }
+
+            foreach (HotelSummary hotel in LoadBalancingSearch.Hotels)
+            {
+                bool hasSameHotel = ContainsHotel(hotel, SignlePointSearch.Hotels);
+                if (!hasSameHotel)
+                {
+                    string missedHotelDescription = string.Format(
+                        "Hotel {0} ID {1} located {2} {3} is present in load balancing search and missed in simple search",
+                        hotel.Name, hotel.HotelId, hotel.Latitude, hotel.Longitude
+                        );
+                    System.Diagnostics.Trace.WriteLine(missedHotelDescription);
+                }
+            }
+        }
+
+        private bool ContainsHotel(HotelSummary hotel, List<HotelSummary> hotelList)
+        {
+            foreach(HotelSummary h in hotelList)
+            {
+                if (h.HotelId == hotel.HotelId) return true;
+            }
+            return false;
+        }
+
+        private void CheckAllHotelsWithinProximity(IRouteHotelSearch search)
+        {
+            foreach (HotelSummary hotel in search.Hotels)
+            {
+                bool hotelInproximityToRoute = HotelInProximityToRoute(search.RoutePoints, hotel);
+                Assert.IsTrue(hotelInproximityToRoute, 
+                    string.Format("Hotel {0}  id: {1} located {2} {3} is not in proximity to route", hotel.Name, hotel.HotelId, hotel.Latitude, hotel.Longitude));
+            }
+        }
+
+        /// <summary>
+        /// Checks whether hotel is whithin proximity distance to the reoute represented by route points
+        /// </summary>
+        /// <param name="route">Route points representing the route</param>
+        /// <param name="hotel">Hotel to be validated on matching procimity distance</param>
+        /// <returns>Whether hotel is whithin proximity distance to the route</returns>
+        private bool HotelInProximityToRoute(RoutePoints route, HotelSummary hotel)
+        {
+            foreach (LinkedPoint legStart in route.LegsStart)
+            {
+                bool belongToLeg = HotelInProximityToLeg(legStart, hotel);
+                if (belongToLeg) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks whether hotel is whithin proximity distance to the leg represented by leg start
+        /// </summary>
+        /// <param name="legStart">Starting point of the leg</param>
+        /// <param name="hotel">Hotel to be validated on matching procimity distance</param>
+        /// <returns>Whether hotel is whithin proximity distance to the leg represented by leg start</returns>
+        private bool HotelInProximityToLeg(LinkedPoint legStart, HotelSummary hotel)
+        {
+            LinkedPoint p = legStart;
+            do
+            {
+                double distance = CalculationUtils.DistanceUtils.Distance(p.Point.Latitude, p.Point.Longitude, hotel.Latitude, hotel.Longitude);
+                if (distance < RADIUS) return true;
+                p = p.Next;
+            }
+            while (null != p);
+
+            return false;
+        }
 
     }
 }

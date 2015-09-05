@@ -43,7 +43,7 @@ namespace HotelRouteCalculation
         /// Returns value of calculation radius in meters
         /// </summary>
         /// <returns></returns>
-        int GetCalculationRaduis();
+        int GetCalculationRadius();
 
 #if DEBUG
         /// <summary>

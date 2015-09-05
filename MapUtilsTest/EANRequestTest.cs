@@ -54,11 +54,47 @@ namespace MapUtilsTest
             // TODO - add more test in other location (US, Europe, UK, Latam, etc) to verify parser works with different regions
         }
 
+        /// <summary>
+        /// Verify that hotels found are within radius specified
+        /// It appeares that some results for short raduis EAN filter by location is not good
+        /// </summary>
+        [TestMethod]
+        public void TestHotelResultLocationWithinProximityRadius()
+        {
+            HotelListParameters parametersRzeszow = BuildparametersRzeszow();
+            TestResultLocationAccuracy(parametersRzeszow);
+        }
+
         private void TestInternal(HotelListParameters parameters)
         {
             HotelListRequest request = new HotelListRequest(parameters);
             request.Request();
             DumpData(request.Response);
+        }
+
+        private void TestResultLocationAccuracy(HotelListParameters parameters)
+        {
+            for (int i = 10; i > 1; --i)
+            {
+                const int METERS_IN_KM = 1000;
+                int searchRadius = i * METERS_IN_KM;
+                parameters.SearchRadius = searchRadius;
+
+                HotelListRequest request = new HotelListRequest(parameters);
+                request.Request();
+                VerifyHotelsLocation(parameters, request.Response);
+            }
+        }
+
+        private void VerifyHotelsLocation(HotelListParameters parameters, HotelListResponse hotels)
+        {
+            foreach (EANInterface.TransportObjects.HotelSummary hotel in hotels.Hotels.Hotels)
+            {
+                double distance = CalculationUtils.DistanceUtils.Distance(
+                    parameters.Location.Latitude, parameters.Location.Longitude, hotel.Latitude, hotel.Longitude);
+
+                Assert.IsTrue(distance < parameters.SearchRadius, string.Format("Test failed for search radius value {0}", parameters.SearchRadius));
+            }
         }
 
         private void DumpData(HotelListResponse response)
@@ -134,6 +170,7 @@ namespace MapUtilsTest
             p.HotelPreferences = new HotelPreference();
 
             p.HotelPreferences.Locale = "uk_UA";
+            p.SearchRadius = 4000; // Meters
             p.Location = new RouteTransportObjects.LatLng(50.5, 20.5);
             p.HotelPreferences.CurrencyCode = "USD";
             p.HotelPreferences.ArrivalDate = DateTime.Now.AddDays(2);
@@ -147,6 +184,31 @@ namespace MapUtilsTest
                 p.HotelPreferences.Rooms = roomList.ToArray();
             }
             
+
+            return p;
+        }
+
+        private HotelListParameters BuildparametersRzeszow()
+        {
+            HotelListParameters p = new HotelListParameters();
+            p.HotelPreferences = new HotelPreference();
+
+            p.HotelPreferences.Locale = "uk_UA";
+            p.SearchRadius = 1000; // Meters
+            p.SearchRadiusUnit = DistanceUnit.Meters;
+            p.Location = new RouteTransportObjects.LatLng(50.04016, 22.03251); // Rzeszow
+            p.HotelPreferences.CurrencyCode = "USD";
+            p.HotelPreferences.ArrivalDate = DateTime.Now.AddDays(5);
+            p.HotelPreferences.DepartureDate = p.HotelPreferences.ArrivalDate.AddDays(1);
+            {
+                RoomParameter room = new RoomParameter();
+                room.AdultsCount = 2;
+
+                List<RoomParameter> roomList = new List<RoomParameter>();
+                roomList.Add(room);
+                p.HotelPreferences.Rooms = roomList.ToArray();
+            }
+
 
             return p;
         }

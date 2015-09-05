@@ -27,5 +27,20 @@ namespace HotelInterface.TO
         /// .ctor 
         /// </summary>
         public RoomParameter() { }
+
+        public override string ToString()
+        {
+            string childrensStr = string.Empty;
+            if (null != Childrens)
+            {
+                for (int i = 0; i < Childrens.Length; ++i)
+                {
+                    if (i > 0) childrensStr += ", ";
+                    childrensStr += string.Format("'{0}'", Childrens[i]);
+                }
+            }
+
+            return string.Format("Adults: '{0}', Childrens: '{1}'", AdultsCount, childrensStr);
+        }
     }
 }

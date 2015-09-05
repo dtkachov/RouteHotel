@@ -82,6 +82,11 @@ namespace HotelRouteCalculation
         /// </summary>
         /// <returns></returns>
         int GetCalculationRaduis();
+
+        /// <summary>
+        /// Checks whether all found hotels are in proximity radius to route points
+        /// </summary>
+        void CheckAllHotelsInProximityRadius();
 #endif
     }
 }
