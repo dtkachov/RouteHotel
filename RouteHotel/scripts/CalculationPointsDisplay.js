@@ -59,5 +59,22 @@ function displayCalculationPoint(point) {
         infowindow.open(map, marker);
 
         //marker.style.fill = "white";
-    });    
+    });
+
+    // display proximity range
+    var radius = parseInt(DEFAULT_PROXIMITY_RADIUS); // TBD - read from configuraiton
+
+    var circle = new google.maps.Circle({
+        center: position,
+        clickable: true,
+        draggable: false,
+        editable: false,
+        fillColor: '#ffa500',
+        fillOpacity: 0.22,
+        map: map,
+        radius: radius,
+        strokeColor: 'yellow',
+        strokeOpacity: 0.32,
+        strokeWeight: 1,
+    });
 }

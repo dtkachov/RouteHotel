@@ -113,11 +113,11 @@ function parceHotelSearchPoints(hotelCalculationPoints) {
             draggable: false,
             editable: false,
             fillColor: '#004de8',
-            fillOpacity: 0.27,
+            fillOpacity: 0.09,
             map: map,
             radius: radius,
             strokeColor: '#004de8',
-            strokeOpacity: 0.62,
+            strokeOpacity: 0.42,
             strokeWeight: 1,
         });
 
