@@ -40,12 +40,12 @@
         <div id="openModal" class="modalDialog">
 
             <div>
-                <div>
+                <div class="hotelFrameTitle">
                     <a href="#close" title="Close" class="close">X</a>
                     <h2>Modal Box</h2>
                     <p>This is a sample modal box that can be created using the powers of CSS3.</p>
                 </div>
-                <div id="hoteInfoFrameContainer" align="center">
+                <div id="hoteInfoFrameContainer" align="center" class="hotelFrameContainer">
                     <iframe margin="5" border="1" scrollbars="auto" class="hotelFrameContainer"></iframe>
                 </div>
             </div>
