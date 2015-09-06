@@ -99,11 +99,20 @@ HotelMarker.prototype.intiInfoWindow = function () {
     contentString += '<br>Rates from <b>' + this.hotel.LowRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode;
     if (this.hotel.LowRate < this.hotel.HighRate) contentString += ' to <b>' + this.hotel.HighRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode;
 
+    contentString += '<br><br><a href="#openModal" onclick="displayHotelInfo(&apos;' + this.hotel.DeepLink + '&apos;);">Show me more info</a>';
+    // href="#openModal"  
+
     this.infoWindow = new google.maps.InfoWindow({
         content: contentString,
         position: this.latlng,
     });
 };
+
+function displayHotelInfo(link) {
+    var hoteInfoFrameContainer = document.getElementById("hoteInfoFrameContainer");
+    var iFrame = hoteInfoFrameContainer.getElementsByTagName("iframe")[0];
+    iFrame.setAttribute("src", link)
+}
 
 function decodeHTMLEntities(text) {
     var entities = [
