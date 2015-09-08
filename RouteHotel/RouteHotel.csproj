@@ -145,6 +145,10 @@
       <Project>{f27e4d18-96b3-46da-b183-4949680e417e}</Project>
       <Name>MapUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ResourcesToJavascript\ResourcesToJavascript.csproj">
+      <Project>{7cee7844-1e00-4982-b40a-0727d370d4dd}</Project>
+      <Name>ResourcesToJavascript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RouteTransportObjects\RouteTransportObjects.csproj">
       <Project>{b610c5af-4fbf-4a1d-b830-b6cc0535a252}</Project>
       <Name>RouteTransportObjects</Name>
@@ -156,6 +160,13 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_LocalResources\RoutePlanner_gm_v3.aspx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\RoutePlanner_JS.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,5 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RoutePlanner_gm_v3.aspx.cs" Inherits="RouteHotel.RoutePlanner_gm_v3" %>
 
+<%@ Register Assembly="ResourcesToJavascript" Namespace="ResourcesToJavaScript1" TagPrefix="JSR" %>
+
+
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -11,6 +15,9 @@
 </head>
 <body>
     <form id="form1" runat="server">
+       
+         <JSR:GlobalResourcesToJavaScript ID="GlobalResourceToJavaScript1" runat="server" GlobalResXFileName="RoutePlanner_JS" JavaScriptObjectName="Resources"></JSR:GlobalResourcesToJavaScript>
+
         <asp:ScriptManager runat="server">
             <Services>
                 <asp:ServiceReference Path="RouteAPI.asmx" />
@@ -19,21 +26,21 @@
         <div id="routeSearchParams">
             <table width="100%">
                 <tr>
-                    <td>From</td>
+                    <td><%= GetLocalResourceObject("routeSearchParams_from")%></td>
                     <td>
-                        <input id="fromPlace" class="controls" type="text" placeholder="Please enter a start location" style="autocomplete-input" /></td>
+                        <input id="fromPlace" class="controls" type="text" placeholder='<%= GetLocalResourceObject("routeSearchParams_fromPlace_hint")%>' style="autocomplete-input" /></td>
                 </tr>
                 <tr>
-                    <td>To</td>
+                    <td><%= GetLocalResourceObject("routeSearchParams_to")%></td>
                     <td>
-                        <input id="toPlace" class="controls" type="text" placeholder="Please enter a finish location" style="autocomplete-input" /></td>
+                        <input id="toPlace" class="controls" type="text" placeholder='<%= GetLocalResourceObject("routeSearchParams_toPlace_hint")%>' style="autocomplete-input" /></td>
                 </tr>
 
             </table>
 
             <!-- todo add place autocomplete controls: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-hotelsearch -->
             <br />
-            <input type="button" onclick="performSearch();" value="Search" id="btnSearchRoute" />
+            <input type="button" onclick="performSearch();" value="<%= GetLocalResourceObject("routeSearchParams_btnSearch_text")%>" id="btnSearchRoute" />
         </div>
         <div id="map-canvas"></div>
 
