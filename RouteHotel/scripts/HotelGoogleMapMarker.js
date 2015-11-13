@@ -91,12 +91,12 @@ HotelMarker.prototype.intiInfoWindow = function () {
     if (null != this.hotel.CountryCode && this.hotel.CountryCode.length > 0) contentString += ', ' +  this.hotel.CountryCode;
     contentString += '<br>';
 
-    if (this.hotel.HotelRating > 0) contentString += Resources.HotelPopup_BasicHotelInfo_HoteRating + ' <b>' + this.hotel.HotelRating.toFixed(1) + '</b><br>';
+    if (this.hotel.HotelRating > 0) contentString += Resources.HotelPopup_BasicHotelInfo_HoteRating + ' <b>' + this.hotel.HotelRating.toFixed(1) + '</b> <br>';
 
     var description = decodeHTMLEntities(this.hotel.ShortDescription); 
     contentString += description + '<br>';
 
-    contentString += '<br>' + Resources.HotelPopup_BasicHotelInfo_RatesFrom + '<b>' + this.hotel.LowRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode;
+    contentString += '<br>' + Resources.HotelPopup_BasicHotelInfo_RatesFrom + ' <b>' + this.hotel.LowRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode + ' ';
     if (this.hotel.LowRate < this.hotel.HighRate) contentString += Resources.HotelPopup_BasicHotelInfo_RatesTo + ' <b>' + this.hotel.HighRate.toFixed(0) + '</b> ' + this.hotel.RateCurrencyCode;
 
     contentString += '<br><br><a href="#openModal" onclick="displayHotelInfo(&apos;' + this.hotel.DeepLink + '&apos;);">' + Resources.HotelPopup_BasicHotelInfo_ShowMoreInfo + '</a>';

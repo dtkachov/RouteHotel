@@ -49,9 +49,10 @@
             <div>
                 <div class="internalHotelPopupContainer">
                     <div class="hotelPopupTitle">
-                        <a href="#close" title="Close" class="close">X</a>
-                        <h2>Modal Box</h2>
-                        <p>This is a sample modal box that can be created using the powers of CSS3.</p>
+                        <a href="#close" title="Close" class="close"
+                             onclick="document.getElementById('hoteInfoFrameContainer').getElementsByTagName('iframe')[0].setAttribute('src', '') ;" 
+                            >X</a>
+                        <h2>Hotel info</h2>
                     </div>
                     <div id="hoteInfoFrameContainer" class="hotelPopupContentContainer">
                         <iframe class="hotelFrameContainer"></iframe>

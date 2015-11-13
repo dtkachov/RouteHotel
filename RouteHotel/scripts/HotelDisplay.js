@@ -84,12 +84,11 @@ HotelDisplay.prototype.displayHotel = function(hotel) {
 }
 
 HotelDisplay.prototype.displayProgress = function (hotelResponse) {
-    // TBD - change to real progress display
     var time = new Date();
     var timeStr = time.toLocaleTimeString();
     var msg = timeStr + " Processed " + hotelResponse.ProcessedPointCount + " from " + hotelResponse.CalculationPointCount;
     console.log(msg);
-    if (hotelResponse.IsFinished) console.log("!!!! finished");
+    if (hotelResponse.IsFinished) console.log("Finished");
 }
 
 function displayHotelSearchAreas(routeID) {
