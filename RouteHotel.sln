@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotCodeArtifacts", "NotCode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourcesToJavascript", "ResourcesToJavascript\ResourcesToJavascript.csproj", "{7CEE7844-1E00-4982-B40A-0727D370D4DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMapTO", "GMapTO\GMapTO.csproj", "{432E3BE4-2410-41FD-93C9-B692C95CA91C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{7CEE7844-1E00-4982-B40A-0727D370D4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CEE7844-1E00-4982-B40A-0727D370D4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CEE7844-1E00-4982-B40A-0727D370D4DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -171,5 +171,18 @@ namespace RouteHotel
 
 #endif
 
+        /// <summary>
+        /// Search route and hotels on it
+        /// </summary>
+        /// <param name="routeParams"></param>
+        /// <returns></returns>
+        [WebMethod(EnableSession = true)]
+        [System.Web.Script.Services.ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public RouteHotel.TransportObjects.Route StartHotelSearch(gmap.RouteResult routeResult) 
+        {
+            Log.Debug(routeResult.ToString());
+            return null;
+        }
+
     }
 }

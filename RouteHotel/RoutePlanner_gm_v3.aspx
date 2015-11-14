@@ -88,6 +88,7 @@
     <script>
         window.location.hash = "top"; // prevent scroling to anchor when saved in URL or on pagre reload  
     </script>
+<script src="/scripts/RouteTypes.js" type="text/javascript"></script>
 <script src="/scripts/InitializeMap.js" type="text/javascript"></script>
 <script src="/scripts/PlaceAutocomplete.js" type="text/javascript"></script>
 <script src="/scripts/SearchBuilder.js" type="text/javascript"></script>

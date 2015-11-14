@@ -78,6 +78,7 @@
     <Content Include="RouteAPI.asmx" />
     <Content Include="RoutePlanner.aspx" />
     <Content Include="RoutePlanner.css" />
+    <Content Include="RoutePlanner_draggable.aspx" />
     <Content Include="RoutePlanner_gm_v3.aspx" />
     <Content Include="scripts\CalculationPointsDisplay.js" />
     <Content Include="scripts\HotelGoogleMapMarker.js" />
@@ -85,6 +86,7 @@
     <Content Include="scripts\InitializeMap.js" />
     <Content Include="scripts\PlaceAutocomplete.js" />
     <Content Include="scripts\RouteDisplay.js" />
+    <Content Include="scripts\RouteTypes.js" />
     <Content Include="scripts\SearchBuilder.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -113,6 +115,13 @@
     <Compile Include="RoutePlanner.aspx.designer.cs">
       <DependentUpon>RoutePlanner.aspx</DependentUpon>
     </Compile>
+    <Compile Include="RoutePlanner_draggable.aspx.cs">
+      <DependentUpon>RoutePlanner_draggable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RoutePlanner_draggable.aspx.designer.cs">
+      <DependentUpon>RoutePlanner_draggable.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RoutePlanner_gm_v3.aspx.cs">
       <DependentUpon>RoutePlanner_gm_v3.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -129,6 +138,10 @@
     <Compile Include="App_Code\Utils\IPUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GMapTO\GMapTO.csproj">
+      <Project>{432e3be4-2410-41fd-93c9-b692c95ca91c}</Project>
+      <Name>GMapTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GoogleDirections\GoogleDirections.csproj">
       <Project>{7c6447b2-d889-4306-ad8b-da5542054c66}</Project>
       <Name>GoogleDirections</Name>
