@@ -89,7 +89,7 @@
 
             //displayRoute('Perth, WA', 'Sydney, NSW', directionsService, directionsDisplay);
             //displayRoute('Cocklebiddy, WA', 'Broken Hill, NSW', directionsService, directionsDisplay);
-            displayRoute('Lviv', 'Ternopil', directionsService, directionsDisplay);
+            displayRoute('Lviv', 'Dubrovnik', directionsService, directionsDisplay);
         }
 
         function displayRoute(origin, destination, service, display) {
@@ -99,7 +99,8 @@
                 origin: origin,
                 destination: destination,
                 travelMode: google.maps.TravelMode.DRIVING,
-                avoidTolls: true
+                provideRouteAlternatives : true,
+                avoidTolls: false
             }, function (response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
                     display.setDirections(response);

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GoogleDirections;
 using System.Diagnostics;
 using MapUtils;
+using MapTypes;
 
 namespace HotelRouteCalculation
 {
@@ -14,8 +14,10 @@ namespace HotelRouteCalculation
     public class RoutePoints
     {
 
+        protected static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
-        /// Rote object for give locations list
+        /// Rote object for given locations list
         /// </summary>
         public Route Route
         {
@@ -36,15 +38,6 @@ namespace HotelRouteCalculation
         private Proximity proximity;
 
         /// <summary>
-        /// Links to first point of each leg in a route
-        /// </summary>
-        public List<LinkedPoint> LegsStart
-        {
-            get { return legsStart; }
-        }
-        private List<LinkedPoint> legsStart;
-
-        /// <summary>
         /// Count of points in this route for all legs
         /// </summary>
         public int PointCount
@@ -52,6 +45,17 @@ namespace HotelRouteCalculation
             get { return pointCount; }
         }
         private int pointCount = 0;
+
+        /// <summary>
+        /// Whether close point should be optimized
+        /// Can help with opeformance while seeking the hotels, however might incerase inacuracy.
+        /// </summary>
+        public bool OptimizeClosePoints
+        {
+            get { return _optimizeClosePoints; }
+            set { _optimizeClosePoints = value; }
+        }
+        private bool _optimizeClosePoints = false;
 
         /// <summary>
         /// .ctor
@@ -70,47 +74,8 @@ namespace HotelRouteCalculation
         /// </summary>
         public void BuildRoutePoints()
         {
-            BuildInitialList();
             OptimizePoints();
             CalculateCount();
-        }
-
-        /// <summary>
-        /// Builds initial list of linked points.
-        /// Simply parse route and add points to the list
-        /// </summary>
-        private void BuildInitialList()        
-        {
-            legsStart = new List<LinkedPoint>();
-
-            for (int l = 0; l < Route.Legs.Length; ++l)
-            {
-                LinkedPoint startPoint = null;
-                LinkedPoint prevPoint = null;
-
-                RouteLeg leg = Route.Legs[l];
-                for (int s = 0; s < leg.Steps.Length; ++s)
-                {
-                    RouteStep step = leg.Steps[s];
-                    foreach (LatLng point in step.Points)
-                    {
-                        LinkedPoint currentPoint = new LinkedPoint(point);
-                        if (null == startPoint)
-                        {
-                            // this is first point in Leg
-                            startPoint = currentPoint;
-                        }
-                        else
-                        {
-                            // this is not the first point in list
-                            prevPoint.Next = currentPoint;
-                        }
-                        prevPoint = currentPoint;
-                    }
-                }
-
-                LegsStart.Add(startPoint);
-            }
         }
 
         /// <summary>
@@ -120,7 +85,7 @@ namespace HotelRouteCalculation
         /// </summary>
         private void OptimizePoints()
         {
-            foreach (LinkedPoint startPoint in LegsStart)
+            foreach (LinkedPoint startPoint in Route.RouteLegsStart)
             {
                 LinkedPoint currentPoint = startPoint;
 
@@ -129,6 +94,7 @@ namespace HotelRouteCalculation
                     if (currentPoint.Distance > Proximity.Step)
                     {
                         // distance between points is higher requred step to satisfy accuracy
+                        Log.DebugFormat("Start introducing via points for point {0}", currentPoint);
                         IntroduceViaPoints(currentPoint);
                         if (currentPoint.Distance > Proximity.Step)
                         {
@@ -139,9 +105,15 @@ namespace HotelRouteCalculation
                             throw new InvalidOperationException(errorMsg);
                         }
                     }
-                    if (IsClose(currentPoint))
+                    /*
+                     * Since load balancing method does not search hotels for each single point but do verify if hotel is in proximity
+                     * there is no need to optimize calculation of close points. Also removing close points might lead to 
+                     * accuracy mistakes. 
+                     */
+                    if (OptimizeClosePoints && IsClose(currentPoint))
                     {
-                        OptimizeClosePoints(currentPoint);
+                        Log.DebugFormat("Start optimizing close points for point {0}", currentPoint);
+                        DoOptimizeClosePoints(currentPoint);
                         if (currentPoint.Distance > Proximity.Step)
                         {
                             string errorMsg = string.Format(
@@ -150,7 +122,10 @@ namespace HotelRouteCalculation
                                 );
                             throw new InvalidOperationException(errorMsg);
                         }
+
+                        Debug.Assert(CheckSequencePreservedForDeletedPoints(currentPoint), "Close point optimization failed. We cannot reach looping by OriginalNext to Next");
                     }
+                     
                     currentPoint = currentPoint.Next;
                 }
             }
@@ -161,7 +136,7 @@ namespace HotelRouteCalculation
         /// </summary>
         private void CalculateCount()
         { 
-            foreach(LinkedPoint start in this.LegsStart)
+            foreach(LinkedPoint start in this.Route.RouteLegsStart)
             {
                 int legPointsCount = 1;
                 LinkedPoint p = start;
@@ -181,28 +156,70 @@ namespace HotelRouteCalculation
         /// <returns>if point are very close to each other</returns>
         private bool IsClose(LinkedPoint point)
         {
-            return point.Distance < Proximity.Step / 2.5;
+            const double ACCURACY_DIVIDER = 2.5;
+            return point.Distance < Proximity.Step / ACCURACY_DIVIDER;
         }
+
+#if DEBUG
+        
+        /// <summary>
+        /// This method is for debug purpose. Used for cases where close point optimization happened.
+        /// It checks whether OrininalNext sequence still lead to next point
+        /// </summary>
+        /// <param name="point">Point optimized</param>
+        /// <returns>Whether data is preserved fine and we would still reach by OriginalNext to Next point</returns>
+        private bool CheckSequencePreservedForDeletedPoints(LinkedPoint point)
+        {
+            LinkedPoint p = point.OriginalNext;
+            while (p != point.Next)
+            {
+                if (null == p)
+                {
+                    LinkedPoint temp = point.OriginalNext;
+                    int counter = 0;
+                    while (temp != p)
+                    {
+                        Log.DebugFormat("point #{0} {1}", counter++, temp);
+                        temp = temp.OriginalNext;
+                    }
+                    Debug.Assert(null != p, "Parameter p is not expected to be null");
+                    return false;
+                }
+
+                Debug.Assert(null != p.Point, "Point field cannot be null");
+                p = p.OriginalNext;
+            }
+
+            return true; // since we reach here at some point OriginalNext led to Next field of point specified.
+        }
+#endif
 
         /// <summary>
         /// Optimizes close points by removing some of them 
         /// </summary>
         /// <param name="start">Starting point</param>
-        private void OptimizeClosePoints(LinkedPoint start)
+        private void DoOptimizeClosePoints(LinkedPoint start)
         {
             List<LinkedPoint> closePoints = new List<LinkedPoint>();
-            LinkedPoint currentPoint = start;
-            double distance = start.Distance;
+            LinkedPoint finishPoint = start.Next, nextPointToCheck = start.Next;
 
-            while (!currentPoint.IsLast && (distance + currentPoint.Distance) < Proximity.Step)
+            int counter = 0;
+            /*
+             * warning - check if nextPointToCheck.IsIntroduced is very improtant since in case if short cut from original point to introduce original point loop might be broken.
+             */
+            while (!nextPointToCheck.IsLast && MapTypes.DistanceUtils.Distance(start.Point, nextPointToCheck.Point) < Proximity.Step && !nextPointToCheck.IsIntroduced)
             {
-                currentPoint = currentPoint.Next;
-                distance = DistanceUtils.Distance(start.Point, currentPoint.Point);
-                closePoints.Add(currentPoint);
-            }
+                Log.DebugFormat(
+                    "\t\tclose point #{0} <{1}>, distance from start point to nextPointToCheck (<{3}>) {2}",
+                    counter++, finishPoint, MapTypes.DistanceUtils.Distance(start.Point, nextPointToCheck.Point), nextPointToCheck
+                    );
 
-            LinkedPoint finishPoint = currentPoint;
-            if (start.Next == finishPoint) return;
+                finishPoint = nextPointToCheck;
+                closePoints.Add(finishPoint);
+                nextPointToCheck = finishPoint.Next;
+            }
+            
+            if (finishPoint == start.Next) return;
 
             /* 
              * TBD: identify any optimization mechanism
@@ -212,6 +229,7 @@ namespace HotelRouteCalculation
              */
 
             start.Next = finishPoint;
+            Log.DebugFormat("\tafter optimization, start point {0}, finish {1}", start, finishPoint);
         }
 
         /// <summary>
@@ -252,6 +270,8 @@ namespace HotelRouteCalculation
                 LinkedPoint point = LinkedPoint.CreateIntroducedPoint(mapPoint, finish);
                 currentPoint.Next = point;
                 if (distanceBeforeInsert <= currentPoint.Distance) throw new InvalidOperationException("Logic in points optimization After making attempt to insert points in the middle distance between points grown or stay unchanged");
+
+                Log.DebugFormat("\tintroduced point #{0} {1}", i, point);
 
                 currentPoint = currentPoint.Next;
             }

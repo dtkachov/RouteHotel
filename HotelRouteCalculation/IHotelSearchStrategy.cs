@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MapTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,7 +51,7 @@ namespace HotelRouteCalculation
         /// Returns calculation points for this search
         /// </summary>
         /// <returns>Calculation points - for which hotels would be searched</returns>
-        GoogleDirections.LatLng[] GetCalculationPoints();
+        LatLng[] GetCalculationPoints();
 #endif
    
     }

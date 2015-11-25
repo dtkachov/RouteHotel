@@ -17,9 +17,10 @@ namespace HotelRouteCalculation
         /// <param name="route">Route to optimize points for</param>
         /// <param name="proximity">Required accuracy values object</param>
         /// <param name="hotelParameters">Represents hotel search criterias</param>
-        public SinglePointRouteHotelSearch(GoogleDirections.Route route, MapUtils.Proximity proximity, HotelInterface.TO.HotelPreference hotelParameters)
+        public SinglePointRouteHotelSearch(Route route, MapUtils.Proximity proximity, HotelInterface.TO.HotelPreference hotelParameters)
             : base(route, proximity, hotelParameters)
         {
+            this.RoutePoints.OptimizeClosePoints = true;
         }
     }
 }

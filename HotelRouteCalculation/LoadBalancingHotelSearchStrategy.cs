@@ -1,5 +1,5 @@
-﻿using GoogleDirections;
-using HotelInterface.TO;
+﻿using HotelInterface.TO;
+using MapTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -134,7 +134,7 @@ namespace HotelRouteCalculation
         /// </summary>
         private void FillCalculationRegions()
         {
-            foreach (LinkedPoint legStart in RoutePoints.LegsStart)
+            foreach (LinkedPoint legStart in RoutePoints.Route.RouteLegsStart)
             {
                 FillCalculationRegionsForLeg(legStart);
             }
@@ -289,9 +289,9 @@ namespace HotelRouteCalculation
         /// Returns calculation points for this search
         /// </summary>
         /// <returns>Calculation points - for which hotels would be searched</returns>
-        public GoogleDirections.LatLng[] GetCalculationPoints()
+        public LatLng[] GetCalculationPoints()
         {
-            List<GoogleDirections.LatLng> calculationPoints = new List<GoogleDirections.LatLng>();
+            List<LatLng> calculationPoints = new List<LatLng>();
             foreach (LoadBalancingRegion region in CalculationRegions)
             {
                 calculationPoints.Add(region.Center.Point);

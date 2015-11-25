@@ -61,7 +61,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="log4net.config.xml" />
     <Content Include="packages.config" />
+    <Content Include="MyPackage.1.0.0.nuspec" />
+    <None Include="nuspec.2010.7.xsd" />
+    <None Include="nuspec.2011.8.xsd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -100,6 +104,7 @@
     <Compile Include="App_Code\TransportObjects\CalculationRouteLeg.cs" />
     <Compile Include="App_Code\TransportObjects\HotelResponse.cs" />
     <Compile Include="App_Code\TransportObjects\RouteParams.cs" />
+    <Compile Include="App_Code\Utils\GoogleDirectionSearch.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,6 +158,10 @@
     <ProjectReference Include="..\HotelRouteCalculation\HotelRouteCalculation.csproj">
       <Project>{f1ddef35-d97a-481f-a16d-a4f7320400bc}</Project>
       <Name>HotelRouteCalculation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapTypes\MapTypes.csproj">
+      <Project>{a653ccca-6421-493c-bc1e-c8b4dffc4815}</Project>
+      <Name>MapTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\MapUtils\MapUtils.csproj">
       <Project>{f27e4d18-96b3-46da-b183-4949680e417e}</Project>

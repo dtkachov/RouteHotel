@@ -41,15 +41,14 @@ namespace RouteHotel.TransportObjects
             this.LocationName = locationName;
         }
 
-
         /// <summary>
         /// Converts into GoogleDirections.Location
         /// </summary>
         /// <returns>GoogleDirections.Location object</returns>
         public static GoogleDirections.Location ConvertToLocation(RouteTransportObjects.Location location)
         {
-            GoogleDirections.LatLng googleLatLng = null == location.LatLng
-                ? GoogleDirections.LatLng.EMPTY
+            MapTypes.LatLng googleLatLng = null == location.LatLng
+                ? MapTypes.LatLng.EMPTY
                 : RouteHotel.TransportObjects.LatLng.ConvertToLatLng(location.LatLng);
             return new GoogleDirections.Location(googleLatLng, location.LocationName);
         }

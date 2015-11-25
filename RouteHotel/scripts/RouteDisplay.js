@@ -8,15 +8,17 @@ function convertToLatLng(toObj) {
     return new google.maps.LatLng(toObj.Latitude, toObj.Longitude);
 }
 
+// invoked from SearchBuilder.js::performSearch()
 function parceRoute(route) {
     if (null == route) return;
 
     processLegs(route.Legs); // iterate through legs
     zoomMap(route);
 
-    RouteHotel.RouteAPI.GetCalculationPoints(route.RouteID, parceCalculationPoints); // parceRoute defined in RouteDisplay.js
+    // uncomment line below for debug purpose with wanrning - very high impact on performance!
+    //RouteHotel.RouteAPI.GetCalculationPoints(route.RouteID, parceCalculationPoints); //  defined in CalculationPointsDisplay.js::parceCalculationPoints(calculationRouteLegs)
 
-    fetchHotels(route.RouteID);
+    fetchHotels(route.RouteID); // defined in HotelDisplay.js::fetchHotels(routeID)
 }
 
 // processes legs - display them on map

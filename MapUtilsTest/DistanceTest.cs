@@ -88,8 +88,8 @@ namespace MapUtilsTest
         /// <param name="expectedDistance">in Meters!</param>
         private void DoDistanceTest(double lat1, double lon1, double lat2, double lon2, double expectedDistance)
         {
-            double result1 = DistanceUtils.Distance(new LatLng(lat1, lon1), new LatLng(lat2, lon2));
-            double result2 = DistanceUtils.Distance(new LatLng(lat2, lon2), new LatLng(lat1, lon1));
+            double result1 = MapTypes.DistanceUtils.Distance(new LatLng(lat1, lon1), new LatLng(lat2, lon2));
+            double result2 = MapTypes.DistanceUtils.Distance(new LatLng(lat2, lon2), new LatLng(lat1, lon1));
             const double ACCURACY = 1; // 1 meter
 
             Assert.IsTrue(ACCURACY > Math.Abs(result1 - result2));

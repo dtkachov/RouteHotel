@@ -1,5 +1,5 @@
-﻿using GoogleDirections;
-using HotelInterface.TO;
+﻿using HotelInterface.TO;
+using MapTypes;
 using MapUtils;
 using System;
 using System.Collections.Generic;
@@ -122,7 +122,7 @@ namespace HotelRouteCalculation
         /// Search hotels for each point
         /// </summary>
         public void Search()
-        {
+        {            
             routePoints.BuildRoutePoints();
 
             StartSearchHotels();
@@ -320,7 +320,7 @@ namespace HotelRouteCalculation
         /// Returns calculation points for this search
         /// </summary>
         /// <returns>Calculation points - for which hotels would be searched</returns>
-        public GoogleDirections.LatLng[] GetCalculationPoints()
+        public LatLng[] GetCalculationPoints()
         {
             return SearchStrategy.GetCalculationPoints();
         }
@@ -345,8 +345,8 @@ namespace HotelRouteCalculation
                 if (!hotelInProximityToRoute)
                 {
                     string errMsg = string.Format(
-                        "Hotel {0}  id: {1} located {2} {3} is not in proximity to route", 
-                        hotel.Name, hotel.HotelId, hotel.Latitude, hotel.Longitude
+                        "Hotel {0}  id: {1} located {2} {3} is not in proximity to route. Distance is {4} while proximity is {5}",
+                        hotel.Name, hotel.HotelId, hotel.Latitude, hotel.Longitude, CalculateSmallestDistanceHotelToRoute(hotel), RoutePoints.Proximity.Radius
                     );
                     throw new InvalidOperationException(errMsg);
                 }
@@ -361,13 +361,32 @@ namespace HotelRouteCalculation
         /// <returns>Whether hotel is whithin proximity distance to the route</returns>
         private bool HotelInProximityToRoute(HotelSummary hotel)
         {
-            foreach (LinkedPoint legStart in RoutePoints.LegsStart)
+            foreach (LinkedPoint legStart in RoutePoints.Route.RouteLegsStart)
             {
                 bool belongToLeg = HotelInProximityToLeg(legStart, hotel);
                 if (belongToLeg) return true;
             }
             return false;
         }
+
+        /// <summary>
+        /// Calculates smallest distance of hotel to route points 
+        /// </summary>
+        /// <param name="hotel">Hotel to be validated on matching procimity distance</param>
+        /// <returns>Smallest distance of hotel to route point</returns>
+        private double CalculateSmallestDistanceHotelToRoute(HotelSummary hotel)
+        {
+            double result = double.MaxValue;
+
+            foreach (LinkedPoint legStart in RoutePoints.Route.RouteLegsStart)
+            {
+                double distance = CalculateSmallestDistanceHotelToLeg(legStart, hotel);
+                if (distance < result)
+                    result = distance;
+            }
+            return result;
+        }
+
 
         /// <summary>
         /// Checks whether hotel is whithin proximity distance to the leg represented by leg start
@@ -377,17 +396,35 @@ namespace HotelRouteCalculation
         /// <returns>Whether hotel is whithin proximity distance to the leg represented by leg start</returns>
         private bool HotelInProximityToLeg(LinkedPoint legStart, HotelSummary hotel)
         {
+            double smallestDistanceHotelToLeg = CalculateSmallestDistanceHotelToLeg(legStart, hotel);
+            int proximityRadius = RoutePoints.Proximity.Radius;
+
+            return smallestDistanceHotelToLeg <= proximityRadius;
+        }
+
+        /// <summary>
+        /// Calculates smallest distance of hotel to leg
+        /// </summary>
+        /// <param name="legStart">Starting point of the leg</param>
+        /// <param name="hotel">Hotel to be validated on matching procimity distance</param>
+        /// <returns>Smallest distance of hotel to leg</returns>
+        private double CalculateSmallestDistanceHotelToLeg(LinkedPoint legStart, HotelSummary hotel)
+        {
             int proximityRadius = RoutePoints.Proximity.Radius;
             LinkedPoint p = legStart;
+            double result = double.MaxValue;
+
             do
             {
                 double distance = CalculationUtils.DistanceUtils.Distance(p.Point.Latitude, p.Point.Longitude, hotel.Latitude, hotel.Longitude);
-                if (distance < proximityRadius) return true;
+                if (distance < result) 
+                    result = distance;
+
                 p = p.Next;
             }
             while (null != p);
 
-            return false;
+            return result;
         }
 
 #endif

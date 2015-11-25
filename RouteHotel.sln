@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourcesToJavascript", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMapTO", "GMapTO\GMapTO.csproj", "{432E3BE4-2410-41FD-93C9-B692C95CA91C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTypes", "MapTypes\MapTypes.csproj", "{A653CCCA-6421-493C-BC1E-C8B4DFFC4815}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{432E3BE4-2410-41FD-93C9-B692C95CA91C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A653CCCA-6421-493C-BC1E-C8B4DFFC4815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A653CCCA-6421-493C-BC1E-C8B4DFFC4815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A653CCCA-6421-493C-BC1E-C8B4DFFC4815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A653CCCA-6421-493C-BC1E-C8B4DFFC4815}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

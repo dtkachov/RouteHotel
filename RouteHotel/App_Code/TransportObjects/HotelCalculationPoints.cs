@@ -21,12 +21,12 @@ namespace RouteHotel.TransportObjects
         /// </summary>
         public int CalculationRadius { get; set; }
 
-        public HotelCalculationPoints(int calculationRadius, GoogleDirections.LatLng[] points) 
+        public HotelCalculationPoints(int calculationRadius, MapTypes.LatLng[] points) 
         {
             this.CalculationRadius = calculationRadius;
 
             List<LatLng> transportPoints = new List<LatLng>();
-            foreach (GoogleDirections.LatLng point in points)
+            foreach (MapTypes.LatLng point in points)
             {
                 LatLng transportPoint = new LatLng(point);
                 transportPoints.Add(transportPoint);

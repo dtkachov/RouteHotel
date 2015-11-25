@@ -19,7 +19,7 @@ namespace HotelRouteCalculation
         /// <param name="proximity">Required accuracy values object</param>
         /// <param name="hotelParameters">Represents hotel search criterias</param>
         /// <returns>Search object matching parameters requested.</returns>
-        public static IRouteHotelSearch CreateSearch(SearchType type, GoogleDirections.Route route, MapUtils.Proximity proximity, HotelInterface.TO.HotelPreference hotelParameters)
+        public static IRouteHotelSearch CreateSearch(SearchType type, Route route, MapUtils.Proximity proximity, HotelInterface.TO.HotelPreference hotelParameters)
         {
             switch (type)
             {

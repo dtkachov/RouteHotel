@@ -1,4 +1,5 @@
 ﻿using HotelInterface.TO;
+using MapTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -96,7 +97,7 @@ namespace HotelRouteCalculation
             this.SearchObject = searchObject;
             int calculationRadius = GetCalculationRadius();
 
-            foreach (LinkedPoint start in RoutePoints.LegsStart)
+            foreach (LinkedPoint start in RoutePoints.Route.RouteLegsStart)
             {
                 LinkedPoint p = start;
                 while (null != p) // IsLast property is not good work in this case as we still need to check the last one as well
@@ -110,8 +111,14 @@ namespace HotelRouteCalculation
                     }
                     catch (Exception exc)
                     {
+                        Console.WriteLine(string.Format("Error while searching hotels with message '{0}' occured", exc.ToString())); 
+                        Console.WriteLine(exc.StackTrace.ToString());
+
                         SignalRouteSearchError(exc, p);
                     }
+
+                    hotels = FilterHotelsInProximity(p, hotels);
+                    Debug.Assert(CheckHotelsInProximity(p, hotels), "Search result returns hotels located not in proximity to current search point!");
 
                     ReportNewHotels(hotels);
 
@@ -166,23 +173,84 @@ namespace HotelRouteCalculation
         /// <summary>
         /// Returns value of calculation radius in meters
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Value of calculation radius in meters</returns>
         public int GetCalculationRadius()
         {
             return SearchObject.RoutePoints.Proximity.Radius;
         }
 
+        /// <summary>
+        /// Filter hotels in proximity range to the point.
+        /// For some reason provides (for example EAN) might return hoetls that are not in proximity
+        /// So filter these now.
+        /// </summary>
+        /// <param name="point">Point to filter hotels for</param>
+        /// <param name="hotels">Hotel list</param>
+        /// <returns>Filtered hotel list.</returns>
+        private HotelSummary[] FilterHotelsInProximity(LinkedPoint point, HotelSummary[] hotels)
+        {
+            if (null == hotels) return null;
+
+            List<HotelSummary> result = new List<HotelSummary>();
+
+            int proximity = GetCalculationRadius();
+
+            foreach (HotelSummary hotel in hotels)
+            {
+                double distanceFromHoteltoPoint = CalculationUtils.DistanceUtils.Distance(hotel.Latitude, hotel.Longitude, point.Point.Latitude, point.Point.Longitude);
+                bool hotelInProximity = distanceFromHoteltoPoint <= proximity;
+                if (hotelInProximity)
+                {
+                    result.Add(hotel);
+                }
+            }
+
+            return result.ToArray();
+        }
+
 #if DEBUG
+
+        /// <summary>
+        /// Checks whether hotels in proximity range to the point.
+        /// </summary>
+        /// <param name="point">Point to check hotels for</param>
+        /// <param name="hotels">Hotel list</param>
+        /// <returns>Whether hotels in proximity range to the point.</returns>
+        private bool CheckHotelsInProximity(LinkedPoint point, HotelSummary[] hotels)
+        {
+            bool result = true;
+            if (null == hotels) return result;
+
+            int proximity = GetCalculationRadius();
+
+            foreach (HotelSummary hotel in hotels)
+            {
+                double distanceFromHoteltoPoint = CalculationUtils.DistanceUtils.Distance(hotel.Latitude, hotel.Longitude, point.Point.Latitude, point.Point.Longitude);
+                const double ACCURACY = 1.5;
+                bool hotelInProximity = distanceFromHoteltoPoint <= proximity * ACCURACY;
+                if (!hotelInProximity)
+                {
+                    string msg = string.Format(
+                        "Hotel '{0}' located '{1},{2}' located to search point '{3},{4}' in proximity {5} meters while expecting it to be located in {6} meters",
+                        hotel.Name, hotel.Latitude, hotel.Longitude, point.Point.Latitude, point.Point.Longitude, distanceFromHoteltoPoint, proximity
+                        );
+                    Trace.WriteLine(msg);
+                }
+                result &= hotelInProximity;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Returns calculation points for this search
         /// </summary>
         /// <returns>Calculation points - for which hotels would be searched</returns>
-        public GoogleDirections.LatLng[] GetCalculationPoints()
+        public LatLng[] GetCalculationPoints()
         {
-            List<GoogleDirections.LatLng> result = new List<GoogleDirections.LatLng>();
+            List<LatLng> result = new List<LatLng>();
 
-            foreach (LinkedPoint start in RoutePoints.LegsStart)
+            foreach (LinkedPoint start in RoutePoints.Route.RouteLegsStart)
             {
                 LinkedPoint p = start;
                 while (null != p) 

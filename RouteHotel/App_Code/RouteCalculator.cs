@@ -42,7 +42,7 @@ namespace RouteHotel
         /// <summary>
         /// Route object
         /// </summary>
-        public GoogleDirections.Route Route
+        public HotelRouteCalculation.Route Route
         {
             get { return HotelSearch.Route; }
         }
@@ -85,7 +85,6 @@ namespace RouteHotel
         /// .ctor
         /// </summary>
         /// <param name="routeParams">Route search parameters</param>
-        /// <param name="hotelParameters">Represents hotel search criterias</param>
         public RouteCalculator(RouteParams routeParams)
         {
             if (null == routeParams) throw new ArgumentNullException("Argument routeParams cannot be null");
@@ -98,18 +97,18 @@ namespace RouteHotel
         /// Starts route search
         /// When returns route is found, but hotel search execution is carried in background until search is marked as finished
         /// </summary>
-        public void Search()
+        /// <param name="route">Route to execute hotel search for</param>
+        public void Search(HotelRouteCalculation.Route route)
         {
             searchInProgress = true;
-
-            GoogleDirections.Location[] locations = Location.ConvertLocations(Params.Locations);
-            GoogleDirections.Route route = GoogleDirections.RouteDirections.GetRoute(Params.OptimizeRoute, locations);
 
             Proximity proximity = new Proximity(Params.ProximityRadius);
             hotelSearch = HoteSearchFactory.CreateSearch(SEARCH_TYPE, route, proximity, Params.HotelParameters);
             hotelSearch.Search();
             hotelSearch.Progress += hotelSearch_Progress;
         }
+
+
 
         void hotelSearch_Progress(object sender, CalculationStatusEventArgs e)
         {

@@ -89,9 +89,9 @@ namespace MapUtilsTest
             {
                 MapUtilsTest.HotelRouteAPI.Location location = routeParams.Locations[i];
 
-                GoogleDirections.LatLng googleLatLng = (null == location.LatLng)
-                    ? GoogleDirections.LatLng.EMPTY 
-                    : new GoogleDirections.LatLng(location.LatLng.Latitude, location.LatLng.Longitude);
+                MapTypes.LatLng googleLatLng = (null == location.LatLng)
+                    ? MapTypes.LatLng.EMPTY 
+                    : new MapTypes.LatLng(location.LatLng.Latitude, location.LatLng.Longitude);
 
                 GoogleDirections.Location googleLocation = new GoogleDirections.Location(googleLatLng, location.LocationName);
 

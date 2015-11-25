@@ -5,7 +5,7 @@ using System.Linq;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using GoogleDirections;
+using MapTypes;
 
 namespace MapUtilsTest
 {
@@ -15,7 +15,7 @@ namespace MapUtilsTest
     [TestClass]
     public class GoogleDirectionsTest
     {
-        private class PointsDumper : IPointVisitor
+        private class PointsDumper : GoogleDirections.IPointVisitor
         {
             private StreamWriter writer;
 
@@ -32,7 +32,7 @@ namespace MapUtilsTest
             /// </summary>
             /// <param name="from">Starting point</param>
             /// <param name="to">Finish point</param>
-            public void Visit(LatLng from, LatLng to)
+            public void Visit(GoogleDirections.LatLng from, GoogleDirections.LatLng to)
             {
                 double km = DistanceUtils.Distance(from, to);
                 const int KM_TO_METERS = 1000;
@@ -117,9 +117,9 @@ namespace MapUtilsTest
             }
             
             {
-                Location start = new Location("Vladivostok");
-                Location finish = new Location("Lissabon");
-                Route route = GetRoute(start, finish);
+                GoogleDirections.Location start = new GoogleDirections.Location("Vladivostok");
+                GoogleDirections.Location finish = new GoogleDirections.Location("Lissabon");
+                GoogleDirections.Route route = GetRoute(start, finish);
                 DumpRote(route, "Vlad-Liss");
                 DumpSegments(route, "Vlad-Liss");
             }
@@ -146,21 +146,21 @@ namespace MapUtilsTest
              */
         }
 
-        private Route GetRoute(Location start, Location finish)
+        private GoogleDirections.Route GetRoute(GoogleDirections.Location start, GoogleDirections.Location finish)
         {
-            List<Location> locations = new List<Location>();
+            List<GoogleDirections.Location> locations = new List<GoogleDirections.Location>();
             locations.Add(start);
             locations.Add(finish);
 
-            Route route = RouteDirections.GetCachedRoute(true, locations.ToArray());
+            GoogleDirections.Route route = GoogleDirections.RouteDirections.GetCachedRoute(true, locations.ToArray());
             
             return route;
         }
 
-        private void DumpSegments(Route route, string routeID)
+        private void DumpSegments(GoogleDirections.Route route, string routeID)
         {
             int legsCount = 0;
-            foreach (RouteLeg leg in route.Legs)
+            foreach (GoogleDirections.RouteLeg leg in route.Legs)
             {
                 string fileName = @"d:\temp\Route_" + routeID + "_leg#" + (legsCount++).ToString() + "_distances.txt";
                 using (StreamWriter writer = new StreamWriter(fileName))
@@ -176,7 +176,7 @@ namespace MapUtilsTest
 
         }
 
-        private void DumpRote(Route route, string routeID)
+        private void DumpRote(GoogleDirections.Route route, string routeID)
         {
             string fileName = @"d:\temp\Route_" + routeID + ".txt";
 
@@ -185,11 +185,11 @@ namespace MapUtilsTest
                 writer.WriteLine("starting dump of route with {0} legs", route.Legs.Length);
                 for (int l = 0; l < route.Legs.Length; ++l)
                 {
-                    RouteLeg leg = route.Legs[l];
+                    GoogleDirections.RouteLeg leg = route.Legs[l];
                     writer.WriteLine("Leg {0} has {1} steps", l, leg.Steps.Length);
                     for (int s = 0; s < leg.Steps.Length; ++s)
                     {
-                        RouteStep step = leg.Steps[s];
+                        GoogleDirections.RouteStep step = leg.Steps[s];
                         writer.WriteLine("Step {0} start: {1}\t finish: {2}, distance {3}, pointsCount: {4}", 
                             s, step.StartLocation, step.EndLocation, step.Distance, step.Points.Length);
 

@@ -22,7 +22,7 @@ namespace GoogleDirections
         /// Initializes a new instance of the <see cref="Location"/> class.
         /// </summary>
         /// <param name="latLng">The latitude/longitude of the location.</param>
-        public Location(LatLng latLng)
+        public Location(MapTypes.LatLng latLng)
         {
             this.latLng = latLng;
         }
@@ -32,17 +32,17 @@ namespace GoogleDirections
         /// </summary>
         /// <param name="latLng">The latitude/longitude of the location.</param>
         /// <param name="locationName">Name of the location.</param>
-        public Location(LatLng latLng, string locationName)
+        public Location(MapTypes.LatLng latLng, string locationName)
         {
             this.latLng = latLng;
             this.locationName = locationName;
         }
 
-        private LatLng latLng;
+        private MapTypes.LatLng latLng;
         /// <summary>
         /// Gets the latitude/longitude of the location.
         /// </summary>
-        public LatLng LatLng
+        public MapTypes.LatLng LatLng
         {
             get { return latLng; }
         }

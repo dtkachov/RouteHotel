@@ -13,7 +13,7 @@ namespace RouteHotel.TransportObjects
     {       
 
 
-        internal LatLng(GoogleDirections.LatLng location)
+        internal LatLng(MapTypes.LatLng location)
         {
             this.Latitude = location.Latitude;
             this.Longitude = location.Longitude;
@@ -38,7 +38,7 @@ namespace RouteHotel.TransportObjects
         /// Converts this transport object into Google direction LanLng object
         /// </summary>
         /// <returns>Google direction LanLng object</returns>
-        public GoogleDirections.LatLng ConvertToLatLng()
+        public MapTypes.LatLng ConvertToLatLng()
         {
             return ConvertToLatLng(this);
         }
@@ -48,9 +48,9 @@ namespace RouteHotel.TransportObjects
         /// </summary>
         /// <param name="latLng">Object to convert</param>
         /// <returns>Google direction LanLng object</returns>
-        internal static GoogleDirections.LatLng ConvertToLatLng(RouteTransportObjects.LatLng latLng)
+        internal static MapTypes.LatLng ConvertToLatLng(RouteTransportObjects.LatLng latLng)
         {
-            return new GoogleDirections.LatLng(latLng.Latitude, latLng.Longitude);
+            return new MapTypes.LatLng(latLng.Latitude, latLng.Longitude);
         }
 
         /// <summary>

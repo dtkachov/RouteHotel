@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using HotelRouteCalculation;
-using GoogleDirections;
+using MapTypes;
 using MapUtils;
 using System.IO;
 using HotelInterface.TO;
@@ -19,6 +19,21 @@ namespace MapUtilsTest
     [TestClass]
     public class RoutePointTest
     {
+
+        [AssemblyInitialize]
+        public static void Configure(TestContext tc)
+        {
+            //Diag output will go to the "output" logs if you add tehse two lines
+            //TextWriterTraceListener writer = new TextWriterTraceListener(System.Console.Out);
+            //Debug.Listeners.Add(writer);
+
+            FileInfo file = new FileInfo("log4net.config.xml");
+            log4net.Config.XmlConfigurator.Configure(file);
+            // create the first logger AFTER we run the configuration
+            log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            Log.Debug("log4net initialized for tests");
+        }
+
         const int RADIUS = 2000; // meters
 
         private IRouteHotelSearch SignlePointSearch;
@@ -51,6 +66,11 @@ namespace MapUtilsTest
             }
         }
 
+        /// <summary>
+        /// Google directions route object
+        /// </summary>
+        private GoogleDirections.Route GoogleDirectionsRoute;
+
 
         private int CurrentLegIndex = 0;
 
@@ -64,8 +84,8 @@ namespace MapUtilsTest
         public void TestWieliczkaKatowice()
         {
             InitRoute(
-                new Location("Wieliczka"),
-                new Location("Katowice")
+                new GoogleDirections.Location("Wieliczka"),
+                new GoogleDirections.Location("Katowice")
                 );
             DoTest();
         }
@@ -74,8 +94,8 @@ namespace MapUtilsTest
         public void TestLancutDebica()
         {
             InitRoute(
-                new Location("Lancut"),
-                new Location("Debica")
+                new GoogleDirections.Location("Lancut"),
+                new GoogleDirections.Location("Debica")
                 );
             DoTest();
         }
@@ -84,8 +104,8 @@ namespace MapUtilsTest
         public void TestWashingtonSanDiego()
         {
             InitRoute(
-                new Location("Washington"),
-                new Location("San Diego")
+                new GoogleDirections.Location("Washington"),
+                new GoogleDirections.Location("San Diego")
                 );
             DoTest();
         }
@@ -94,8 +114,8 @@ namespace MapUtilsTest
         public void TestWarsawLissbon()
         {
             InitRoute(
-                new Location("Warsaw"),
-                new Location("Lissbon")
+                new GoogleDirections.Location("Warsaw"),
+                new GoogleDirections.Location("Lissbon")
                 );
             DoTest();
         }
@@ -104,8 +124,8 @@ namespace MapUtilsTest
         public void TestDubrovnikParis()
         {
             InitRoute(
-                new Location("Dubrovnik"),
-                new Location("Paris")
+                new GoogleDirections.Location("Dubrovnik"),
+                new GoogleDirections.Location("Paris")
                 );
             DoTest();
         }
@@ -117,8 +137,8 @@ namespace MapUtilsTest
         public void TestHotelSearchLvivKyiv()
         {
             InitRoute(
-                new Location("Lviv"),
-                new Location("Kyiv")
+                new GoogleDirections.Location("Lviv"),
+                new GoogleDirections.Location("Kyiv")
                 );
             DoTest();
         }
@@ -130,23 +150,66 @@ namespace MapUtilsTest
         public void TestHotelSearchLvivKrakow()
         {
             InitRoute(
-                new Location("Lviv"),
-                new Location("Krakow")
+                new GoogleDirections.Location("Lviv"),
+                new GoogleDirections.Location("Krakow")
                 );
             DoTest();
         }
 
-        private void InitRoute(params Location[] locations)
+        private void InitRoute(params GoogleDirections.Location[] locations)
         {
             TestIndex++;
             Proximity proximity = new Proximity(RADIUS);
 
             const bool OPTIMIZE = true;
-            Route route = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
+            GoogleDirectionsRoute = GoogleDirections.RouteDirections.GetCachedRoute(OPTIMIZE, locations);
+            HotelRouteCalculation.Route route = BuildRoutePointsObject(GoogleDirectionsRoute);
+
             HotelPreference hotelParameters = BuildHotelParameters();
 
             SignlePointSearch = HoteSearchFactory.CreateSearch(SearchType.SinglePoint, route, proximity, hotelParameters);
             LoadBalancingSearch = HoteSearchFactory.CreateSearch(SearchType.LoadBalancing, route, proximity, hotelParameters);
+        }
+
+        /// <summary>
+        /// Builds initial list of linked points.
+        /// Simply parse route and add points to the list
+        /// </summary>
+        private HotelRouteCalculation.Route BuildRoutePointsObject(GoogleDirections.Route googleDirectionsRoute)
+        {
+            List<LinkedPoint> legsStart = new List<LinkedPoint>();
+
+            for (int l = 0; l < googleDirectionsRoute.Legs.Length; ++l)
+            {
+                LinkedPoint startPoint = null;
+                LinkedPoint prevPoint = null;
+
+                GoogleDirections.RouteLeg leg = googleDirectionsRoute.Legs[l];
+                for (int s = 0; s < leg.Steps.Length; ++s)
+                {
+                    GoogleDirections.RouteStep step = leg.Steps[s];
+                    foreach (LatLng point in step.Points)
+                    {
+                        LinkedPoint currentPoint = new LinkedPoint(point);
+                        if (null == startPoint)
+                        {
+                            // this is first point in Leg
+                            startPoint = currentPoint;
+                        }
+                        else
+                        {
+                            // this is not the first point in list
+                            prevPoint.Next = currentPoint;
+                        }
+                        prevPoint = currentPoint;
+                    }
+                }
+
+                legsStart.Add(startPoint);
+            }
+
+            HotelRouteCalculation.Route result = new HotelRouteCalculation.Route(legsStart.ToArray());
+            return result;
         }
 
         private HotelPreference BuildHotelParameters()
@@ -259,14 +322,14 @@ namespace MapUtilsTest
             Console.WriteLine(routeCalculationStatistic);
 
             CurrentLegIndex = 0;
-            foreach (LinkedPoint legStart in search.RoutePoints.LegsStart)
+            foreach (LinkedPoint legStart in search.RoutePoints.Route.RouteLegsStart)
             {
                 LinkedPoint currentPoint = legStart;
                 string fileName = string.Format(@"d:\temp\HotelRoute.Test#{1}.Leg#{0}.txt", CurrentLegIndex++, TestIndex);
 
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    DumpRote(search.RoutePoints.Route, writer);
+                    DumpRote(writer);
                     writer.WriteLine("-----------------");
                     writer.WriteLine("Started optimized points");
                     while (!currentPoint.IsLast)
@@ -288,9 +351,9 @@ namespace MapUtilsTest
         private int CalculatePointsCountINoriginalRoute(IRouteHotelSearch search)
         {
             int result = 0;
-            foreach (RouteLeg leg in search.RoutePoints.Route.Legs)
+            foreach (GoogleDirections.RouteLeg leg in GoogleDirectionsRoute.Legs)
             {
-                foreach (RouteStep step in leg.Steps)
+                foreach (GoogleDirections.RouteStep step in leg.Steps)
                 {
                     if (step.HasPoints)
                         result += step.Points.Length;
@@ -299,16 +362,16 @@ namespace MapUtilsTest
             return result;
         }
 
-        private void DumpRote(Route route, StreamWriter writer)
+        private void DumpRote(StreamWriter writer)
         {
-            writer.WriteLine("starting dump of route with {0} legs", route.Legs.Length);
-            for (int l = 0; l < route.Legs.Length; ++l)
+            writer.WriteLine("starting dump of route with {0} legs", GoogleDirectionsRoute.Legs.Length);
+            for (int l = 0; l < GoogleDirectionsRoute.Legs.Length; ++l)
             {
-                RouteLeg leg = route.Legs[l];
+                GoogleDirections.RouteLeg leg = GoogleDirectionsRoute.Legs[l];
                 writer.WriteLine("Leg {0} has {1} steps", l, leg.Steps.Length);
                 for (int s = 0; s < leg.Steps.Length; ++s)
                 {
-                    RouteStep step = leg.Steps[s];
+                    GoogleDirections.RouteStep step = leg.Steps[s];
                     writer.WriteLine("Step {0} start: {1}\t finish: {2}, distance {3}, pointsCount: {4}",
                         s, step.StartLocation, step.EndLocation, step.Distance, step.Points.Length);
 
@@ -354,6 +417,9 @@ namespace MapUtilsTest
                     LinkedPoint p = currentPoint.OriginalNext;
                     while (p != currentPoint.Next)
                     {
+                        if (null == p) 
+                            Assert.IsNotNull(p, "Parameter p is not expected to be null");
+                        Assert.IsNotNull(p.Point);
                         writer.WriteLine("\t\tDeleted:{0}-{1} distance: {2}",
                             p.Point.Latitude,
                             p.Point.Longitude,
@@ -373,6 +439,8 @@ namespace MapUtilsTest
                     LinkedPoint p = currentPoint.Next;
                     while (p != currentPoint.OriginalNext)
                     {
+                        Assert.IsNotNull(p);
+                        Assert.IsNotNull(p.Point);
                         writer.WriteLine("\t\tInserted:{0}-{1} distance: {2}",
                             p.Point.Latitude,
                             p.Point.Longitude,
@@ -476,7 +544,7 @@ namespace MapUtilsTest
         /// <returns>Whether hotel is whithin proximity distance to the route</returns>
         private bool HotelInProximityToRoute(RoutePoints route, HotelSummary hotel)
         {
-            foreach (LinkedPoint legStart in route.LegsStart)
+            foreach (LinkedPoint legStart in route.Route.RouteLegsStart)
             {
                 bool belongToLeg = HotelInProximityToLeg(legStart, hotel);
                 if (belongToLeg) return true;

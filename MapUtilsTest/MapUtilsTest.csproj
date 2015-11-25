@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -87,6 +91,10 @@
       <Project>{f1ddef35-d97a-481f-a16d-a4f7320400bc}</Project>
       <Name>HotelRouteCalculation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MapTypes\MapTypes.csproj">
+      <Project>{a653ccca-6421-493c-bc1e-c8b4dffc4815}</Project>
+      <Name>MapTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MapUtils\MapUtils.csproj">
       <Project>{f27e4d18-96b3-46da-b183-4949680e417e}</Project>
       <Name>MapUtils</Name>
@@ -113,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Service References\HotelRouteAPI\MapUtilsTest.HotelRouteAPI.GetRoute1Response.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -153,6 +162,11 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="log4net.config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

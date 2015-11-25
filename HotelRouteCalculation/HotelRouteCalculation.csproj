@@ -39,6 +39,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -59,6 +63,7 @@
     <Compile Include="LoadBalancingHotelSearchStrategy.cs" />
     <Compile Include="LoadBalancingRegion.cs" />
     <Compile Include="LoadBalancingRouteHotelSearch.cs" />
+    <Compile Include="Route.cs" />
     <Compile Include="RouteRagesCalculator.cs" />
     <Compile Include="RouteRange.cs" />
     <Compile Include="SearchType.cs" />
@@ -79,13 +84,13 @@
       <Project>{c335311c-2751-451c-9a2e-00a3da9e0dc6}</Project>
       <Name>EANInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GoogleDirections\GoogleDirections.csproj">
-      <Project>{7C6447B2-D889-4306-AD8B-DA5542054C66}</Project>
-      <Name>GoogleDirections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HotelInterface\HotelInterface.csproj">
       <Project>{1981335a-aca9-4800-97ae-6badf9b8d0f5}</Project>
       <Name>HotelInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapTypes\MapTypes.csproj">
+      <Project>{a653ccca-6421-493c-bc1e-c8b4dffc4815}</Project>
+      <Name>MapTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\MapUtils\MapUtils.csproj">
       <Project>{F27E4D18-96B3-46DA-B183-4949680E417E}</Project>
@@ -99,6 +104,12 @@
       <Project>{c4a39dad-c1e0-4a49-b114-4e98e7d93b60}</Project>
       <Name>CalculationUtils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="log4net.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

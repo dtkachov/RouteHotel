@@ -8,6 +8,7 @@ using System.Web.Script.Services;
 
 using RouteHotel.TransportObjects;
 using HotelInterface.TO;
+using RouteHotel.App_Code.Utils;
 
 namespace RouteHotel
 {
@@ -58,13 +59,14 @@ namespace RouteHotel
 
             Log.Debug(routeParams.ToString());
 
+            GoogleDirectionSearch directionSearch = new GoogleDirectionSearch(routeParams);
+            directionSearch.Search();
+
             RouteCalculator calculator = new RouteCalculator(routeParams);
-
             SessionObjects.Current.AddCalculator(calculator); // add calculator to session object to enable later search it from otehr web requests in this session
+            calculator.Search(directionSearch.CalculationRoute);
 
-            calculator.Search();
-
-            RouteHotel.TransportObjects.Route route = new RouteHotel.TransportObjects.Route(calculator.Route);
+            RouteHotel.TransportObjects.Route route = new RouteHotel.TransportObjects.Route(directionSearch.GoogleDirectionRoute);
             route.RouteID = calculator.ID.ToString(); // to identify hotels requests
 
             return route;
@@ -99,7 +101,7 @@ namespace RouteHotel
             if (null == calculator) return null;
 
             List<CalculationRouteLeg> result = new List<CalculationRouteLeg>();
-            foreach (HotelRouteCalculation.LinkedPoint firstLegPoint in calculator.HotelSearch.RoutePoints.LegsStart)
+            foreach (HotelRouteCalculation.LinkedPoint firstLegPoint in calculator.HotelSearch.RoutePoints.Route.RouteLegsStart)
             {
                 CalculationRouteLeg leg = new CalculationRouteLeg(firstLegPoint);
                 result.Add(leg);
@@ -161,7 +163,7 @@ namespace RouteHotel
             RouteCalculator calculator = SessionObjects.Current.GetCalculator(routeIDobj);
             if (null == calculator) return null;
 
-            GoogleDirections.LatLng[] calculationPoints = calculator.HotelSearch.GetCalculationPoints();
+            MapTypes.LatLng[] calculationPoints = calculator.HotelSearch.GetCalculationPoints();
             int calculationRadius = calculator.HotelSearch.GetCalculationRaduis();
 
             RouteHotel.TransportObjects.HotelCalculationPoints result = new RouteHotel.TransportObjects.HotelCalculationPoints(calculationRadius, calculationPoints);
