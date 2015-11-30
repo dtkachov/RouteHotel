@@ -110,7 +110,8 @@ HotelMarker.prototype.intiInfoWindow = function () {
 function displayHotelInfo(link) {
     var hoteInfoFrameContainer = document.getElementById("hoteInfoFrameContainer");
     var iFrame = hoteInfoFrameContainer.getElementsByTagName("iframe")[0];
-    iFrame.setAttribute("src", link)
+    //iFrame.setAttribute("src", link)
+    window.open(link, "hotelFrameContainer");
 }
 
 function decodeHTMLEntities(text) {

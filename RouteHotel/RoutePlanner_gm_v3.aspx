@@ -55,7 +55,7 @@
                         <h2>Hotel info</h2>
                     </div>
                     <div id="hoteInfoFrameContainer" class="hotelPopupContentContainer">
-                        <iframe class="hotelFrameContainer"></iframe>
+                        <iframe class="hotelFrameContainer" name="hotelFrameContainer" sandbox="allow-scripts"></iframe>
                     </div>
                 </div>
             </div>
@@ -88,13 +88,13 @@
     <script>
         window.location.hash = "top"; // prevent scroling to anchor when saved in URL or on pagre reload  
     </script>
-<script src="/scripts/RouteTypes.js" type="text/javascript"></script>
-<script src="/scripts/InitializeMap.js" type="text/javascript"></script>
-<script src="/scripts/PlaceAutocomplete.js" type="text/javascript"></script>
-<script src="/scripts/SearchBuilder.js" type="text/javascript"></script>
-<script src="/scripts/RouteDisplay.js" type="text/javascript"></script>
-<script src="/scripts/CalculationPointsDisplay.js" type="text/javascript"></script>
-<script src="/scripts/HotelGoogleMapMarker.js" type="text/javascript"></script>
-<script src="/scripts/HotelDisplay.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/RouteTypes.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/InitializeMap.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/PlaceAutocomplete.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/SearchBuilder.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/RouteDisplay.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/CalculationPointsDisplay.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/HotelGoogleMapMarker.js" type="text/javascript"></script>
+<script src="/scripts/gm_v3/HotelDisplay.js" type="text/javascript"></script>
 
 </html>

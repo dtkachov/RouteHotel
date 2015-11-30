@@ -84,14 +84,14 @@
     <Content Include="RoutePlanner.css" />
     <Content Include="RoutePlanner_draggable.aspx" />
     <Content Include="RoutePlanner_gm_v3.aspx" />
-    <Content Include="scripts\CalculationPointsDisplay.js" />
-    <Content Include="scripts\HotelGoogleMapMarker.js" />
-    <Content Include="scripts\HotelDisplay.js" />
-    <Content Include="scripts\InitializeMap.js" />
-    <Content Include="scripts\PlaceAutocomplete.js" />
-    <Content Include="scripts\RouteDisplay.js" />
-    <Content Include="scripts\RouteTypes.js" />
-    <Content Include="scripts\SearchBuilder.js" />
+    <Content Include="scripts\gm_v3\CalculationPointsDisplay.js" />
+    <Content Include="scripts\gm_v3\HotelGoogleMapMarker.js" />
+    <Content Include="scripts\gm_v3\HotelDisplay.js" />
+    <Content Include="scripts\gm_v3\InitializeMap.js" />
+    <Content Include="scripts\gm_v3\PlaceAutocomplete.js" />
+    <Content Include="scripts\gm_v3\RouteDisplay.js" />
+    <Content Include="scripts\gm_v3\RouteTypes.js" />
+    <Content Include="scripts\gm_v3\SearchBuilder.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
