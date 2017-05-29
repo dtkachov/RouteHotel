@@ -19,7 +19,7 @@ namespace RouteTransportObjects
         /// <summary>
         /// Location list
         /// </summary>
-        public Location[] Locations { get; set;}
+        public Location[] Locations { get; set; }
 
         /// <summary>
         /// Proximity radius for hotel search in meters
@@ -50,3 +50,4 @@ namespace RouteTransportObjects
         }
 
     }
+}
